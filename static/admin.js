@@ -52,14 +52,16 @@ function logout(message = 'Sessão encerrada.') {
   $('admin-pass').value = '';
   // Remova informações da sessão anterior, não apenas esconda os painéis.
   for(const id of ['event-list','event-detail','soc-alert-list','soc-dossier','finding-list',
-                   'device-list','attention-list','audit-result','remediation-result']){
+                   'device-list','attention-list','remediation-result']){
     $(id)?.replaceChildren();
   }
+  auditPlaceholder();
   for(const id of ['open-alerts','failed-logins','rejected-devices','stale-stations','didactic-risk']){
     if($(id)) $(id).textContent='—';
   }
   $('audit-text').value='';
   $('admin-status').textContent='Sessão encerrada. Faça login para consultar eventos.';
+  $('session-email').textContent='admin';
   status('login-status', message);
 }
 function switchTab(name, loadData = true) {
@@ -87,7 +89,7 @@ function eventCard(item, compact = false) {
   meta.append(badge(nameFor('outcome',item.outcome)));
   const actionable=item.outcome==='failed'||item.outcome==='blocked';
   if(actionable)meta.append(badge(nameFor('triage',item.triage_status),item.triage_status==='resolved' ? 'resolved' : ''));
-  if(item.is_demo)meta.append(badge('EXEMPLO FICTÍCIO','demo'));
+  if(item.is_demo)meta.append(badge('Fictício','demo'));
   row.append(meta);
   card.append(row,add('p','',item.summary));
   card.append(add('span','ops-helper',fmtDate(item.created_at)));
@@ -147,7 +149,7 @@ function hintList(parent, title, entries) {
 let selectedSocAlertId = null;
 let alertsRequestSerial = 0;
 function renderSocAlert(alert) {
-  const row=add('button', `sv-case-row ${alert.is_demo?'is-demo':''}`);
+  const row=add('button', `sv-case-row severity-${alert.severity} ${alert.is_demo?'is-demo':''}`);
   row.type='button';
   row.id=`soc-alert-${alert.id}`;
   row.dataset.alertId=String(alert.id);
@@ -155,14 +157,11 @@ function renderSocAlert(alert) {
   const active=String(selectedSocAlertId)===String(alert.id);
   row.setAttribute('aria-pressed',String(active));
   row.classList.toggle('is-active',active);
-  const mark=add('span',`sv-case-mark severity-${alert.severity}`,String(alert.id).padStart(3,'0'));
-  const body=add('span','sv-case-row-body');
-  const line=add('span','sv-case-row-headline');
-  line.append(add('strong','',alert.title),add('span',`sv-case-state severity-${alert.severity}`,nameFor('severity',alert.severity)));
-  body.append(line,add('span','sv-case-row-meta',`${nameFor('triage',alert.status)} · ${alert.affected_asset}`));
-  if(alert.is_demo)body.append(add('span','sv-case-demo','ESTUDO SIMULADO · NÃO É UM INCIDENTE REAL'));
-  const arrow=add('span','sv-case-arrow','↗');arrow.setAttribute('aria-hidden','true');
-  row.append(mark,body,arrow);
+  const line=add('span','sv-case-row-meta');
+  line.append(add('span',`sv-tag is-${alert.severity}`,nameFor('severity',alert.severity)),
+    add('span','',`${nameFor('category',alert.category)} · ${fmtDate(alert.created_at)}`));
+  if(alert.is_demo)line.append(add('span','sv-tag','Fictício'));
+  row.append(line,add('strong','sv-case-row-title',alert.title),add('span','sv-case-row-asset',`${nameFor('triage',alert.status)} · ${alert.affected_asset}`));
   row.addEventListener('click',()=>selectSocAlert(alert.id,true));
   return row;
 }
@@ -177,29 +176,35 @@ function selectSocAlert(id, moveToDossier=false) {
   });
   const dossier=$('soc-dossier');
   dossier.replaceChildren();
-  const masthead=add('div','sv-dossier-masthead');
-  masthead.append(add('span','','SOMBRA VIVA / CADERNO DE EVIDÊNCIAS'),add('span','',`Nº ${String(alert.id).padStart(3,'0')}`));
-  dossier.append(masthead);
   const state=add('div','sv-dossier-state');
-  state.append(badge(nameFor('severity',alert.severity),alert.severity==='high'?'warning':''));
+  state.append(add('span',`sv-tag is-${alert.severity}`,`Gravidade ${nameFor('severity',alert.severity).toLowerCase()}`));
   state.append(badge(nameFor('triage',alert.status),alert.status==='resolved'?'resolved':''));
-  if(alert.is_demo)state.append(badge('CENÁRIO FICTÍCIO','demo'));
-  dossier.append(state,add('h4','sv-dossier-title',alert.title),add('p','sv-dossier-stamp',`${fmtDate(alert.created_at)} · ${alert.related_event_count} sinal(is) no intervalo consultado`));
+  if(alert.is_demo)state.append(badge('Caso fictício','demo'));
+  state.append(add('span','sv-dossier-stamp',`${nameFor('category',alert.category)} · ${fmtDate(alert.created_at)} · ${alert.related_event_count} sinal(is) no intervalo`));
+  dossier.append(state,add('h2','sv-dossier-title',alert.title));
+  const grid=add('div','sv-dossier-grid');
   const fact=add('section','sv-dossier-block');
-  fact.append(add('span','sv-dossier-label','01 / FATO OBSERVADO'),add('p','sv-dossier-emphasis',alert.observed),add('p','',alert.summary));
-  dossier.append(fact);
-  const asset=add('section','sv-dossier-block sv-dossier-asset');
-  asset.append(add('span','sv-dossier-label','02 / SERVIÇO ASSOCIADO — NÃO CONFIRMADO COMO COMPROMETIDO'),add('strong','',alert.affected_asset),add('p','',alert.affected_status));
+  fact.append(add('h3','','Evidências'),add('p','',alert.observed),add('p','sv-dossier-soft',alert.summary));
+  const impact=add('section','sv-dossier-block');
+  impact.append(add('h3','','Impacto possível'),add('p','',alert.hypothetical_impact));
+  grid.append(fact,impact);
+  dossier.append(grid);
+  const asset=add('section','sv-dossier-asset');
+  asset.append(add('h3','','Serviço associado (não confirmado como comprometido)'),add('strong','',alert.affected_asset),add('p','',alert.affected_status));
   dossier.append(asset);
-  const more=add('details','sv-dossier-more');
-  const summary=add('summary','','03 / HIPÓTESES, VERIFICAÇÕES E LACUNAS');
-  more.append(summary,add('p','',alert.hypothetical_impact));
-  hintList(more,'Verificar em seguida',alert.next_steps);
-  hintList(more,'Evidência ainda ausente',alert.evidence_gaps);
-  dossier.append(more);
+  const steps=add('section','sv-dossier-block');
+  steps.append(add('h3','','Próximos passos'));
+  const ol=add('ol','sv-dossier-steps');(alert.next_steps||[]).forEach(v=>ol.append(add('li','',v)));steps.append(ol);
+  dossier.append(steps);
+  if((alert.evidence_gaps||[]).length){
+    const more=add('details','sv-dossier-more');
+    more.append(add('summary','','Evidências que ainda faltam'));
+    const ul=add('ul','soc-list');alert.evidence_gaps.forEach(v=>ul.append(add('li','',v)));more.append(ul);
+    dossier.append(more);
+  }
   const actions=add('div','sv-dossier-actions');
-  const analyze=add('button','soc-ai-button','Examinar com IA / regras');analyze.type='button';
-  const logs=add('button','outline-btn','Abrir log e histórico');logs.type='button';
+  const analyze=add('button','outline-btn','Analisar com IA ou regras');analyze.type='button';
+  const logs=add('button','primary-btn','Abrir registro e histórico');logs.type='button';
   const report=add('section','soc-report hidden');report.setAttribute('aria-live','polite');
   analyze.addEventListener('click',async()=>{
     analyze.disabled=true;report.classList.remove('hidden');report.replaceChildren(add('p','','Examinando metadados seguros do registro...'));
@@ -207,7 +212,7 @@ function selectSocAlert(id, moveToDossier=false) {
       const result=await request(`/api/v1/admin/security/alerts/${alert.id}/analyze`,{method:'POST'});
       report.replaceChildren();
       const heading=add('div','soc-report-title');
-      heading.append(add('strong','',result.ai_used?'HIPÓTESE ASSISTIDA PELA OPENAI':'HIPÓTESE LOCAL POR REGRAS'),badge('COMPROMETIMENTO NÃO CONFIRMADO'));
+      heading.append(add('strong','',result.ai_used?'Hipótese assistida pela OpenAI':'Hipótese local por regras'),badge('Comprometimento não confirmado'));
       report.append(heading,add('p','soc-small','Interpretação automatizada de metadados mínimos. Não é perícia nem comprovação de invasão.'),add('p','',result.summary),add('p','',`Possível impacto: ${result.possible_impact}`),add('p','soc-small',`Serviço relacionado: ${result.affected_asset}`));
       hintList(report,'Próximas verificações',result.next_steps);
       hintList(report,'Evidências ausentes',result.evidence_gaps);
@@ -277,6 +282,8 @@ async function loadOperations(){
   try {recentAlerts=(await request('/api/v1/admin/security/alerts?hours=24&status=open')).alerts||[];}
   catch(error) {status('admin-status',`Alertas não disponíveis: ${error.message}`,true);}
   $('open-alerts').textContent=recentAlerts.length;
+  $('tab-count-alerts').textContent=recentAlerts.length;
+  $('tab-count-devices').textContent=(result.stations||[]).length;
   $('failed-logins').textContent=c.failed_logins_24h;
   $('rejected-devices').textContent=c.rejected_devices_24h;
   $('stale-stations').textContent=c.stale_real_stations;
@@ -287,6 +294,7 @@ async function loadOperations(){
     const node=add('button','soc-feed-button');node.type='button';
     node.append(badge(nameFor('severity',item.severity),item.severity==='high'?'warning':''),
       add('strong','',item.title),add('span','soc-small',item.affected_asset+' · '+fmtDate(item.created_at)));
+    if(item.is_demo)node.append(badge('Fictício','demo'));
     node.addEventListener('click',()=>{switchTab('alerts');$('pane-alerts').scrollIntoView({behavior:'smooth',block:'start'});});
     return node;
   });
@@ -298,16 +306,20 @@ function renderDevices(stations){
   const list=$('device-list');
   if(!stations.length){list.replaceChildren(empty('Nenhuma estação cadastrada. Execute as migrações e o seed ou registre um dispositivo no backend.'));return;}
   list.replaceChildren(...stations.map(station=>{
-    const card=add('article','ops-device');
-    const header=add('header');header.append(add('h4','',station.name));
-    const state=station.simulated?'SIMULAÇÃO':station.status==='recent'?'LEITURA RECENTE':'SEM LEITURA RECENTE';
-    header.append(badge(state,station.simulated?'demo':station.status==='stale'?'warning':'resolved'));
-    card.append(header,add('p','',`Código: ${station.code} · ${station.setting}`));
+    const card=add('article','sv-card ops-device');
+    const header=add('header');
+    const title=add('div');title.append(add('h2','',station.name),add('code','',station.code));
+    const state=station.simulated?'Simulada':station.status==='recent'?'Leitura recente':'Sem leitura recente';
+    header.append(title,badge(state,station.simulated?'demo':station.status==='stale'?'warning':'resolved'));
+    const t=station.latest?.temperature_c;
+    const temp=add('div','ops-device-temp');
+    const big=add('strong',t===undefined?'':t>=32?'risk-alerta':t>=27?'risk-atencao':'risk-normal',t===undefined?'Sem dados':`${t.toLocaleString('pt-BR')} °C`);
+    temp.append(big,add('span','',station.setting||''));
     const dl=add('dl');
-    [['Última leitura',fmtDate(station.last_seen_at)],['Temperatura',station.latest?`${station.latest.temperature_c.toLocaleString('pt-BR')} °C`:'Sem dados'],['Umidade',station.latest?`${station.latest.humidity_pct.toLocaleString('pt-BR')}%`:'Sem dados'],['Origem',station.simulated?'Exemplo sintético':'Estação cadastrada']].forEach(([label,value])=>{
+    [['Última leitura',fmtDate(station.last_seen_at)],['Umidade',station.latest?`${station.latest.humidity_pct.toLocaleString('pt-BR')}%`:'Sem dados'],['Origem',station.simulated?'Exemplo sintético':'Estação cadastrada']].forEach(([label,value])=>{
       const wrapper=add('div');wrapper.append(add('dt','',label),add('dd','',value));dl.append(wrapper);
     });
-    card.append(dl);return card;
+    card.append(header,temp,dl);return card;
   }));
 }
 function eventParams(){
@@ -339,10 +351,10 @@ async function loadFindings(){
   try {
     const data=await request(`/api/v1/admin/findings?include_demo=${$('findings-demo').checked}`);
     $('finding-list').replaceChildren(...(data.length?data.map(f=>{
-      const node=add('article','ops-event');
-      const top=add('div','ops-event-top');top.append(add('strong','ops-event-title',f.category));
+      const node=add('article','ops-event ops-finding');
+      const top=add('div','ops-event-top');top.append(add('strong','ops-event-title',f.category.replace('PII/taint:','Dado pessoal: ')));
       top.append(badge(nameFor('severity',f.severity),f.severity==='high'?'warning':''));
-      if(f.is_demo) top.append(badge('EXEMPLO FICTÍCIO','demo'));
+      if(f.is_demo) top.append(badge('Fictício','demo'));
       node.append(top,add('p','',`${f.source} → ${f.sink} · ${f.action}`),add('p','',f.remediation));
       node.append(add('small','ops-helper',fmtDate(f.created_at)));return node;
     }):[empty('Nenhum achado registrado. Execute um teste no laboratório ou marque “Exibir exemplos”.') ]));
@@ -365,7 +377,7 @@ $('login-form').addEventListener('submit',async event=>{
   const button=$('login-form').querySelector('button[type="submit"]');button.disabled=true;
   try {
     const result=await request('/api/v1/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('admin-email').value,password:$('admin-pass').value})});
-    token=result.access_token;$('admin-pass').value='';$('login-section').classList.add('hidden');$('admin-section').classList.remove('hidden');
+    token=result.access_token;$('session-email').textContent=$('admin-email').value;$('admin-pass').value='';$('login-section').classList.add('hidden');$('admin-section').classList.remove('hidden');
     document.body.classList.add('admin-authenticated');
     button.blur();window.scrollTo({top:0,behavior:'instant'});
     switchTab('alerts', false);await refreshAll();
@@ -410,14 +422,81 @@ $('soc-seed').addEventListener('click',async()=>{
     status('soc-status-text',`${result.notice} Exibindo cenários fictícios junto dos registros observados, devidamente identificados.`);
   }catch(error){status('soc-status-text',error.message,true);}finally{button.disabled=false;}
 });
+const SINKS={log_bruto:'Log bruto',resposta_publica:'Resposta pública',servico_externo:'Serviço externo',log_redigido:'Log redigido',banco_parametrizado:'Banco parametrizado'};
+const PII_NAMES={cpf:'CPF',email:'E-mail',telefone:'Telefone',senha:'Senha',saude:'Dado de saúde',cartao:'Cartão'};
+const SVG_NS='http://www.w3.org/2000/svg';
+function svgEl(tag,attrs,text){const el=document.createElementNS(SVG_NS,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));if(text!==undefined)el.textContent=text;return el;}
+function auditPlaceholder(){
+  const box=$('audit-result'); if(!box)return;
+  box.className='sv-card ops-result';
+  const empty=add('div','ops-result-empty');
+  empty.append(add('h2','','Resultado da auditoria'),add('p','','Escolha um destino e clique em Executar auditoria. O resultado mostra o caminho do dado, a gravidade e o que fazer.'));
+  box.replaceChildren(empty);
+}
+// Card do resultado: cabeçalho de status, diagrama Entrada → Proteção → Destino, dados, prévia e recomendação.
+function renderAudit(result){
+  const box=$('audit-result');
+  const blocked=!!result.blocked;
+  const accent=blocked?'#8A1832':'#2F7A4F';
+  const sink=SINKS[result.sink]||result.sink;
+  box.className=`sv-card ops-result ${blocked?'is-blocked':'is-safe'}`;
+  const head=add('div','ops-result-head');
+  const icon=svgEl('svg',{viewBox:'0 0 44 44','aria-hidden':'true'});
+  icon.append(svgEl('path',{d:'M22 6l14 5v10c0 9-6 15-14 17-8-2-14-8-14-17V11l14-5z',fill:'rgba(255,255,255,.18)',stroke:'#FFFFFF','stroke-width':2.4,'stroke-linejoin':'round'}),
+    svgEl('path',{d:blocked?'M16.5 16.5 L27.5 27.5 M27.5 16.5 L16.5 27.5':'M15.5 22.5 L20.5 27.5 L29 17.5',fill:'none',stroke:'#FFFFFF','stroke-width':2.8,'stroke-linecap':'round','stroke-linejoin':'round'}));
+  const titles=add('div');
+  titles.append(add('span','','Resultado da auditoria'),add('h2','',blocked?`Vazamento bloqueado antes do ${sink.toLowerCase()}`:(result.pii_types.length?'Fluxo seguro: o dado chega protegido':'Nenhum dado pessoal encontrado')));
+  head.append(icon,titles);
+  const body=add('div','ops-result-body');
+  const fig=add('figure','ops-result-flow');
+  const svg=svgEl('svg',{viewBox:'0 0 460 108',role:'img','aria-label':blocked?`Fluxo: o texto é redigido e o envio para ${sink.toLowerCase()} é bloqueado`:`Fluxo: o texto passa pela redação e chega protegido ao ${sink.toLowerCase()}`});
+  const types=result.pii_types.map(t=>PII_NAMES[t]||t);
+  const dash=blocked?'5 4':'0';
+  svg.append(
+    svgEl('rect',{x:0,y:8,width:100,height:64,rx:12,fill:'#FFFFFF',stroke:'#C9C2B2','stroke-width':1.5}),
+    svgEl('text',{x:50,y:36,'text-anchor':'middle','font-size':13,'font-weight':700,fill:'#1E2326'},'Texto'),
+    svgEl('text',{x:50,y:53,'text-anchor':'middle','font-size':11.5,fill:'#5C6569'},(types.join(', ')||'Sem PII').slice(0,16)),
+    svgEl('path',{d:'M100 40 H124',stroke:'#1E2326','stroke-width':2}),
+    svgEl('path',{d:'M123 34 L130 40 L123 46',fill:'none',stroke:'#1E2326','stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round'}),
+    svgEl('rect',{x:132,y:8,width:104,height:64,rx:12,fill:'#0F3D3A'}),
+    svgEl('text',{x:184,y:36,'text-anchor':'middle','font-size':13,'font-weight':700,fill:'#FFFFFF'},'Redação'),
+    svgEl('text',{x:184,y:53,'text-anchor':'middle','font-size':11.5,fill:'#B9E2B0'},'[REDACTED]'),
+    svgEl('path',{d:'M236 40 H284',stroke:accent,'stroke-width':2,'stroke-dasharray':dash}),
+    svgEl('path',{d:'M283 34 L290 40 L283 46',fill:'none',stroke:accent,'stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round'}),
+    svgEl('circle',{cx:264,cy:40,r:12,fill:accent}),
+    svgEl('path',{d:blocked?'M259.5 35.5 L268.5 44.5 M268.5 35.5 L259.5 44.5':'M258 40 L262 44 L270 35',fill:'none',stroke:'#FFFFFF','stroke-width':2.4,'stroke-linecap':'round','stroke-linejoin':'round'}),
+    svgEl('rect',{x:292,y:8,width:168,height:64,rx:12,fill:blocked?'#FBEAEA':'#E4F3E8',stroke:accent,'stroke-width':1.5,'stroke-dasharray':dash}),
+    svgEl('text',{x:376,y:36,'text-anchor':'middle','font-size':13,'font-weight':700,fill:blocked?'#8A1832':'#14432A'},sink),
+    svgEl('text',{x:376,y:53,'text-anchor':'middle','font-size':11.5,fill:blocked?'#8A1832':'#14432A'},blocked?'Envio bloqueado':'Só a versão redigida'));
+  const caps=svgEl('g',{'font-size':12,'font-weight':600,fill:'#5C6569','text-anchor':'middle'});
+  caps.append(svgEl('text',{x:50,y:98},'Entrada'),svgEl('text',{x:184,y:98},'Proteção'),svgEl('text',{x:376,y:98},'Destino'));
+  svg.append(caps);fig.append(svg);
+  const dl=add('dl','ops-result-facts');
+  const tile=(label,node,wide)=>{const d=add('div',wide?'is-wide':'');d.append(add('dt','',label));const dd=add('dd');dd.append(node);d.append(dd);return d;};
+  const chips=add('span','ops-chips');(types.length?types:['Nenhum']).forEach(t=>chips.append(add('span','sv-tag is-low',t)));
+  dl.append(tile('Dados detectados',chips,true),
+    tile('Gravidade',add('span',`sv-tag is-${result.severity}`,nameFor('severity',result.severity))),
+    tile('Ação',add('span',`sv-tag ${blocked?'is-bad':'is-ok'}`,blocked?'Bloqueado e redigido':'Permitido')));
+  const prev=add('div','ops-result-preview');
+  prev.append(add('span','','Prévia guardada no servidor'),add('code','',result.redacted_preview),add('small','','O texto original nunca é guardado.'));
+  const fix=add('div','ops-result-fix');
+  fix.append(add('strong','','O que fazer'),add('p','',result.remediation));
+  body.append(fig,dl,prev,fix);
+  box.replaceChildren(head,body);
+}
 $('audit-button').addEventListener('click',async()=>{
-  status('audit-result','Auditando fluxo...');$('audit-button').disabled=true;
+  const box=$('audit-result');box.setAttribute('aria-busy','true');$('audit-button').disabled=true;
+  const sink=document.querySelector('input[name="audit-sink"]:checked')?.value||'log_bruto';
   try{
-    const result=await request('/api/v1/admin/audit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sample_text:$('audit-text').value,source:'formulario',sink:$('audit-sink').value})});
-    status('audit-result',`Decisão: ${result.action.toUpperCase()} · Identificado: ${result.pii_types.join(', ')||'nenhum'}\nPrévia protegida: ${result.redacted_preview}\nRecomendação: ${result.remediation}`);
+    const result=await request('/api/v1/admin/audit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sample_text:$('audit-text').value,source:'formulario',sink})});
+    renderAudit(result);
     await loadOperations();await loadFindings();
-  }catch(error){status('audit-result',error.message,true);}
-  finally{$('audit-button').disabled=false;}
+  }catch(error){
+    box.className='sv-card ops-result';
+    const err=add('div','ops-result-empty');err.append(add('h2','','Resultado da auditoria'),add('p','form-status is-error',error.message));
+    box.replaceChildren(err);
+  }
+  finally{box.setAttribute('aria-busy','false');$('audit-button').disabled=false;}
 });
 $('remediation-button').addEventListener('click',async()=>{
   status('remediation-result','Preparando explicação...');$('remediation-button').disabled=true;

@@ -2,8 +2,8 @@
    já buscou com o token JWT, pelo evento 'sombraviva:admin-overview'; não guarda credenciais. */
 (() => {
 'use strict';
-const C = {ink:'#1C2125', soft:'#4A535A', line:'rgba(28,33,37,.12)', ok:'#3E8E5A', warn:'#D9A21B', alert:'#D9532B', danger:'#A51E3A', t1:'#2D2A6E', t2:'#8E2C8E', t4:'#F59E2B', leaf:'#4F9A64'};
-const FONT = '"Segoe UI", system-ui, sans-serif';
+const C = {ink:'#1E2326', soft:'#5C6569', line:'#EEEBE4', ok:'#3E8E5A', warn:'#D9A21B', alert:'#C2412A', danger:'#8A1832', t1:'#5B4FA0', t2:'#8E2C8E', t4:'#F59E2B', leaf:'#2F7A4F'};
+const FONT = '"Public Sans", system-ui, sans-serif';
 const charts = {};
 let last = null;
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -24,11 +24,11 @@ function render() {
     series: [{type: 'gauge', min: 0, max: 100, startAngle: 210, endAngle: -30, radius: '96%', center: ['50%', '58%'],
       axisLine: {lineStyle: {width: 16, color: [[.3, C.ok], [.6, C.warn], [.8, C.alert], [1, C.danger]]}},
       pointer: {width: 5, length: '62%', itemStyle: {color: C.ink}}, anchor: {show: true, size: 12, itemStyle: {color: C.ink}},
-      axisTick: {show: false}, splitLine: {distance: -16, length: 16, lineStyle: {color: '#fff', width: 2}},
+      axisTick: {show: false}, splitLine: {show: false},
       axisLabel: {distance: 22, color: C.soft, fontSize: 11}, splitNumber: 5,
-      detail: {valueAnimation: true, offsetCenter: [0, '40%'], fontSize: 30, fontWeight: 600, color: C.ink, formatter: v => `${Math.round(v)}/100`},
+      detail: {valueAnimation: true, offsetCenter: [0, '40%'], fontSize: 30, fontWeight: 800, color: C.ink, formatter: v => `${Math.round(v)}/100`},
       title: {offsetCenter: [0, '68%'], fontSize: 12, color: C.soft},
-      data: [{value: last.risk_citizen_demo || 0, name: 'heurística demonstrativa'}]}],
+      data: [{value: last.risk_citizen_demo || 0, name: 'Indicador didático'}]}],
   });
   const events = last.events || [];
   const cats = Object.keys(CATEGORY);
@@ -51,7 +51,7 @@ function render() {
     legend: {bottom: 0, textStyle: {color: C.soft}},
     color: [C.danger, C.warn, C.t1, C.leaf],
     series: [{type: 'pie', radius: ['48%', '74%'], center: ['50%', '45%'], label: {formatter: '{c}', color: C.ink, fontWeight: 600},
-      itemStyle: {borderColor: '#F6F7F6', borderWidth: 3}, data: sev.length ? sev : [{name: 'Sem achados', value: 0}]}],
+      itemStyle: {borderColor: '#FFFFFF', borderWidth: 3}, data: sev.length ? sev : [{name: 'Sem achados', value: 0}]}],
   });
 }
 window.addEventListener('sombraviva:admin-overview', e => { last = e.detail; requestAnimationFrame(render); });
