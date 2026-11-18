@@ -24,7 +24,7 @@ def test_dossier_has_one_index_and_one_inspector():
     assert len(parser.ids)==len(set(parser.ids))
     for item in ('soc-alert-list','soc-dossier','soc-search','soc-hours','soc-status','soc-demo','soc-seed'):
         assert item in parser.ids
-    assert 'admin-bundle.css?v=20261117.2' in HTML
+    assert 'admin-bundle.css?v=20261117.3' in HTML
     assert '=== admin-editorial.css ===' in (ROOT/'static/admin-bundle.css').read_text(encoding='utf-8')
     assert 'admin.js?v=20261117.7' in HTML
     assert 'Nenhum comprometimento é confirmado' in HTML

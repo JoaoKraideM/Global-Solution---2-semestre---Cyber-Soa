@@ -42,7 +42,7 @@ def test_accessibility_and_mobile_layout():
     assert ':focus-visible' in CSS
 
 def test_asset_versions_match():
-    assert 'public-bundle.css?v=20261117.2' in HTML
+    assert 'public-bundle.css?v=20261118.1' in HTML
     bundle = (ROOT/'static/public-bundle.css').read_text(encoding='utf-8')
     assert bundle.index('=== styles.css ===') < bundle.index('=== atlas.css ===')
     assert 'app.js?v=20261117.4' in HTML
@@ -53,7 +53,8 @@ def test_asset_versions_match():
 
 def test_atlas_identity_and_source_attribution():
     assert 'id="menu-toggle"' in HTML
-    assert 'commons.wikimedia.org/wiki/File:Centro_passarela.jpg' in HTML
+    assert 'visaooeste.com.br' in HTML and 'ae a' not in HTML
+    assert 'Letícia Juliana Pazian' in HTML and 'Marina Vasarini Lopes' in HTML
     assert 'Parque_Ecol' in HTML
     assert 'agenciamural.org.br/calcadao' in HTML
     assert 'history-insight' in JS

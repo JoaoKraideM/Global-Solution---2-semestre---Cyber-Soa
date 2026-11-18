@@ -25,7 +25,9 @@ def test_atlas_claro_available_on_public_and_admin():
     client = TestClient(app)
     for route in ('/', '/admin'):
         html = client.get(route).text
-        assert '/static/' + ('admin-bundle.css' if route == '/admin' else 'public-bundle.css') + '?v=20261117.2' in html
+        css = 'admin-bundle.css' if route == '/admin' else 'public-bundle.css'
+        version = '20261117.3' if route == '/admin' else '20261118.1'
+        assert f'/static/{css}?v={version}' in html
         bundle = client.get('/static/' + ('admin-bundle.css' if route == '/admin' else 'public-bundle.css'))
         assert '=== atlas-claro.css ===' in bundle.text
         assert '<meta name="color-scheme" content="light"' in html

@@ -1,5 +1,25 @@
 # SombraViva — Inteligência Climática Urbana
 
+## Ficha CitizenTech · Global Solution 2026.2
+
+A ficha abaixo responde ao briefing comum da equipe e abre o repositório, antes da documentação técnica.
+
+| Campo solicitado | Resposta da equipe |
+|---|---|
+| **Nome da CitizenTech** | **SombraViva — Inteligência Climática Urbana** |
+| **Cidade e bairro** | **Osasco (SP), região central**. Estudo inicial no Calçadão da Rua Antônio Agú; os locais exatos dos futuros sensores ainda dependem de estudo de campo. |
+| **Cidadão beneficiado** | Pedestres, trabalhadores expostos ao sol, pessoas idosas, comerciantes e gestores de planejamento urbano. |
+| **Problema, em uma frase** | A população e os gestores têm dificuldade de acessar informações contextualizadas e verificáveis sobre exposição ao calor, presença de sombra e vegetação nos espaços públicos. |
+| **Como funciona** | Uma API REST integra leituras de sensores, banco de dados e fontes meteorológicas externas; um observatório web apresenta séries, comparações e seus limites de proveniência; um painel administrativo registra e investiga eventos de segurança. |
+| **O que cada parte faz** | **SOA:** FastAPI, endpoints REST, autenticação, MySQL, Swagger e migrações. **IoT:** ESP32 e DHT22 (Wokwi) e envio de leituras autenticadas, inicialmente simuladas. **Cybersecurity:** proteção de PII, JWT, auditoria, alertas e triagem. **Web:** visualização de temperaturas e contexto urbano, diferenciando estimativas, dados reais e simulações. |
+| **Link do repositório** | https://github.com/JoaoKraideM/sprintSoaCyber |
+| **Indicador de impacto** | **Indicador proposto:** quantidade de locais com leituras válidas e cobertura temporal do monitoramento, comparável por período; **ainda não é resultado medido**. Indicadores secundários: estações ativas e utilização do portal. |
+| **ODS conectados** | **ODS 3** — Saúde e Bem-Estar; **ODS 11** — Cidades e Comunidades Sustentáveis; **ODS 13** — Ação Contra a Mudança Global do Clima. |
+
+> **Integridade dos dados:** imagens de arquitetura são referências de proposta; valores IoT de demonstração são simulações; dados Open-Meteo/ERA5 são estimativas regionais.
+
+---
+
 **Global Solution FIAP · CitizenTech · Engenharia de Software · 2º semestre de 2026**  
 **Cidade de referência:** Osasco (SP), com estudo inicial no Centro e no Calçadão da Rua Antônio Agú  
 **Disciplinas contempladas neste repositório:** Arquitetura Orientada a Serviços (SOA) e Web Services; Cybersecurity; protótipo de integração IoT  
@@ -26,6 +46,21 @@ Pedestres, trabalhadores ao ar livre, pessoas idosas, comerciantes e equipes res
 - **Mapa térmico demonstrativo:** grade matemática sintética, sem temperaturas medidas nas ruas de Osasco.
 - **Arborização e calor:** a intervenção no Calçadão contextualiza o problema; medir seu efeito térmico exige instrumentos calibrados, locais e horários comparáveis e controle de condições externas.
 
+## Identidade visual e referências arquitetônicas
+
+A interface pública apresenta o SombraViva como **caderno urbano editorial**, com tipografia e hierarquia de portfólio arquitetônico, fotografias documentais do Calçadão de Osasco e um estudo visual de referência. O painel administrativo mantém sua linguagem operacional própria.
+
+O caso de referência é o **projeto nº 18, vencedor do Concurso de Revitalização do Calçadão da Rua Antônio Agú (2019)**, de **Letícia Juliana Pazian e Marina Vasarini Lopes**. São abordados os conceitos de cobertura translúcida, vegetação, piso drenante, espaços de permanência, mobiliário e conectividade, sempre como proposta de projeto, não como prova de execução total ou redução térmica observada.
+
+Fontes usadas na página pública:
+
+- [AEAO — concurso e autoria](https://www.aeaosasco.org.br/concurso-revitalizacao/) e [pranchas originais da proposta](https://www.aeaosasco.org.br/wp-content/uploads/2019/12/concurso_revitalizacao_osasco.pdf): perspectiva de projeto, **não fotografia da obra**;
+- [Visão Oeste — fotografia do Calçadão (2022)](https://visaooeste.com.br/osasco-recebe-programa-cidadania-itinerante/): fotografia utilizada na abertura;
+- [O Anhanguera — arquivo do Calçadão com coqueiros](https://www.oanhanguera.com.br/noticias/479-calcadao-de-osasco-sera-revitalizado-coberto-e-funcionara-24h): fotografia anterior à intervenção;
+- [Agência Mural — reportagem e fotografia (2021)](https://agenciamural.org.br/calcadao-de-osasco-perde-coqueiros-e-divide-opiniao-de-moradores/): imagem durante a transformação;
+- [Wikimedia Commons — Parque Ecológico Jardim Piratininga](https://commons.wikimedia.org/wiki/File:Parque_Ecol%C3%B3gico_Jardim_Piratininga_-_panoramio.jpg): fotografia de BêS (2010), CC BY-SA 3.0.
+
+**Proveniência:** imagens jornalísticas e de concurso são de terceiros e permanecem carregadas de seus endereços externos, com links para as publicações e identificação de foto/perspectiva. O projeto não distribui cópias dessas imagens no ZIP. 
 ## Funcionalidades
 
 | Área | Recursos |
@@ -207,7 +242,9 @@ A integração com IA utiliza metadados permitidos e respostas estruturadas; **n
 docker compose exec api python -m pytest -q
 ```
 
-O GitHub Actions executa pytest, verificação de CSS e compilação de arquivos Python em `push` e `pull_request`. Os testes usuais utilizam banco isolado e respostas controladas para serviços externos. Para executar a integração opcional com MySQL, configure `TEST_MYSQL_URL` apontando **somente para uma base de testes separada**, nunca para o banco principal.
+O workflow **`.github/workflows/devsecops-pipeline.yml`** executa verificações em `push`, `pull_request` e manualmente: **testes e CSS**, **Gitleaks (segredos)**, **Bandit (SAST)**, **pip-audit (SCA)**, **Trivy (contêiner)** e **Resultado DevSecOps**. `tests` e `secrets` iniciam em paralelo; as três análises de segurança dependem dessas duas etapas e produzem status independentes; o resultado final falha caso qualquer etapa falhe ou seja cancelada. O fluxo não publica imagens nem cria infraestrutura. Veja [guia DevSecOps](docs/DEVSECOPS_PIPELINE.md).
+
+Para executar a suíte fora do Docker, instale **`requirements-dev.txt`** (inclui `beautifulsoup4`, necessário para os testes de interface). Os testes usuais usam banco isolado e respostas controladas para serviços externos. Para executar a integração opcional com MySQL, configure `TEST_MYSQL_URL` apontando **somente para uma base de testes separada**, nunca para o banco principal.
 
 ```powershell
 python -m pytest -m mysql_integration -q
@@ -225,7 +262,8 @@ SombraViva/
 ├── tests/               # Testes automatizados
 ├── wokwi/               # ESP32 e DHT22
 ├── docs/                # Ficha CitizenTech, fontes, impacto e evidências acadêmicas
-├── .github/workflows/   # Integração contínua
+├── .github/workflows/   # Pipeline DevSecOps em paralelo
+├── requirements-dev.txt # Ferramentas necessárias para testes de UI no CI
 ├── .env.example         # Configuração sem segredos reais
 ├── compose.yaml         # API + MySQL 8.4
 └── README.md
@@ -243,6 +281,7 @@ Os possíveis indicadores de impacto incluem número de estações ativas, conti
 - [Fontes meteorológicas e metodologia](docs/INTEGRACAO_OPEN_METEO.md) — origem e limites do dado regional.
 - [Proposta de valor e impacto](docs/NEGOCIO_E_IMPACTO.md) — benefícios e hipóteses de sustentabilidade.
 - [Roteiro de evidências](docs/PLANO_EVIDENCIAS.md) — itens que precisam ser demonstrados ao professor.
+- [Pipeline DevSecOps](docs/DEVSECOPS_PIPELINE.md) — CI, SAST, dependências, segredos, Trivy e tratamento de falhas.
 - [Registro de prompts](prompts.md) — uso e validação de ferramentas de IA, conforme orientação da FIAP.
 
 **Integrantes:** adicionar os nomes completos e RMs da equipe responsável por **esta Global Solution** antes de publicar o repositório. Não foram adicionados integrantes de outros trabalhos.

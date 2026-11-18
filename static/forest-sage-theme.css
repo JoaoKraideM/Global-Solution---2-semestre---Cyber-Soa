@@ -1,0 +1,208 @@
+/*
+ * SombraViva · Forest & Sage (2026)
+ * Paleta editorial de conforto visual: abertura verde-floresta, áreas de
+ * leitura sálvia e cartões marfim. Admin preservado; fotografias, estrutura
+ * e diferenciação entre simulação / observação mantidas.
+ */
+:root{
+  --sage-forest:#122C21;
+  --sage-moss:#214736;
+  --sage-leaf:#426E54;
+  --sage-medium:#8FB79B;
+  --sage-mist:#E4EDE2;
+  --sage-ivory:#F6F7F1;
+  --sage-ink:#19372B;
+  --sage-border:#B7CAB9;
+  --sage-amber:#CF9A69;
+  --sage-clay:#B85E4B;
+}
+body:not(.admin-body){
+  background:var(--sage-mist)!important;
+  color:var(--sage-ink);
+  --forest-night:var(--sage-forest);
+  --forest-deep:var(--sage-moss);
+  --forest-panel:var(--sage-moss);
+  --forest-panel-raised:var(--sage-leaf);
+  --forest-white:var(--sage-ivory);
+  --forest-ivory:var(--sage-mist);
+  --forest-soft:#C0DAC2;
+  --forest-muted:#CEE0D1;
+  --forest-line:#537661;
+  --forest-gold:var(--sage-amber);
+  --forest-paper:var(--sage-ivory);
+  --forest-ink:var(--sage-ink);
+  --arch-paper:var(--sage-mist);
+  --arch-paper-deep:#D7E5D7;
+  --arch-ink:var(--sage-ink);
+  --arch-muted:#426E54;
+  --arch-line:var(--sage-border);
+  --arch-accent:var(--sage-leaf);
+  --sv-ed-paper:var(--sage-mist);
+  --sv-ed-ink:var(--sage-ink);
+  --sv-ed-text:#355748;
+  --sv-ed-line:var(--sage-border);
+  --sv-ed-leaf:var(--sage-leaf);
+  --sv-ed-mist:#D9E8D9;
+}
+body:not(.admin-body)::selection{background:#9DC6A8;color:var(--sage-forest)}
+body:not(.admin-body) :is(a,button,input,select,textarea,summary):focus-visible{
+  outline:3px solid var(--sage-amber)!important;outline-offset:3px;
+}
+body:not(.admin-body) .sidebar{background:var(--sage-forest)!important;border-color:#446955}
+body:not(.admin-body) .sidebar .header-api{background:var(--sage-ivory);color:var(--sage-ink);border-color:var(--sage-ivory)}
+body:not(.admin-body) .sidebar .header-api:hover{background:#D8E8D9;color:var(--sage-forest)}
+body:not(.admin-body) .topbar{background:var(--sage-moss)!important;border-color:#41634F}
+body:not(.admin-body) .topbar-breadcrumb,
+body:not(.admin-body) .topbar .tag,
+body:not(.admin-body) .topbar .online-mark{color:#F2F6EF!important}
+body:not(.admin-body) .topbar .tag{border-color:#779A83}
+body:not(.admin-body) .breadcrumb-chevron{color:#E2BD87}
+/* A abertura já aprovada permanece: título esquerdo, índice direito, foto abaixo.
+ * O verde escuro é um capítulo, não o canvas de todas as  páginas. */
+body:not(.admin-body) #inicio.arch-home{
+  background:var(--sage-forest)!important;
+  box-shadow:0 0 0 100vmax var(--sage-forest);
+  clip-path:inset(0 -100vmax);
+  padding-bottom:22px;
+  color:var(--sage-ivory);
+}
+body:not(.admin-body) #inicio .arch-hero-copy h1,
+body:not(.admin-body) #inicio .sv-hero-content.arch-hero-copy h1{color:var(--sage-ivory)}
+body:not(.admin-body) #inicio .arch-hero-copy h1 em{color:#C7DEC3}
+body:not(.admin-body) #inicio .arch-intro-bottom p{color:#EAF1E8}
+body:not(.admin-body) #inicio .arch-intro-aside>span:first-child{color:var(--sage-ivory)}
+body:not(.admin-body) #inicio .arch-intro-aside p{color:#E2EDE2}
+body:not(.admin-body) #inicio .arch-intro-links .sv-action-primary,
+body:not(.admin-body) #inicio .sv-hero-content .sv-action-primary{
+  background:var(--sage-ivory);border-color:var(--sage-ivory);color:var(--sage-ink);
+}
+body:not(.admin-body) #inicio .arch-intro-links .sv-action-primary:hover{background:#D9E9D7;color:var(--sage-forest)}
+body:not(.admin-body) #inicio .sv-editorial-photo.sv-hero-unified{background:var(--sage-moss)}
+/* Percurso guiado: interstício claro entre as duas narrativas verdes. */
+body:not(.admin-body) .reading-route{
+  margin-top:0;padding-top:42px;padding-bottom:42px;
+  background:transparent!important;
+  border-color:var(--sage-border)!important;
+}
+body:not(.admin-body) .reading-route-heading .route-kicker{color:#426E54}
+body:not(.admin-body) .reading-route-heading p,
+body:not(.admin-body) .reading-route .route-item,
+body:not(.admin-body) .reading-route .route-item strong{color:var(--sage-ink)!important}
+body:not(.admin-body) .reading-route .route-item{border-color:var(--sage-border)!important}
+body:not(.admin-body) .reading-route .route-number{color:#80532E!important}
+body:not(.admin-body) .reading-route .route-item small,
+body:not(.admin-body) .reading-route .route-item>span:last-child{color:#426E54!important}
+body:not(.admin-body) .reading-route .route-item:hover{background:#D3E2D4!important}
+/* Concurso: tinta escura sobre sálvia; prova fotográfica domina o espaço. */
+body:not(.admin-body) .arch-case-study{border-color:var(--sage-border)}
+body:not(.admin-body) .arch-eyebrow,
+body:not(.admin-body) .arch-head-index{color:#426E54}
+body:not(.admin-body) .arch-section-head h2{color:var(--sage-ink)}
+body:not(.admin-body) .arch-section-head h2 em{color:var(--sage-leaf)}
+body:not(.admin-body) .arch-section-head>div:last-child>p{color:#355748}
+body:not(.admin-body) .arch-project-pillars{border-color:var(--sage-border)}
+body:not(.admin-body) .arch-project-pillars article{border-color:var(--sage-border)}
+body:not(.admin-body) .arch-project-pillars span{color:var(--sage-leaf)}
+body:not(.admin-body) .arch-project-pillars h3{color:var(--sage-ink)}
+body:not(.admin-body) .arch-project-pillars p,
+body:not(.admin-body) .arch-study-note p{color:#426E54}
+body:not(.admin-body) .arch-study-note a{color:#214736}
+body:not(.admin-body) .arch-case-feature{background:var(--sage-moss)}
+body:not(.admin-body) .arch-case-feature .arch-competition-side{background:var(--sage-moss)}
+body:not(.admin-body) .arch-case-feature .arch-competition-figure{background:#D6E5D3}
+body:not(.admin-body) .arch-competition-figure figcaption{background:var(--sage-ivory);color:#426E54}
+body:not(.admin-body) .arch-competition-figure figcaption>span:first-child{color:var(--sage-ink)}
+/* O arquivo de imagens e o manifesto passam para uma área de respiro visual. */
+body:not(.admin-body) .arch-reality{border-color:var(--sage-border)}
+body:not(.admin-body) .arch-reality-head h2{color:var(--sage-ink)}
+body:not(.admin-body) .arch-reality-head h2 em{color:var(--sage-leaf)}
+body:not(.admin-body) .arch-reality-head>p{color:#426E54}
+body:not(.admin-body) .arch-reality-grid .arch-image-frame figcaption{color:#426E54;border-color:var(--sage-border)}
+body:not(.admin-body) .arch-reality-grid .arch-image-frame figcaption span{color:var(--sage-ink)}
+body:not(.admin-body) .arch-reality-grid figcaption a{color:#24523A}
+body:not(.admin-body) .sv-editorial-statement{border-color:var(--sage-border)}
+body:not(.admin-body) .sv-editorial-statement h2{color:var(--sage-ink)}
+body:not(.admin-body) .sv-editorial-statement h2 em{color:var(--sage-leaf)}
+body:not(.admin-body) .sv-statement-notes p{color:#355748}
+body:not(.admin-body) .sv-statement-notes .sv-method-note{border-color:var(--sage-border);color:#426E54}
+body:not(.admin-body) .sv-statement-notes .sv-method-note strong{color:var(--sage-ink)}
+/* Dados: transição discreta de sálvia para marfim. Valor simulado != medição. */
+body:not(.admin-body) .provenance-line{
+  background:#D3E3D5!important;border-color:var(--sage-border)!important;
+  margin-bottom:32px;
+}
+body:not(.admin-body) .provenance-line>div{border-color:var(--sage-border)!important}
+body:not(.admin-body) .provenance-line strong{color:var(--sage-ink)}
+body:not(.admin-body) .provenance-line>div>span:last-child{color:#426E54!important}
+body:not(.admin-body) .origin-clarity{border-color:var(--sage-border);color:var(--sage-ink)}
+body:not(.admin-body) .observations-head h2,
+body:not(.admin-body) .section-ribbon strong{color:var(--sage-ink)}
+body:not(.admin-body) .observations-head p,
+body:not(.admin-body) .section-ribbon>span:last-child{color:#426E54}
+body:not(.admin-body) .observations-head>div>span,
+body:not(.admin-body) .section-ribbon>span:first-child{color:#426E54!important}
+body:not(.admin-body) .observations-head>a{color:#214736!important}
+body:not(.admin-body) .field-notes{box-shadow:none;}
+body:not(.admin-body) .field-notes .metric{background:var(--sage-ivory);color:var(--sage-ink);border-color:var(--sage-border)}
+body:not(.admin-body) #medicoes .panel,
+body:not(.admin-body) .stations-panel,
+body:not(.admin-body) #historico{
+  background:var(--sage-ivory)!important;color:var(--sage-ink);
+  border-color:var(--sage-border)!important;
+  box-shadow:none;
+}
+body:not(.admin-body) #medicoes .panel :is(h2,h3),
+body:not(.admin-body) #historico .history-heading h2{color:var(--sage-ink)}
+body:not(.admin-body) .stations-panel .muted{color:#426E54}
+body:not(.admin-body) .history-filters,
+body:not(.admin-body) #historico .history-filters{background:#FFFFFF;border-color:var(--sage-border)}
+body:not(.admin-body) .history-query-head{border-color:var(--sage-border)}
+body:not(.admin-body) #historico :is(input,select){color:var(--sage-ink)}
+/* Território: uma dobra sálvia — não mais a 3ª tela verde-escura consecutiva. */
+body:not(.admin-body) #impacto.impact-section{
+  background:#D6E4D6!important;color:var(--sage-ink)!important;
+  border:0!important;
+  padding:clamp(28px,3.8vw,58px)!important;
+  margin-block:42px 55px!important;
+}
+body:not(.admin-body) #impacto .impact-intro h2{color:var(--sage-ink)}
+body:not(.admin-body) #impacto .impact-intro h2 em{color:var(--sage-leaf)}
+body:not(.admin-body) #impacto .impact-intro .eyebrow{color:#426E54}
+body:not(.admin-body) #impacto .impact-intro>p:not(.eyebrow){color:#355748}
+body:not(.admin-body) #impacto .territory-actions>a{color:#214736;border-color:var(--sage-border)}
+body:not(.admin-body) #impacto .territory-notes{background:var(--sage-ivory);border-color:var(--sage-border)}
+body:not(.admin-body) #impacto .arch-green-photo figcaption{background:var(--sage-moss);color:var(--sage-ivory)}
+body:not(.admin-body) #impacto .arch-green-photo figcaption span{color:#D2E2D3}
+body:not(.admin-body) #impacto .evidence-entry{border-color:var(--sage-border)}
+body:not(.admin-body) #impacto .evidence-entry>span{color:#426E54!important}
+body:not(.admin-body) #impacto .evidence-entry strong{color:var(--sage-ink)}
+body:not(.admin-body) #impacto .evidence-entry p{color:#426E54}
+body:not(.admin-body) #impacto .evidence-entry a{color:#214736}
+/* Mapas e metodologia ficam em fundo claro para legibilidade de fontes. */
+body:not(.admin-body) :is(#mapa,#mapa-calor,#fontes){color:var(--sage-ink)}
+body:not(.admin-body) :is(#mapa,#mapa-calor,#fontes) :is(h2,h3){color:var(--sage-ink)}
+body:not(.admin-body) :is(#mapa,#mapa-calor,#fontes) :is(p,small){color:#355748}
+body:not(.admin-body) .territory-method{border-color:var(--sage-border)}
+body:not(.admin-body) .territory-method h2,
+body:not(.admin-body) .territory-method li span{color:var(--sage-ink)}
+body:not(.admin-body) .territory-method>div>p,
+body:not(.admin-body) .territory-method li p{color:#426E54}
+body:not(.admin-body) .territory-method li{border-color:var(--sage-border)}
+body:not(.admin-body) .sources-method,
+body:not(.admin-body) .sources-register{border-color:var(--sage-border)}
+body:not(.admin-body) .sources-register h3{color:var(--sage-ink)}
+body:not(.admin-body) .sources-register p,
+body:not(.admin-body) .sources-photo-note{color:#426E54}
+body:not(.admin-body) .sources-register a{color:#214736}
+body:not(.admin-body) .sources-photo-note{background:#D6E4D6;color:#355748;border-color:var(--sage-border)}
+body:not(.admin-body) .governance-gateway{
+  background:var(--sage-moss)!important;color:var(--sage-ivory)!important;border-color:var(--sage-moss)!important;
+}
+body:not(.admin-body) .governance-gateway h2{color:var(--sage-ivory)}
+body:not(.admin-body) .governance-gateway p{color:#D7E6D8}
+body:not(.admin-body) footer{background:var(--sage-forest);color:var(--sage-ivory)}
+body:not(.admin-body) footer a{color:var(--sage-ivory)}
+@media(max-width:740px){
+  body:not(.admin-body) #impacto.impact-section{padding:24px!important}
+  body:not(.admin-body) .reading-route{padding-block:22px}
+}

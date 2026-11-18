@@ -27,7 +27,7 @@ def test_admin_has_real_filters_triage_and_demo_provenance():
     for marker in ('/api/v1/admin/operations','/api/v1/admin/events','/api/v1/admin/findings',
                    'triage','Ver histórico','include-demo','risk_citizen_demo','EXEMPLO FICTÍCIO'):
         assert marker in JS or marker in HTML
-    assert '/static/admin-bundle.css?v=20261117.2' in HTML
+    assert '/static/admin-bundle.css?v=20261117.3' in HTML
     assert (ROOT/'static/admin-bundle.css').read_text(encoding='utf-8').index('=== admin-ops.css ===') < (ROOT/'static/admin-bundle.css').read_text(encoding='utf-8').index('=== admin-editorial.css ===')
     assert '@media(max-width:750px)' in CSS
     assert '.ops-tabs{display:grid' in CSS

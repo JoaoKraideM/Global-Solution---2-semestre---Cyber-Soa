@@ -60,6 +60,8 @@ def test_responsive_reduced_motion_and_focus():
 def test_css_served(client):
     for page in ('/','/admin'):
         r=client.get(page);assert r.status_code==200
-        assert '/static/' + ('public-bundle.css' if page == '/' else 'admin-bundle.css') + '?v=20261117.2' in r.text
+        css = 'public-bundle.css' if page == '/' else 'admin-bundle.css'
+        version = '20261118.1' if page == '/' else '20261117.3'
+        assert f'/static/{css}?v={version}' in r.text
         assert '=== refinement.css ===' in client.get('/static/' + ('public-bundle.css' if page == '/' else 'admin-bundle.css')).text
     r=client.get('/static/refinement.css');assert r.status_code==200

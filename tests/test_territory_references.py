@@ -16,7 +16,8 @@ def test_new_layer_is_last_for_both_surfaces(client):
     for endpoint in ['/', '/admin']:
         html = client.get(endpoint).text
         bundle_url = '/static/admin-bundle.css' if endpoint == '/admin' else '/static/public-bundle.css'
-        assert bundle_url + '?v=20261117.2' in html
+        version = '20261118.1' if endpoint == '/' else '20261117.3'
+        assert bundle_url + f'?v={version}' in html
         css = client.get(bundle_url).text
         assert css.index('=== refinement.css ===') < css.index('=== identidade-territorial.css ===')
     response = client.get('/static/identidade-territorial.css')
@@ -25,8 +26,8 @@ def test_new_layer_is_last_for_both_surfaces(client):
 
 
 def test_sources_have_truthful_labels_and_case_notes():
-    assert 'não é fotografia de Osasco' in PUBLIC
-    assert 'não representa o parque' in PUBLIC
+    assert 'Fotografia documental' in PUBLIC
+    assert 'IMAGEM DE PROJETO, NÃO FOTO DA OBRA' in PUBLIC
     assert 'DADOS 100% SINTÉTICOS' in PUBLIC
     assert 'Open-Meteo' in PUBLIC
     assert 'O QUE JÁ ESTÁ DOCUMENTADO' in PUBLIC

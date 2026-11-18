@@ -57,7 +57,7 @@ def test_methodology_page_gives_source_and_limits():
     doc = BeautifulSoup(PUBLIC, 'html.parser')
     sources = doc.select_one('#fontes')
     assert sources is not None
-    for phrase in ('Open-Meteo', 'reais', 'Hipótese', 'não são fotografias documentais'):
+    for phrase in ('Open-Meteo', 'reais', 'Hipótese', 'fotografias do Calçadão'):
         assert phrase.lower() in sources.get_text(' ',strip=True).lower()
     assert doc.select_one('a[href="#fontes"]')
     assert doc.select_one('#history-chart-text-summary')

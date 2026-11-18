@@ -8,14 +8,16 @@ ADMIN = (ROOT/'static/admin.html').read_text(encoding='utf-8')
 ADMIN_JS = (ROOT/'static/admin.js').read_text(encoding='utf-8')
 
 
-def test_hero_unificado_com_titulo_e_acao_em_imagem():
+def test_editorial_home_with_authentic_photo_and_real_navigation():
     dom = BeautifulSoup(PUBLIC, 'html.parser')
-    figure = dom.select_one('#inicio figure.sv-hero-unified')
-    assert figure is not None
-    assert figure.select_one('img.hero-documentary-photo')
-    assert figure.select_one('#hero-title').get_text(' ', strip=True).endswith('sombra.')
-    assert figure.select_one('.sv-action-primary[href="#historico"]')
-    assert figure.select_one('figcaption') and 'CONCEITUAL' in figure.select_one('figcaption').get_text()
+    section = dom.select_one('#inicio.arch-home')
+    assert section is not None
+    figure = section.select_one('figure.sv-hero-unified')
+    assert figure and figure.select_one('img.hero-documentary-photo')
+    assert section.select_one('#hero-title').get_text(' ', strip=True).endswith('sombra.')
+    assert section.select_one('.sv-action-primary[href="#historico"]')
+    assert 'VISÃO OESTE' in figure.select_one('figcaption').get_text()
+    assert dom.select_one('#projeto-referencia .arch-competition-figure')
     assert 'sv-cover-ink' not in PUBLIC
 
 

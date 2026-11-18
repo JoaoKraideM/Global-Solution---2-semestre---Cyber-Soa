@@ -20,7 +20,7 @@ class Ids(HTMLParser):
 def test_editorial_homepage_uses_real_existing_backend_controls(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert '/static/public-bundle.css?v=20261117.2' in response.text
+    assert '/static/public-bundle.css?v=20261118.1' in response.text
     assert '=== editorial-natureza.css ===' in client.get('/static/public-bundle.css').text
     assert 'a cidade <span>precisa de</span>' in HTML
     assert 'href="#historico"' in HTML
@@ -35,17 +35,18 @@ def test_editorial_homepage_uses_real_existing_backend_controls(client):
     assert len(parser.ids) == len(set(parser.ids)), 'IDs duplicados no HTML'
 
 
-def test_local_editorial_assets_are_served_and_provenance_is_clear(client):
-    for image in ('paisagem-conceitual.webp', 'cidade-conceitual.webp'):
-        response = client.get('/static/assets/' + image)
-        assert response.status_code == 200
-        assert response.headers['content-type'].startswith('image/webp')
-        assert len(response.content) > 10000
-    assert 'não é fotografia de Osasco' in HTML
-    assert 'não representam' in HTML or 'não documentam' in HTML
-    assert 'medições locais' in HTML
-    assert 'hero-documentary-photo documentary-media' in HTML
-    assert 'data-fallback="/static/assets/centro-cartografia-fallback.svg"' in HTML
+def test_real_reference_photos_and_provenance_are_clear(client):
+    html = client.get('/').text
+    assert 'paisagem-conceitual.webp' not in html
+    assert 'cidade-conceitual.webp' not in html
+    assert 'verde-ilustrativo.webp' not in html
+    assert 'Fotografia documental' in html
+    assert 'IMAGEM DE PROJETO, NÃO FOTO DA OBRA' in html
+    assert 'Letícia Juliana Pazian' in html
+    assert 'Marina Vasarini Lopes' in html
+    assert 'medições locais' in html
+    assert 'hero-documentary-photo documentary-media' in html
+    assert 'data-fallback=""' in html
 
 
 def test_visual_layer_is_scoped_and_responsive(client):

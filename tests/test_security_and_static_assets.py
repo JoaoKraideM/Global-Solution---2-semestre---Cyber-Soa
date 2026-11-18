@@ -90,7 +90,8 @@ def test_css_bundles_are_identical_to_ordered_sources(client):
         assert (CSS/name).read_text(encoding='utf-8') == bundle(sources)
         route = '/' if name=='public-bundle.css' else '/admin'
         html=client.get(route).text
-        assert f'/static/{name}?v=20261117.2' in html
+        version = '20261118.1' if name == 'public-bundle.css' else '20261117.3'
+        assert f'/static/{name}?v={version}' in html
         assert html.count('<link rel="stylesheet"')==1
         response=client.get('/static/'+name)
         assert response.status_code==200 and response.headers['content-type'].startswith('text/css')
