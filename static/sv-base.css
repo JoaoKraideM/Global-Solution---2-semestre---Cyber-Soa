@@ -1,0 +1,105 @@
+/* SombraViva 2026.3 — base visual compartilhada pelo painel público e pela central de segurança.
+   Ideia: leitura de câmera térmica sobre concreto. Verde-copa para sombra, asfalto para o sol
+   e uma escala térmica (índigo → magenta → laranja → amarelo) reservada aos dados. */
+:root {
+  --concrete: #E7EAE8;      /* fundo: concreto claro, frio */
+  --concrete-2: #D9DEDB;
+  --paper: #F6F7F6;
+  --ink: #1C2125;
+  --ink-soft: #4A535A;
+  --asphalt: #1F2428;       /* lado do sol / painéis escuros */
+  --asphalt-2: #2C3237;
+  --canopy: #12493A;        /* lado da sombra */
+  --leaf: #4F9A64;
+  --t1: #2D2A6E;            /* escala térmica */
+  --t2: #8E2C8E;
+  --t3: #E0533A;
+  --t4: #F59E2B;
+  --t5: #F9D857;
+  --ok: #3E8E5A;
+  --warn: #D9A21B;
+  --alert: #D9532B;
+  --danger: #A51E3A;
+  --line: rgba(28,33,37,.14);
+  --radius-s: 6px;
+  --radius-l: 18px;
+  --display: "Bahnschrift", "DIN Alternate", "Roboto Condensed", "Arial Narrow", sans-serif-condensed, sans-serif;
+  --text: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.563rem;
+  --step-3: 2.441rem;
+  --step-4: 3.815rem;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+body {
+  margin: 0; background: var(--concrete); color: var(--ink);
+  font: 400 var(--step-0)/1.55 var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.05; margin: 0; letter-spacing: -.01em; }
+p { margin: 0; }
+a { color: inherit; text-underline-offset: 3px; }
+code { font: .9em/1.4 ui-monospace, "Cascadia Code", Consolas, monospace; background: rgba(28,33,37,.07); padding: .05em .35em; border-radius: 4px; }
+:focus-visible { outline: 3px solid var(--t4); outline-offset: 3px; }
+.skip-link { position: absolute; left: 12px; top: -60px; background: var(--ink); color: #fff; padding: 10px 14px; z-index: 50; border-radius: var(--radius-s); }
+.skip-link:focus { top: 12px; }
+.hidden, [hidden] { display: none !important; }
+.sv-visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tnum, strong { font-variant-numeric: tabular-nums; }
+
+/* Cabeçalho comum */
+.sv-header {
+  position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 28px;
+  padding: 12px clamp(16px, 4vw, 48px); background: var(--asphalt); color: #fff;
+}
+.sv-brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 600 1.3rem/1 var(--display); }
+.sv-brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--canopy); color: #CDE8C9; }
+.sv-brand-mark svg { width: 22px; height: 22px; }
+.sv-nav { display: flex; gap: 4px; margin-left: auto; }
+.sv-nav a { text-decoration: none; padding: 8px 12px; border-radius: 999px; color: rgba(255,255,255,.78); font-size: .95rem; }
+.sv-nav a:hover, .sv-nav a.selected { color: #fff; background: rgba(255,255,255,.1); }
+.sv-header-link { text-decoration: none; padding: 8px 14px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; font-size: .9rem; white-space: nowrap; }
+.sv-header-link:hover { background: #fff; color: var(--asphalt); }
+.menu-toggle { display: none; margin-left: auto; width: 44px; height: 44px; border: 0; background: transparent; padding: 10px; cursor: pointer; }
+.menu-toggle span { display: block; height: 2px; background: #fff; margin: 5px 0; }
+
+/* Botões e controles */
+.sv-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px;
+  padding: 10px 18px; border-radius: 999px; border: 1px solid var(--ink); background: var(--ink); color: #fff;
+  font: 600 .95rem/1 var(--text); text-decoration: none; cursor: pointer;
+}
+.sv-button:hover { background: var(--canopy); border-color: var(--canopy); }
+.sv-button-quiet { background: transparent; color: var(--ink); }
+.sv-button-quiet:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.sv-button:disabled { opacity: .45; cursor: not-allowed; }
+input, select, textarea {
+  font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-s);
+  padding: 10px 12px; min-height: 44px; width: 100%;
+}
+label { display: grid; gap: 6px; font-size: .9rem; font-weight: 600; color: var(--ink-soft); }
+label small { font-weight: 400; }
+
+.sv-chart { width: 100%; height: 300px; }
+.sv-chart-foot { font-size: .85rem; color: var(--ink-soft); margin-top: 8px; }
+/* Tooltip do ECharts montado com classes: a CSP não permite estilos inline em HTML. */
+.sv-tip { font: 500 .85rem/1.45 var(--text); }
+.sv-tip b { display: block; margin-bottom: 2px; }
+.sv-tip i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+.sv-tip .c-shade { background: var(--leaf); } .sv-tip .c-sun { background: var(--t3); }
+.sv-tip .c-max { background: var(--t3); } .sv-tip .c-mean { background: var(--t2); } .sv-tip .c-min { background: var(--t1); }
+.sv-tip .c-cmp { background: var(--leaf); } .sv-tip .c-heat { background: var(--t4); }
+
+.sv-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 28px clamp(16px, 4vw, 48px); background: var(--asphalt); color: rgba(255,255,255,.8); font-size: .9rem; }
+.sv-footer a { color: #fff; }
+
+@media (max-width: 960px) {
+  .menu-toggle { display: block; }
+  .sv-nav { position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; background: var(--asphalt); padding: 8px 16px 16px; display: none; }
+  body.nav-open .sv-nav { display: flex; }
+  .sv-header-link { display: none; }
+}

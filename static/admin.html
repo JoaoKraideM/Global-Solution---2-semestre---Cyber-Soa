@@ -3,25 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="theme-color" content="#1F2428" />
   <meta name="color-scheme" content="light" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="description" content="SOC do SombraViva: alertas, superfícies potencialmente afetadas, análise assistida e logs auditáveis." />
   <title>SombraViva | Central de segurança</title>
-  <link rel="stylesheet" href="/static/admin-bundle.css?v=20261117.3" />
+  <link rel="stylesheet" href="/static/admin-bundle.css?v=20261118.3" />
 </head>
 <body class="admin-body">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <header class="sidebar" aria-label="Navegação principal">
-    <a class="brand" href="/" aria-label="Ir ao observatório público"><span class="brandmark" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none"><path d="M27 8C15 9 8 16 9 25c11 2 20-6 18-17Z" stroke="currentColor" stroke-width="2"/><path d="M10 28c2-7 8-11 14-15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="brand-name">sombra<span>viva</span><small>SEGURANÇA OPERACIONAL</small></span></a>
+  <header class="sv-header">
+    <a class="sv-brand" href="/" aria-label="SombraViva, voltar ao painel público">
+      <span class="sv-brand-mark" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none"><path d="M27 8C15 9 8 16 9 25c11 2 20-6 18-17Z" stroke="currentColor" stroke-width="2.2"/><path d="M10 28c2-7 8-11 14-15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+      <span>SombraViva</span>
+    </a>
     <button class="menu-toggle" type="button" id="menu-toggle" aria-controls="site-navigation" aria-expanded="false" aria-label="Abrir menu de navegação"><span></span><span></span><span></span></button>
-    <nav id="site-navigation" aria-label="Navegação de administração"><a href="/" class="navlink"><span class="nav-ico" aria-hidden="true">01</span>Observatório</a><a class="navlink selected" aria-current="page" href="/admin"><span class="nav-ico" aria-hidden="true">02</span>Central de segurança</a></nav>
-    <a class="header-api" href="/docs" target="_blank" rel="noopener">API REST ↗</a>
+    <nav id="site-navigation" class="sv-nav" aria-label="Navegação de administração"><a href="/">Painel público</a><a class="selected" aria-current="page" href="/admin">Central de segurança</a><a href="/docs" target="_blank" rel="noopener">API REST</a></nav>
   </header>
   <div class="layout">
-    <div class="topbar"><span class="topbar-breadcrumb">SOMBRA VIVA <span class="breadcrumb-chevron">/</span> SEGURANÇA E GOVERNANÇA</span><span class="tag">ACESSO RESTRITO</span></div>
     <main id="conteudo" class="admin-main">
-      <section class="admin-hero"><div class="sv-hero-mark">EDIÇÃO 01 / OSASCO · SISTEMAS E INFRAESTRUTURA</div><a href="/" class="back-link">← Voltar ao atlas climático</a><div class="sv-hero-title"><h1>Central de<br><em>investigação.</em></h1><p>Acompanhe alertas, identifique a evidência disponível e registre decisões verificáveis sobre API, autenticação e dispositivos IoT.</p></div><div class="sv-hero-foot"><span>ARQUIVO DE OCORRÊNCIAS / 2026</span><span>RELATOS · CONTROLES · DECISÕES</span></div></section>
+      <section class="sv-admin-hero">
+        <h1>Central de segurança</h1>
+        <p>Alertas de login, chaves de dispositivos IoT e o laboratório de dados pessoais (PII). Cada decisão fica registrada com justificativa.</p>
+      </section>
       <section class="panel cyber-panel" aria-label="Central operacional de Cybersecurity">
         <div id="login-section" class="login-section">
           <div class="login-intro"><span class="lock-icon" aria-hidden="true">◎</span><h2>Área protegida</h2><p>Acesso apenas com as credenciais administrativas do SombraViva. A autenticação utiliza JWT; a senha não é armazenada no navegador.</p></div>
@@ -47,6 +51,11 @@
           <section id="pane-overview" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="overview-title">
             <div class="ops-section-heading"><div><h3 id="overview-title">Sinais que exigem ação</h3><p>Os indicadores operacionais não somam ocorrências fictícias; a janela de tentativas é de 24 horas.</p></div><span class="ops-subtle-tag">ATUALIZAÇÃO MANUAL</span></div>
             <div class="ops-metrics" aria-label="Indicadores operacionais"><article><small>Alertas em revisão · 24h</small><strong id="open-alerts">…</strong><span>Tentativas recusadas ou bloqueadas, ainda não resolvidas</span></article><article><small>Logins recusados · 24 h</small><strong id="failed-logins">…</strong><span>Tentativas observadas</span></article><article><small>Chaves IoT rejeitadas · 24 h</small><strong id="rejected-devices">…</strong><span>Autenticações bloqueadas</span></article><article><small>Estações reais sem sinal</small><strong id="stale-stations">…</strong><span>Sem leitura há mais de 15 minutos</span></article></div>
+            <div class="sv-admin-charts">
+              <figure class="sv-panel"><figcaption>Risco Cidadão (indicador didático)</figcaption><div id="chart-risk" class="sv-chart sv-chart-gauge" role="img" aria-label="Medidor do indicador didático Risco Cidadão de 0 a 100"></div></figure>
+              <figure class="sv-panel"><figcaption>Eventos por categoria e resultado</figcaption><div id="chart-events" class="sv-chart" role="img" aria-label="Barras empilhadas com os eventos de segurança por categoria e resultado"></div></figure>
+              <figure class="sv-panel"><figcaption>Achados de PII por gravidade</figcaption><div id="chart-findings" class="sv-chart" role="img" aria-label="Gráfico de rosca com os achados de dados pessoais por gravidade"></div></figure>
+            </div>
             <div class="ops-split"><section class="ops-module"><div class="ops-module-head"><h4>Fila de atenção</h4><button type="button" class="ops-text-button" data-go="alerts">Abrir alertas →</button></div><div id="attention-list" class="ops-feed"><p>Carregando ocorrências...</p></div></section><section class="ops-module ops-guidance"><h4>Visibilidade e limites</h4><p>O sistema monitora eventos gerados pela API (login, chaves IoT e laboratório PII). Não coleta processos do servidor, arquivos, rede interna ou telemetria de endpoint. Portanto, não identifica máquinas efetivamente comprometidas.</p><p>Uma recusa de login ou chave mostra que o controle respondeu; investigue padrões recorrentes antes de classificar um incidente.</p><p id="demo-provenance" class="ops-provenance">Consultando registros de demonstração...</p><button type="button" id="demo-tour" class="outline-btn">Explorar casos fictícios e análise</button><p class="ops-muted">A investigação usa dados simulados; a OpenAI só é chamada ao clicar em analisar e com chave configurada. Sem chave, a interpretação é por regras locais.</p><a href="/#mapa-calor" class="ops-text-link">Ir ao monitoramento climático →</a><p class="ops-muted">O mapa térmico permanece no atlas público e não serve para inferir risco digital.</p></section></div>
           </section>
           <section id="pane-alerts" class="ops-pane" role="tabpanel" tabindex="0" aria-labelledby="alerts-title">
@@ -70,10 +79,13 @@
           <section id="pane-lab" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="lab-title"><div class="ops-section-heading"><div><h3 id="lab-title">Laboratório de privacidade</h3><p>Demonstre PII, taint analysis e orientação de remediação com amostras fictícias.</p></div><span class="ops-subtle-tag">ÁREA DE TESTES</span></div><aside class="ops-risk-note" aria-label="Indicador acadêmico de Risco Cidadão"><div><span>RISCO CIDADÃO · INDICADOR DIDÁTICO</span><strong id="didactic-risk">—</strong></div><p id="risk-explanation">Índice heurístico da atividade de Cybersecurity. A pontuação pode incluir exemplos fictícios e não corresponde à probabilidade de ataque nem a risco climático.</p></aside><div class="ops-lab-grid"><section class="ops-module"><h4>Testar fluxo de informação</h4><p class="ops-muted">Use somente conteúdo sintético. O servidor registra os tipos detectados e uma prévia protegida, não o texto bruto.</p><label for="audit-text">Texto de teste<textarea id="audit-text" rows="4">CPF: 000.000.000-00; email: exemplo@example.invalid</textarea></label><label for="audit-sink">Destino analisado<select id="audit-sink"><option value="log_bruto">Log bruto (inseguro)</option><option value="resposta_publica">Resposta pública (inseguro)</option><option value="servico_externo">Serviço externo (inseguro)</option><option value="log_redigido">Log redigido (controle)</option><option value="banco_parametrizado">Banco parametrizado (controle)</option></select></label><div class="ops-button-row"><button id="audit-button" class="primary-btn" type="button">Executar auditoria</button><button id="remediation-button" class="outline-btn" type="button">Explicar achados</button></div><p id="audit-result" class="form-status" role="status" aria-live="polite"></p><p id="remediation-result" class="form-status" role="status" aria-live="polite"></p></section><section class="ops-module"><div class="ops-module-head"><h4>Achados registrados</h4><label class="ops-demo-toggle"><input id="findings-demo" type="checkbox" /> Exibir exemplos</label></div><div id="finding-list" class="ops-feed"><p>Carregando achados...</p></div><p class="ops-muted">A orientação por IA é opcional; sem chave configurada, a aplicação usa regras locais e informa esse modo.</p></section></div></section>
         </div>
       </section>
-      <footer><div class="footer-brand">sombra<span>viva.</span><small>Segurança e governança</small></div><div class="footer-description">Protótipo acadêmico · Global Solution FIAP 2026.2<br>PII, taint analysis e proteção de dispositivos IoT</div><div class="footer-links"><a href="/">Observatório público ↗</a><a href="/docs" target="_blank" rel="noopener">API REST ↗</a></div></footer>
+      
     </main>
   </div>
-  <script src="/static/navigation.js?v=20261116.2" defer></script>
-  <script src="/static/admin.js?v=20261117.7" defer></script>
+  <footer class="sv-footer"><p><strong>SombraViva</strong> · Central de segurança · protótipo acadêmico, Global Solution FIAP 2026.2</p><p><a href="/">Painel público</a> · <a href="/docs" target="_blank" rel="noopener">API REST</a></p></footer>
+  <script src="/static/vendor/echarts.min.js?v=5.6.0" defer></script>
+  <script src="/static/navigation.js?v=20261118.3" defer></script>
+  <script src="/static/admin-charts.js?v=20261118.3" defer></script>
+  <script src="/static/admin.js?v=20261118.3" defer></script>
 </body>
 </html>

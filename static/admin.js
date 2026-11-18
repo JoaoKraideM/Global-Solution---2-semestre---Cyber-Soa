@@ -291,6 +291,7 @@ async function loadOperations(){
     return node;
   });
   $('attention-list').replaceChildren(...(teaser.length?teaser:[empty('Sem alerta observado pendente nas últimas 24 horas. Isso indica ausência de sinais registrados, não uma garantia de segurança.') ]));
+  void loadDidacticRisk();
   status('admin-status',`Consulta concluída às ${new Date().toLocaleTimeString('pt-BR')}. Atualização manual; ${c.simulated_stations} estações são de demonstração.`);
 }
 function renderDevices(stations){
@@ -328,6 +329,7 @@ async function loadEvents(){
 async function loadDidacticRisk(){
   if(!token)return;
   try{const result=await request('/api/v1/admin/overview');
+    window.dispatchEvent(new CustomEvent('sombraviva:admin-overview',{detail:result}));
     $('didactic-risk').textContent=`${result.risk_citizen_demo}/100`;
     $('risk-explanation').textContent=`${result.risk_method}. Inclui exemplos de demonstração; não representa probabilidade de invasão ou risco climático.`;
   }catch(error){$('didactic-risk').textContent='—';$('risk-explanation').textContent=`Pontuação indisponível: ${error.message}`;}
