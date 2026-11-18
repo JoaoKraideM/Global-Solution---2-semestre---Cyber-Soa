@@ -11,7 +11,7 @@ from sqlalchemy import select
 from app import config
 from app.auth import hash_password, hash_device_key
 from app.database import SessionLocal
-from app.models import User, Station, Reading, SecurityEvent, AuditFinding
+from app.models import User, Station, Reading, SecurityEvent, AuditFinding, IotDevice
 from app.taint import audit_flow
 
 
@@ -114,6 +114,23 @@ def seed_demo(db) -> dict:
     return counters
 
 
+def ensure_iot(db) -> None:
+    """Estações das duas zonas do ESP32 e o próprio dispositivo (sempre, inclusive em produção).
+    Não grava leituras: elas só chegam pelo POST /api/v1/medicoes."""
+    for code, name, setting, key in (
+        ("centro-demo", "Centro — área exposta (SIMULAÇÃO)", "Hipótese: pouca sombra", config.SENSOR_A_KEY),
+        ("verde-demo", "Área arborizada (SIMULAÇÃO)", "Hipótese: vegetação urbana", config.SENSOR_B_KEY),
+    ):
+        if db.scalar(select(Station).where(Station.code == code)) is None:
+            db.add(Station(code=code, name=name, setting=setting, simulated=True, api_key_hash=hash_device_key(key)))
+    if db.scalar(select(IotDevice).where(IotDevice.device_id == config.ESP32_DEVICE_ID)) is None:
+        db.add(IotDevice(device_id=config.ESP32_DEVICE_ID,
+                         name="ESP32 Wokwi — Calçadão x zona arborizada (SIMULADOR)",
+                         token_hash=hash_device_key(config.ESP32_DEVICE_TOKEN)))
+        print(f"Dispositivo IoT cadastrado: {config.ESP32_DEVICE_ID}")
+    db.flush()
+
+
 def main():
     config.require_secrets()
     with SessionLocal() as db:
@@ -122,6 +139,7 @@ def main():
             if user is None:
                 db.add(User(email=config.ADMIN_EMAIL, password_hash=hash_password(config.ADMIN_PASSWORD), role="admin"))
                 print("Administrador inicial cadastrado usando credenciais do .env")
+            ensure_iot(db)
             if demo_seed_enabled():
                 counts = seed_demo(db)
                 print("Dados sintéticos habilitados — novos registros:", counts)

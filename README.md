@@ -194,6 +194,9 @@ O script de demonstração não envia ataques e não executa chamadas pagas à O
 
 | Método | Rota | Uso |
 |---|---|---|
+| `POST` | `/medicoes` | **Medição do ESP32 (Wokwi)** com `Authorization: Bearer <token>` + `X-Device-Id` |
+| `GET` | `/medicoes?zona=&limit=` | Últimas medições do ESP32 |
+| `GET` | `/medicoes/resumo` | Ilha de calor: Calçadão × zona arborizada, delta e risco atual |
 | `GET` | `/stations` | Estações e últimas leituras |
 | `GET` | `/stations/{code}/readings` | Leituras de uma estação |
 | `POST` | `/stations/{code}/readings` | Receber leitura autenticada com `X-Device-Key` |
@@ -224,6 +227,21 @@ X-Device-Key: SUA_CHAVE_DO_SENSOR_A
 ```
 
 A API valida a chave e os campos, persiste a leitura e retorna `201` em caso de sucesso. A ausência de autorização é rejeitada. Consulte também `scripts/simulate_iot.py` e o circuito em `wokwi/`.
+
+### Integração com o ESP32 (Wokwi) e com a VM Linux
+
+O circuito do repositório [sombraviva-iot](https://github.com/doug-melo/sombraviva-iot) (2 × DHT22, LDR, OLED, LEDs e buzzer) envia a cada 30 s uma medição por zona para `POST /api/v1/medicoes`:
+
+```json
+{"device_id": "esp32-osasco-calcadao-01", "zona": "sem_vegetacao", "temperatura": 34.6, "umidade": 48.0,
+ "indice_calor": 36.9, "luminosidade": 52000, "nivel_risco": "alerta", "delta_ilha_calor": 4.1,
+ "temperatura_oficial": 31.2, "timestamp": "2026-11-17T14:30:00-03:00"}
+```
+
+- Cada zona alimenta uma estação do portal (`sem_vegetacao` → `centro-demo`, `arborizada` → `verde-demo`), então o ESP32 aparece nos gráficos sem mudanças no frontend.
+- Token inválido → `401` e evento `iot_auth` no `/admin` (o token nunca é gravado); `device_id` diferente do token → `403`.
+- O dispositivo é cadastrado pelo seed com `ESP32_DEVICE_ID` e `ESP32_DEVICE_TOKEN` (`.env`). A migração **004** cria a tabela `iot_devices` e os campos de risco térmico em `readings`.
+- `GET /health` responde 200 com o MySQL no ar e 503 sem ele. É usado pelo monitoramento e pelo teste de falha da VM do repositório [sombraviva-so](https://github.com/doug-melo/sombraviva-so), que clona esta API, roda `python -m app.bootstrap` e a publica com systemd + Nginx.
 
 ## Demonstração de Cybersecurity
 

@@ -24,10 +24,12 @@ from app.seed import ensure_soc_scenarios
 from app.demo import snapshot, weather_snapshot, history_snapshot, search_snapshot
 from app.heatmap import build_heatmap
 from app.weather_history import archive_for_location, search_cities
+from app.routers import medicoes as medicoes_router
 
 app = FastAPI(title="SombraViva CitizenTech API", version="0.1.0", description="Monitoramento climático urbano: IoT + SOA + Cybersecurity. Dados de demonstração identificados como simulados.")
 app.add_middleware(GZipMiddleware, minimum_size=1400)  # bundle CSS/JS e respostas grandes
 ROOT = Path(__file__).resolve().parent.parent
+app.include_router(medicoes_router.router)
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
 failed_logins: dict[str, deque] = defaultdict(deque)
 failed_iot_keys: dict[str, deque] = defaultdict(deque)  # limite local de demonstração, não distribuído
@@ -85,6 +87,16 @@ def admin_page():
 @app.get("/api/v1/health", tags=["infra"])
 def health():
     return {"status": "ok", "service": "sombraviva", "version": "0.1.0"}
+
+@app.get("/health", tags=["infra"], summary="Health check usado pelo monitor e pelo Nginx da VM")
+def health_root(db: Session = Depends(get_db)):
+    """Responde 200 com o MySQL acessível e 503 quando o banco cai (usado no teste de falha da VM)."""
+    try:
+        db.execute(text("SELECT 1"))
+    except SQLAlchemyError:
+        raise HTTPException(status_code=503, detail="Banco de dados indisponível")
+    return {"status": "ok", "service": "sombraviva", "banco": "ok", "horario": datetime.now(timezone.utc).isoformat()}
+
 
 @app.get("/api/v1/health/db", tags=["infra"])
 def database_health(db: Session = Depends(get_db)):
