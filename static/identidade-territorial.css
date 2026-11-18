@@ -1,0 +1,196 @@
+/*
+ * SombraViva — Atlas de Rua / revisão visual 2026.3
+ * =================================================
+ * Camada semântica de interface, aplicada sobre a base existente.
+ * Mapeamento: lima=ação, coral=calor/alerta, menta=vegetação/IoT,
+ * ciano=meteorologia regional, papel=arquivo/documentação.
+ * Os IDs e contratos de JS permanecem inalterados.
+ */
+:root{
+ --sv-canvas:#071A1C;--sv-base:#102E2D;--sv-raised:#21433C;
+ --sv-paper:#F4F1E7;--sv-paper-ink:#102E2D;
+ --sv-body:#D1E2D9;--sv-white:#F4F1E7;--sv-lime:#D6FF4B;
+ --sv-sensor:#55E6B2;--sv-heat:#FF856B;--sv-climate:#67D7E5;
+ --sv-muted:#96AEA3;--sv-rule:#496960;
+ --bg:var(--sv-canvas);--surface:var(--sv-base);--surface-up:var(--sv-raised);
+ --text:var(--sv-white);--mint:var(--sv-sensor);--lime:var(--sv-lime);
+ --coral:var(--sv-heat);--cyan:var(--sv-climate)
+}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--sv-canvas);color:var(--sv-white);font-size:16px}
+:where(button,input,select,textarea){font-size:14px}
+:where(a,button,input,select,textarea,summary):focus-visible{outline:3px solid var(--sv-lime);outline-offset:3px}
+::selection{background:var(--sv-lime);color:var(--sv-canvas)}
+/* Navigation: human-readable labels are the primary cue, numbers secondary. */
+.sidebar{border-bottom-color:#44655c}
+.sidebar .navlink{min-height:44px;gap:7px}
+.sidebar .nav-ico{font-size:11px;opacity:.78}
+.sidebar .brand-name{letter-spacing:-.055em}
+.sidebar .brand-name small{letter-spacing:.075em;font-size:10px}
+.topbar{background:#0b2425}
+.topbar-breadcrumb{font-size:11px;letter-spacing:.075em}
+/* Cover: shift from software hero to an issue of a place-specific field journal. */
+body:not(.admin-body) .hero{grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);border-bottom:1px solid var(--sv-rule);align-items:stretch}
+body:not(.admin-body) .hero-copy{padding:clamp(42px,5vw,74px) clamp(24px,3.2vw,56px) clamp(40px,4.4vw,62px) clamp(24px,3.6vw,62px)}
+body:not(.admin-body) .hero h1{font-family:Baskerville,"Iowan Old Style",Georgia,serif;font-weight:450;font-size:clamp(47px,5.65vw,88px);line-height:1.01;letter-spacing:-.055em;max-width:12ch}
+body:not(.admin-body) .hero h1 em{color:var(--sv-lime)}
+body:not(.admin-body) .hero h1 span{font-size:.48em;line-height:1.15;color:var(--sv-white);max-width:22ch}
+body:not(.admin-body) .hero-copy>p{font-size:16px;max-width:54ch;line-height:1.75;color:var(--sv-body)}
+body:not(.admin-body) .hero-overline{font-size:11px;letter-spacing:.08em;color:#d2e4ca}
+body:not(.admin-body) .hero-overline .eyebrow-number{letter-spacing:.03em}
+body:not(.admin-body) .hero-graphic.photo-hero{min-height:550px;position:relative;background:#174139}
+/* Assets are local; this ensures they remain visible even in offline previews. */
+body:not(.admin-body) .hero-documentary-photo{z-index:0;display:block;opacity:1;visibility:visible;object-fit:cover;object-position:38% 50%;filter:saturate(.9) contrast(1.05)}
+body:not(.admin-body) .hero-photo-shade{pointer-events:none;position:absolute;z-index:1;inset:0;background:linear-gradient(180deg,rgba(3,22,21,0) 22%,rgba(4,21,22,.06) 41%,rgba(4,20,20,.97) 100%)}
+body:not(.admin-body) .photo-caption{z-index:2;left:clamp(22px,3vw,50px);bottom:40px;right:25px;gap:9px;max-width:360px}
+body:not(.admin-body) .photo-caption-index{color:var(--sv-lime);font-size:11px!important;letter-spacing:.07em}
+body:not(.admin-body) .photo-caption strong{font-size:clamp(28px,2.6vw,43px);line-height:1.12}
+body:not(.admin-body) .photo-caption a{font-size:13px;color:#e5f4e9}
+body:not(.admin-body) .hero-coordinate{z-index:2}
+/* An index, not three product feature cards. */
+.reading-route{background:#102c29;border-top:0;grid-template-columns:minmax(150px,.85fr) repeat(3,minmax(0,1fr));margin-bottom:0}
+.reading-route-heading{padding-left:14px}
+.reading-route-heading p{font-size:21px;max-width:18ch}
+.route-item{padding:22px clamp(10px,1.6vw,26px);gap:10px}
+.route-item strong{font-size:15px}
+.route-item small{font-size:12px}
+.route-number{font-size:26px;color:var(--sv-heat)}
+.provenance-line{background:#0a2423;margin:0 0 42px}
+.provenance-line>div{font-size:13px;align-content:center}
+.provenance-line strong{font-size:13px}
+.provenance-line>div>span:last-child{color:#bfd6ca}
+.provenance-dot.observed{background:var(--sv-climate)}
+.provenance-dot.simulated{background:var(--sv-sensor)}
+.provenance-dot.model{background:var(--sv-heat)}
+/* Observation sheet: the temperatures are a paired reading; database count is metadata. */
+.observations-head{margin-top:18px}
+.observations-head h2{font-size:clamp(34px,3.5vw,52px);letter-spacing:-.035em}
+.observations-head p{font-size:15px}
+body:not(.admin-body) .field-notes{grid-template-columns:1fr 1fr .85fr .65fr;background:transparent;border-color:var(--sv-rule);margin-bottom:27px}
+body:not(.admin-body) .field-notes .metric{padding:19px clamp(12px,1.7vw,26px)!important}
+body:not(.admin-body) .field-notes .metric:first-child{background:#1b342f;border-top:3px solid var(--sv-heat)}
+body:not(.admin-body) .field-notes .metric:nth-child(2){background:#102f2c;border-top:3px solid var(--sv-sensor)}
+body:not(.admin-body) .field-notes .metric:nth-child(n+3){background:#0a2322;border-top:3px solid transparent}
+body:not(.admin-body) .field-notes .metric:nth-child(4){border-right:0}
+body:not(.admin-body) .field-notes .metric strong{font-size:clamp(32px,3.6vw,52px);line-height:1.15;word-break:normal}
+body:not(.admin-body) .field-notes .metric:nth-child(n+3) strong{font-size:clamp(26px,2.6vw,39px)}
+body:not(.admin-body) .field-notes .metric small{font-size:13px;line-height:1.45}
+body:not(.admin-body) .field-notes .metric-top>span{font-size:12px;letter-spacing:.02em}
+body:not(.admin-body) .field-notes .metric-bottom{font-size:11px;letter-spacing:0}
+/* Laboratory charts should be scan-friendly, with distinct source coloration. */
+body:not(.admin-body) .two-col{gap:0;border-top:1px solid var(--sv-rule);border-bottom:1px solid var(--sv-rule)}
+body:not(.admin-body) .two-col .panel{border-radius:0;border:0;background:#092322}
+body:not(.admin-body) .two-col .weather-panel{border-left:1px solid var(--sv-rule);background:#0d2b2a}
+body:not(.admin-body) .panel-heading .eyebrow{font-size:11px;letter-spacing:.095em;color:#b9d6c9}
+body:not(.admin-body) .panel-heading h2{font-size:clamp(28px,2.5vw,42px);line-height:1.1}
+body:not(.admin-body) .panel-subtitle{font-size:14px;color:#c2d6ca}
+body:not(.admin-body) .weather-panel .weather-temp{color:var(--sv-white);font-variant-numeric:tabular-nums}
+body:not(.admin-body) .caption{font-size:12px;line-height:1.6;color:#bad0c5}
+/* Historical instruments, not generic KPI tiles. */
+body:not(.admin-body) .history-panel{background:#092423;border-color:var(--sv-rule)}
+body:not(.admin-body) .history-heading h2{font-size:clamp(40px,4.3vw,63px);line-height:1.07}
+body:not(.admin-body) .history-heading .panel-subtitle{max-width:58ch;font-size:15px}
+body:not(.admin-body) .history-controls{background:#102f2e;border-color:var(--sv-rule)}
+body:not(.admin-body) .history-controls>.history-location{padding:19px 23px}
+body:not(.admin-body) .history-search input{font-size:15px}
+body:not(.admin-body) .history-status{font-size:14px}
+body:not(.admin-body) .history-insight{border-left:3px solid var(--sv-climate);background:#e8efe7;color:#13382e;padding:clamp(18px,2vw,28px)}
+body:not(.admin-body) .history-insight :is(h3,strong){color:#163a31}
+body:not(.admin-body) .history-observations{gap:0}
+body:not(.admin-body) .history-observations>div{border-radius:0}
+body:not(.admin-body) .history-visual-header h3{font-size:clamp(24px,2.6vw,36px)}
+body:not(.admin-body) .history-chart-wrap{border-color:var(--sv-rule);background-color:#0b2a2a}
+body:not(.admin-body) .history-chart-wrap canvas{max-width:100%}
+body:not(.admin-body) .history-source{font-size:12px;line-height:1.7;color:#c5d9d0}
+/* The real territory case is a document with evidence, not another dashboard. */
+body:not(.admin-body) .impact-section{background:var(--sv-paper);color:var(--sv-paper-ink)}
+body:not(.admin-body) .impact-intro>p:not(.eyebrow){color:#305146;font-size:16px;line-height:1.85;max-width:61ch}
+body:not(.admin-body) .impact-intro h2{font-family:Baskerville,Georgia,serif;font-size:clamp(47px,5vw,84px);letter-spacing:-.048em}
+body:not(.admin-body) .territory-notes{border-color:#b6c7bd;gap:0}
+body:not(.admin-body) .territory-notes .evidence-entry{padding:24px 14px 16px 0;min-width:0}
+body:not(.admin-body) .territory-notes .evidence-entry+ .evidence-entry{border-left:1px solid #b7c9bd;padding-left:22px}
+body:not(.admin-body) .territory-notes .evidence-entry span{font-size:11px;color:#4c6c60;letter-spacing:.06em}
+body:not(.admin-body) .territory-notes .evidence-entry strong{font:500 clamp(19px,1.75vw,25px)/1.22 Georgia,serif;color:#132e27;display:block;margin:11px 0}
+body:not(.admin-body) .territory-notes .evidence-entry p{font-size:13px;line-height:1.65;color:#34574b;margin-bottom:10px}
+body:not(.admin-body) .territory-notes .evidence-entry a{font-size:13px;text-underline-offset:4px;color:#16573e}
+body:not(.admin-body) .territory-photo img{object-fit:cover}
+/* Map and thermal model are related but not conflated. */
+body:not(.admin-body) .territory-atlas .map-index{letter-spacing:.085em;font-size:11px}
+body:not(.admin-body) .heatmap-overlay-tag{background:#fee4d6;color:#6d2617;font-size:11px;font-weight:800;letter-spacing:.025em;padding:7px 12px;border-radius:0}
+body:not(.admin-body) .heatmap-sidebar{background:#153733}
+body:not(.admin-body) .heatmap-sidebar p{font-size:14px;line-height:1.75}
+body:not(.admin-body) .territory-method{border-color:var(--sv-rule)}
+body:not(.admin-body) .territory-method ol li span{font-size:14px}
+body:not(.admin-body) .territory-method ol li p{font-size:13px;line-height:1.55}
+body:not(.admin-body) .governance-gateway{background:#10312d;border-color:var(--sv-rule)}
+/* SOC: dense operational tools without losing the bespoke paper dossier. */
+.admin-body .admin-hero{padding:22px 0 12px}
+.admin-body .admin-hero .sv-hero-title h1{font-size:clamp(42px,4vw,66px)}
+.admin-body .admin-hero .sv-hero-title p{font-size:15px;line-height:1.6}
+.admin-body.admin-authenticated .admin-hero{padding:10px 0}
+.admin-body.admin-authenticated .admin-hero .sv-hero-title{margin:6px 0;gap:25px}
+.admin-body.admin-authenticated .admin-hero .sv-hero-title h1{font-size:clamp(23px,2.5vw,37px);line-height:1.1}
+.admin-body.admin-authenticated .admin-hero .sv-hero-title p{font-size:13px;max-width:600px}
+.admin-body .ops-toolbar{padding-top:17px}
+.admin-body .ops-eyebrow{font-size:11px}
+.admin-body .ops-section-heading h3{font-size:clamp(30px,3vw,47px)}
+.admin-body .ops-section-heading p{font-size:14px}
+.admin-body .soc-toolbar :is(select,input){font-size:14px}
+.admin-body .sv-case-index-head>span{font-size:12px}
+.admin-body .sv-case-row-meta{font-size:13px}
+.admin-body .sv-case-state{font-size:11px}
+.admin-body .sv-dossier-label{font-size:12px;color:#315446}
+.admin-body .sv-dossier-masthead{font-size:11px}
+.admin-body .sv-dossier-stamp{font-size:12px}
+.admin-body .sv-case-dossier .sv-dossier-block p{font-size:14px;line-height:1.7}
+.admin-body .sv-dossier-block{padding:18px 0}
+/* Compact, distinct states are accompanied by words and borders. */
+.admin-body .sv-case-row.is-active{box-shadow:inset 4px 0 var(--sv-lime)}
+.admin-body .sv-case-row:focus-visible{outline-color:var(--sv-lime)}
+/* Responsiveness maintains task order and prevents horizontal overflow. */
+@media(max-width:1050px){
+ .reading-route{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .reading-route-heading{grid-column:1/-1;padding:14px 18px;border-bottom:1px solid var(--sv-rule)}
+ .reading-route-heading p{max-width:none}
+ .route-item:first-of-type{border-left:0}
+ body:not(.admin-body) .field-notes{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body:not(.admin-body) .field-notes .metric:nth-child(3){border-left:0;border-top:1px solid var(--sv-rule)}
+ body:not(.admin-body) .field-notes .metric:nth-child(4){border-top:1px solid var(--sv-rule)}
+}
+@media(max-width:760px){
+ body:not(.admin-body) .hero{grid-template-columns:minmax(0,1fr)}
+ body:not(.admin-body) .hero-copy{padding:36px 21px 36px}
+ body:not(.admin-body) .hero h1{font-size:clamp(44px,10vw,69px);max-width:none}
+ body:not(.admin-body) .hero-graphic.photo-hero{min-height:350px}
+ body:not(.admin-body) .photo-caption{bottom:19px;left:19px;max-width:310px}
+ .reading-route{grid-template-columns:minmax(0,1fr)}
+ .route-item{border-left:0;border-bottom:1px solid var(--sv-rule);padding:17px 14px;min-height:74px}
+ .reading-route-heading{padding:15px 14px}
+ .route-item small{font-size:13px}
+ .provenance-line{grid-template-columns:minmax(0,1fr)}
+ .provenance-line>div{padding:13px 14px!important;border-left:0!important;border-top:1px solid var(--sv-rule)}
+ .provenance-line>div>span:last-child{flex:1 1 auto;padding:0}
+ .observations-head{flex-wrap:wrap}
+ body:not(.admin-body) .two-col .weather-panel{border-top:1px solid var(--sv-rule);border-left:0}
+ body:not(.admin-body) .history-controls>.history-location{padding:15px}
+ body:not(.admin-body) .territory-notes{display:block}
+ body:not(.admin-body) .territory-notes .evidence-entry{padding:17px 0!important;border-left:0!important}
+ body:not(.admin-body) .territory-notes .evidence-entry+ .evidence-entry{border-top:1px solid #bed1c5}
+ .admin-body .admin-hero .sv-hero-title{display:block}
+ .admin-body.admin-authenticated .admin-hero .sv-hero-title{display:block}
+ .admin-body.admin-authenticated .admin-hero .sv-hero-title p{display:none}
+ .admin-body .sv-case-dossier{position:static}
+}
+@media(max-width:440px){
+ body:not(.admin-body) .hero h1{font-size:clamp(41px,10.5vw,54px)}
+ body:not(.admin-body) .field-notes{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body:not(.admin-body) .field-notes .metric{padding:15px 12px!important}
+ body:not(.admin-body) .field-notes .metric strong{font-size:34px}
+ body:not(.admin-body) .field-notes .metric:nth-child(n+3) strong{font-size:29px}
+ body:not(.admin-body) .field-notes .metric small{font-size:12px}
+ .admin-body .sv-dossier-label{font-size:12px}
+}
+/* After authentication the operator already knows the product; remove the
+   editorial masthead entirely and place the work queue at first glance. */
+.admin-body.admin-authenticated .admin-hero{display:none}

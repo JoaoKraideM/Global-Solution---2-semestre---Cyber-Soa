@@ -1,0 +1,251 @@
+/* SombraViva 2026 — Editorial Natureza. Scoped composition layer.
+   A visual-only integration of the approved prototype: no endpoint, ID contract or sample data is replaced.
+   Originals remain under atlas-claro.css; this layer owns the public brand surfaces only.
+*/
+:root{
+  --sv-ed-paper:#F9F9F4;
+  --sv-ed-ink:#113B30;
+  --sv-ed-text:#234D41;
+  --sv-ed-line:#C5D3C7;
+  --sv-ed-leaf:#417854;
+  --sv-ed-lemon:#D5EB90;
+  --sv-ed-clay:#BF533E;
+  --sv-ed-mist:#EFF3E9;
+}
+body:not(.admin-body){background:var(--sv-ed-paper);color:var(--sv-ed-ink)}
+body:not(.admin-body) .sidebar{background:var(--sv-ed-paper);border-bottom-color:var(--sv-ed-line)}
+body:not(.admin-body) .sidebar .brand-name{font:800 clamp(24px,2.1vw,31px)/.95 'Inter Display','Inter',Arial,sans-serif;letter-spacing:-.065em}
+body:not(.admin-body) .sidebar .brand-name small{font-size:10px;font-weight:600;letter-spacing:.055em;margin-top:7px}
+body:not(.admin-body) .sidebar .header-api{background:transparent;color:var(--sv-ed-ink);border:1px solid var(--sv-ed-ink);border-radius:100px;padding-inline:19px}
+body:not(.admin-body) .sidebar .header-api:hover{background:var(--sv-ed-ink);color:white}
+body:not(.admin-body) .topbar{background:var(--sv-ed-mist)!important;border-color:var(--sv-ed-line)}
+body:not(.admin-body) .layout main{max-width:1750px;padding-inline:clamp(18px,4vw,76px);padding-top:0}
+.sv-editorial-hero{background:var(--sv-ed-paper);padding:0;border:0;margin:0 0 44px}
+.sv-editorial-cover{max-width:100%;margin:0 auto}
+.sv-editorial-headline{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(270px,.65fr);gap:clamp(20px,3vw,45px);align-items:start;padding-block:clamp(36px,4.5vw,72px) 32px}
+.sv-editorial-headline h1{font:850 clamp(62px,8.6vw,152px)/.82 'Inter Display','Inter',Arial,sans-serif;letter-spacing:-.072em;color:var(--sv-ed-ink);margin:0;max-width:950px;overflow-wrap:normal}
+.sv-editorial-headline h1 span{display:block;font-size:.72em;letter-spacing:-.072em;font-weight:570;margin-top:12px}
+.sv-editorial-intro{display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding:5px 0 0;min-width:0}
+.sv-location{font-size:12px;font-weight:800;letter-spacing:.085em;text-transform:uppercase;color:var(--sv-ed-ink)}
+.sv-editorial-intro p{color:var(--sv-ed-text);font-size:clamp(15px,1.4vw,18px);line-height:1.65;max-width:33ch;margin:0}
+.sv-editorial-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.sv-action-primary,.sv-action-secondary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:10px 19px;border-radius:28px;font-size:14px;font-weight:750;text-decoration:none;white-space:normal}
+.sv-action-primary{background:var(--sv-ed-ink);color:#fff}.sv-action-primary:hover{background:#235B46;color:#fff}
+.sv-action-secondary{border:1px solid var(--sv-ed-ink);color:var(--sv-ed-ink);background:transparent}.sv-action-secondary:hover{background:#E7EDE5}
+.sv-editorial-photo{position:relative;overflow:hidden;margin:0;min-height:500px;isolation:isolate;background:#719B75}
+.sv-editorial-photo>img.hero-documentary-photo{width:100%;height:clamp(500px,43vw,730px);display:block;object-fit:cover;object-position:50% 55%;filter:saturate(.95);position:relative;z-index:0}
+.sv-editorial-photo:after{content:'';position:absolute;inset:30% 0 0;background:linear-gradient(180deg,transparent,#092C24B8);z-index:0;pointer-events:none}
+.sv-cover-ink{position:absolute;left:clamp(15px,5vw,80px);bottom:clamp(38px,4.5vw,73px);z-index:1;font:850 clamp(88px,14.9vw,250px)/.8 'Inter Display','Inter',Arial,sans-serif;letter-spacing:-.088em;color:#F8F8EF;text-shadow:0 3px 15px #04251B24;white-space:nowrap}
+.sv-photo-collage{position:absolute;z-index:2;right:clamp(22px,5vw,80px);top:clamp(30px,6vw,90px);width:clamp(96px,16vw,224px);aspect-ratio:1;transform:rotate(3.5deg);border:7px solid #F9F9F4;box-shadow:0 8px 30px #092D3040;overflow:hidden}
+.sv-photo-collage img{width:100%;height:100%;object-fit:cover}
+.sv-photo-credit{position:absolute;bottom:13px;left:18px;right:18px;z-index:2;display:flex;flex-wrap:wrap;gap:8px 16px;color:#fff!important;font-size:11px;line-height:1.4;font-weight:600;text-shadow:0 1px 3px #0C2E29}
+.sv-photo-credit a{color:#fff!important;text-decoration:underline;text-underline-offset:3px}
+.sv-media-fallback{position:absolute;top:12px;left:12px;z-index:4;max-width:440px;background:#113B30;color:#fff;padding:10px 14px;font-size:12px}
+.sv-editorial-dateline{display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid var(--sv-ed-line);color:var(--sv-ed-text);font-size:12px;line-height:1.5;font-weight:650}
+.sv-editorial-statement{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,7vw,100px);padding:clamp(52px,7vw,125px) 0 clamp(56px,6vw,105px);border-bottom:1px solid var(--sv-ed-line);margin-bottom:40px;align-items:start}
+.sv-editorial-statement h2{font:850 clamp(59px,7vw,118px)/.93 'Inter Display','Inter',Arial,sans-serif;letter-spacing:-.075em;color:var(--sv-ed-ink);margin:0}
+.sv-editorial-statement h2 em{font:500 .88em/.99 Georgia,serif;color:var(--sv-ed-leaf);letter-spacing:-.065em}
+.sv-statement-notes{padding-top:12px}
+.sv-statement-notes p{font-size:clamp(16px,1.7vw,22px);line-height:1.55;letter-spacing:-.027em;color:var(--sv-ed-text);max-width:56ch;margin:0 0 25px}
+.sv-statement-notes .sv-method-note{border-top:1px solid var(--sv-ed-line);padding-top:22px;font-size:14px;letter-spacing:0;line-height:1.65;color:#405C50}
+.sv-statement-notes .sv-method-note strong{color:var(--sv-ed-ink)}
+/* Three task routes remain actual navigation, now like a magazine index rather than boxed cards. */
+body:not(.admin-body) .reading-route{background:transparent!important;border-top:0!important;border-bottom:1px solid var(--sv-ed-line)!important;margin-bottom:24px}
+body:not(.admin-body) .reading-route-heading{padding-top:23px}
+body:not(.admin-body) .route-item{border-bottom-color:var(--sv-ed-line)!important}
+/* Main data stays operational: no display-title overlapping chart controls. */
+body:not(.admin-body) #historico{background:var(--sv-ed-mist)!important;border:1px solid #D4DED1!important;border-radius:0!important;padding:clamp(20px,3.2vw,48px)!important;margin-block:52px 65px!important}
+body:not(.admin-body) #historico .history-heading h2{font:800 clamp(38px,4.65vw,70px)/1 'Inter Display','Inter',Arial,sans-serif;letter-spacing:-.063em;color:var(--sv-ed-ink)}
+body:not(.admin-body) #historico .history-heading p{color:var(--sv-ed-text)}
+body:not(.admin-body) #historico .history-dates .primary-btn{border-radius:50px}
+body:not(.admin-body) #historico :is(input,select){border-radius:5px}
+body:not(.admin-body) #historico .history-chart-wrap,
+body:not(.admin-body) #historico .city-chart-card{background:#fff!important;border-color:var(--sv-ed-line)!important}
+/* Territorial chapter reflects editorial image + evidence grid from the approved prototype. */
+body:not(.admin-body) #impacto{background:var(--sv-ed-paper)!important;border:0!important;border-top:1px solid var(--sv-ed-line)!important;border-bottom:1px solid var(--sv-ed-line)!important;border-radius:0!important;padding:clamp(40px,5.5vw,85px) 0!important;margin-block:28px 52px!important;gap:clamp(24px,5vw,80px)!important}
+body:not(.admin-body) #impacto .impact-intro h2{font:850 clamp(50px,6.1vw,96px)/.94 'Inter Display','Inter',Arial,sans-serif;letter-spacing:-.075em;color:var(--sv-ed-ink);margin:17px 0 28px}
+body:not(.admin-body) #impacto .impact-intro h2 em{font:500 .92em/1 Georgia,serif;color:var(--sv-ed-leaf);letter-spacing:-.06em}
+body:not(.admin-body) #impacto .impact-intro>p:not(.eyebrow){color:var(--sv-ed-text);font-size:16px;line-height:1.7;max-width:58ch}
+body:not(.admin-body) #impacto .territory-visual{min-width:0}
+body:not(.admin-body) #impacto .territory-photo{position:relative;overflow:visible;min-height:370px;background:var(--sv-ed-mist);border:0;border-radius:0}
+body:not(.admin-body) #impacto .territory-photo>img.documentary-media{width:100%;height:390px;object-fit:cover;display:block}
+body:not(.admin-body) #impacto .territory-photo .sv-urban-art{position:absolute;z-index:2;top:-24px;right:-12px;width:min(34%,190px);aspect-ratio:1;transform:rotate(-3deg);border:6px solid var(--sv-ed-paper);box-shadow:0 6px 24px #18352D30;overflow:hidden}
+body:not(.admin-body) #impacto .sv-urban-art img{width:100%;height:100%;object-fit:cover}
+body:not(.admin-body) #impacto .territory-notes{background:#fff;border-color:var(--sv-ed-line)}
+body:not(.admin-body) #impacto .evidence-entry strong{color:var(--sv-ed-ink)}
+body:not(.admin-body) #impacto .evidence-entry p{color:var(--sv-ed-text)}
+body:not(.admin-body) #impacto .territory-actions>a{min-height:42px}
+/* Instrumentation and administration keep restrained scientific typography. */
+body:not(.admin-body) .field-notes .metric{border-radius:0!important}
+body:not(.admin-body) #medicoes .panel{border-radius:0!important}
+body:not(.admin-body) :is(#mapa,#mapa-calor){scroll-margin-top:110px}
+body:not(.admin-body) #historico,body:not(.admin-body) #medicoes,body:not(.admin-body) #impacto{scroll-margin-top:110px}
+body:not(.admin-body) .governance-gateway{background:var(--sv-ed-mist)!important}
+body:not(.admin-body) :is(.sv-editorial-hero,.sv-editorial-statement) :focus-visible{outline:3px solid var(--sv-ed-clay);outline-offset:4px}
+@media(max-width:1080px){
+ .sv-editorial-headline{grid-template-columns:minmax(0,1.5fr) minmax(210px,.65fr)}
+ .sv-editorial-headline h1{font-size:clamp(60px,8.4vw,107px)}
+ .sv-editorial-intro{gap:12px}
+ .sv-editorial-actions{gap:9px}
+ .sv-action-primary,.sv-action-secondary{padding-inline:13px;font-size:13px}
+ .sv-editorial-statement{gap:35px}
+}
+@media(max-width:750px){
+ .sv-editorial-headline{display:block;padding-block:30px 25px}
+ .sv-editorial-headline h1{font-size:clamp(58px,13.2vw,103px);line-height:.89;margin-bottom:25px}
+ .sv-editorial-headline h1 span{margin-top:6px}
+ .sv-editorial-intro{gap:15px}
+ .sv-editorial-intro p{font-size:15px;max-width:58ch}
+ .sv-editorial-actions{margin-top:4px}
+ .sv-editorial-photo{min-height:340px}
+ .sv-editorial-photo>img.hero-documentary-photo{height:clamp(340px,74vw,520px)}
+ .sv-cover-ink{font-size:clamp(70px,17.3vw,135px);bottom:48px;left:18px}
+ .sv-photo-collage{width:116px;top:18px;right:18px;border-width:5px}
+ .sv-photo-credit{font-size:10px;bottom:7px;left:12px;right:8px}
+ .sv-editorial-dateline{font-size:11px;display:grid;gap:4px;padding:13px 0}
+ .sv-editorial-statement{display:block;padding:56px 0 47px}
+ .sv-editorial-statement h2{font-size:clamp(51px,12.2vw,94px);margin-bottom:29px}
+ .sv-statement-notes p{font-size:17px}
+ body:not(.admin-body) #impacto .impact-intro h2{font-size:clamp(48px,11vw,76px)}
+ body:not(.admin-body) #impacto .territory-photo>img.documentary-media{height:295px}
+ body:not(.admin-body) #impacto .territory-photo .sv-urban-art{right:8px;width:110px}
+ body:not(.admin-body) #historico{padding:18px!important}
+ body:not(.admin-body) .sidebar nav{background:var(--sv-ed-paper)!important}
+}
+@media(max-width:390px){
+ .sv-editorial-headline h1{font-size:clamp(51px,12.9vw,58px)}
+ .sv-action-primary,.sv-action-secondary{font-size:12px}
+ .sv-cover-ink{font-size:clamp(68px,17vw,78px)}
+}
+@media(prefers-reduced-motion:reduce){.sv-editorial-hero *, .sv-editorial-statement *{animation:none!important;transition:none!important}}
+
+/* Plano unificado 2026: provenance, results-first climate UX, accessible interfaces. */
+.source-type{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid currentColor;border-radius:3px;font:750 11px/1.35 'Inter',Arial,sans-serif;letter-spacing:.025em;white-space:normal;text-transform:uppercase}
+.source-regional{background:#E8F1F5;color:#20566B}.source-simulation{background:#FFF1DB;color:#85450C}.source-hypothesis{background:#EAE7F2;color:#504369}.source-unavailable{background:#F9E8E5;color:#963D31}
+.origin-clarity{margin:18px 0;padding:12px 0;display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;font-size:13px;line-height:1.55;color:#285247;border-block:1px solid #D2DED5}
+.station-provenance{display:block;color:#36594F;font-size:12px;line-height:1.55;margin-top:9px;overflow-wrap:anywhere}
+.history-query-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;margin:17px 0 8px;padding:13px 0;border-top:1px solid #CCDAD0}
+.history-query-head p{display:grid;gap:3px;margin:0}.history-query-head strong{font-size:17px;color:#113B30}.history-query-head p span{font-size:13px;color:#36594F}
+body:not(.admin-body) #historico .history-filters{border:1px solid #BDCEC3;background:#FFFFFF;margin:0 0 20px;padding:0}
+body:not(.admin-body) #historico .history-filters>summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 18px;min-height:48px;font-weight:750;font-size:14px;color:#164536;list-style:none}
+body:not(.admin-body) #historico .history-filters>summary::-webkit-details-marker{display:none}
+body:not(.admin-body) #historico .history-filters>summary:hover,body:not(.admin-body) #historico .history-filters>summary:focus-visible{background:#F4F7F3}
+body:not(.admin-body) #historico .history-filters>.history-controls{margin:0 15px 12px}
+body:not(.admin-body) #historico .history-filters>.date-control-panel{margin:0 15px 16px}
+.chart-a11y-description{margin:15px 0;padding:12px 0;border-bottom:1px solid #D6E2DA;font-size:13px;color:#36594F}
+.history-source-freshness{font-size:13px;color:#285247;line-height:1.55;margin:14px 0 7px}
+.sources-method{padding:clamp(32px,5vw,72px) 0;margin:45px 0;border-top:1px solid #C5D3C7;border-bottom:1px solid #C5D3C7}
+.sources-intro{display:grid;grid-template-columns:.8fr 1fr;gap:25px;align-items:end;padding-bottom:28px}.sources-intro h2{font:750 clamp(33px,4vw,64px)/1 'Inter Display','Inter',Arial,sans-serif;letter-spacing:-.038em;margin:0}.sources-intro p{font-size:16px;line-height:1.6;max-width:55ch;margin:0}
+.sources-register{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px;border-top:1px solid #C5D3C7;padding-top:30px}
+.sources-register article{min-width:0}.sources-register h3{font-size:21px;line-height:1.2;margin:18px 0 10px}.sources-register p,.sources-photo-note{font-size:14px;line-height:1.6;color:#36594F}.sources-register a{font-size:14px;font-weight:750;color:#164E3E;text-underline-offset:4px}.sources-photo-note{margin:28px 0 0;max-width:84ch}
+.heatmap-origin{margin-bottom:14px}
+@media(max-width:750px){
+ .sources-intro{grid-template-columns:1fr;gap:13px}.sources-register{grid-template-columns:1fr;gap:17px}.sources-register article{border-bottom:1px solid #CBD8CF;padding-bottom:16px}
+ .history-query-head{align-items:flex-start}
+ body:not(.admin-body) #historico .history-filters>.history-controls{margin:0 10px 12px}
+ body:not(.admin-body) #historico .history-filters>.date-control-panel{margin:0 10px 12px}
+ .sv-action-primary,.sv-action-secondary{min-height:44px}
+}
+
+/* Accessibility refinements: typography, focus and motion; maintain Editorial Natureza. */
+.data-interpretation-note{border-left:4px solid #225847;padding:12px 16px;margin:12px 0 20px;background:#FFFFFF;color:#132D29;font-size:15px;line-height:1.6;max-width:92ch}
+.data-interpretation-note strong{color:#132D29}
+.data-interpretation-note abbr{cursor:help;text-decoration:underline dotted;text-underline-offset:3px}
+body:not(.admin-body) #historico .history-source{font-size:13px;line-height:1.6}
+body:not(.admin-body) :is(.history-filters summary,.history-controls button,.history-controls input,.history-controls select){min-height:44px}
+:where(a,button,input,select,summary,textarea):focus-visible{outline:3px solid #186D85;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Esboço editorial aprovado (17/11/2026) — hero unificado, ferramentas primeiro.
+   Mantém os seletores e IDs utilizados pelos módulos REST, IoT e ERA5. */
+body:not(.admin-body) .sv-editorial-hero{margin-bottom:0}
+body:not(.admin-body) .sv-editorial-photo.sv-hero-unified{
+  isolation:isolate;min-height:540px;height:clamp(540px,calc(100svh - 115px),740px);
+  background:#174a3d;overflow:hidden;
+}
+body:not(.admin-body) .sv-hero-unified>img.hero-documentary-photo{
+  position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;
+  object-position:center 56%;z-index:0;filter:saturate(.86);
+}
+body:not(.admin-body) .sv-hero-unified::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(5,39,31,.88) 0%,rgba(8,46,36,.79) 36%,rgba(6,41,32,.28) 82%),
+    linear-gradient(0deg,rgba(4,31,24,.72),transparent 24%);
+}
+body:not(.admin-body) .sv-hero-content{
+  position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;
+  justify-content:center;gap:clamp(14px,2vw,25px);width:min(78%,930px);height:100%;
+  padding:clamp(38px,5vw,76px);color:#fff;
+}
+body:not(.admin-body) .sv-hero-content .sv-location{color:#DFEDCB;font-size:clamp(11px,.85vw,13px);line-height:1.35;letter-spacing:.14em}
+body:not(.admin-body) .sv-hero-content h1{
+  font-family:'Inter Display','Inter',Arial,sans-serif;font-weight:850;
+  font-size:clamp(59px,7.1vw,112px);line-height:.91;letter-spacing:-.074em;
+  color:#fff;margin:0;max-width:900px;text-wrap:balance;
+}
+body:not(.admin-body) .sv-hero-content h1 span{display:block}
+body:not(.admin-body) .sv-hero-content h1 em{
+  display:block;font-family:Georgia,serif;font-size:.98em;font-weight:500;
+  letter-spacing:-.075em;line-height:1.04;color:#D9EF9A;
+}
+body:not(.admin-body) .sv-hero-content>p{color:#F0F5E9;font-size:clamp(15px,1.2vw,19px);line-height:1.55;max-width:47ch;margin:0}
+body:not(.admin-body) .sv-hero-content .sv-action-primary{
+  background:#DBF19B;color:#113B30;border:1px solid #DBF19B;
+  border-radius:4px;font-size:15px;min-height:48px;padding:12px 23px;
+}
+body:not(.admin-body) .sv-hero-content .sv-action-primary:hover{background:#fff;color:#113B30;border-color:#fff}
+body:not(.admin-body) .sv-hero-method{font-size:12px;line-height:1.4;color:#E4EFDB;max-width:46ch}
+body:not(.admin-body) .sv-hero-unified .sv-photo-credit{z-index:3;left:clamp(20px,4.5vw,74px);bottom:16px;right:18px;font-size:11px;color:#F6FAF3}
+body:not(.admin-body) .sv-hero-unified .sv-media-fallback{z-index:4}
+body:not(.admin-body) .sv-editorial-dateline{margin-bottom:0}
+/* A escolha da tarefa aparece antes do manifesto, eliminando uma longa rolagem. */
+body:not(.admin-body) .reading-route{margin-top:24px;margin-bottom:0}
+body:not(.admin-body) .sv-editorial-statement{padding-block:clamp(36px,5vw,78px);margin-bottom:30px;gap:clamp(26px,5vw,80px)}
+body:not(.admin-body) .sv-editorial-statement h2{font-size:clamp(56px,6.6vw,103px)}
+body:not(.admin-body) .sv-statement-notes p{font-size:clamp(15px,1.3vw,19px)}
+/* Dados: gráfico com largura total quando só Osasco foi selecionada. */
+body:not(.admin-body) #historico{margin-block:38px 52px!important}
+body:not(.admin-body) #historico .history-heading h2{font-size:clamp(35px,4.15vw,60px);max-width:22ch}
+body:not(.admin-body) #historico .history-insight{padding:clamp(15px,2vw,26px);margin:14px 0 17px}
+body:not(.admin-body) #historico .history-visual-header.city-detail-title{margin-top:22px}
+body:not(.admin-body) #historico .history-city-charts:has(> .city-chart-card:only-child){grid-template-columns:minmax(0,1fr)}
+body:not(.admin-body) #historico .history-city-charts:has(> .city-chart-card:only-child) .city-chart-card{width:100%;max-width:none}
+body:not(.admin-body) #historico .history-city-charts:has(> .city-chart-card:only-child) .city-chart-canvas{height:clamp(245px,27vw,345px)}
+body:not(.admin-body) #historico .history-observations{margin:12px 0 18px}
+body:not(.admin-body) #historico .history-summary-details{margin-bottom:20px}
+/* Instrumentação compacta; rótulos de simulação permanecem visíveis. */
+body:not(.admin-body) .observations-head{padding-block:22px}
+body:not(.admin-body) .field-notes{margin-block:10px 28px}
+body:not(.admin-body) #medicoes .panel-heading h2{font-size:clamp(27px,2.65vw,42px)}
+body:not(.admin-body) #medicoes{gap:18px}
+/* Mapa e evidências são uma seção contínua. Evita coluna lateral vazia ao rolar. */
+body:not(.admin-body) #mapa.territory-atlas{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding-block:46px 64px}
+body:not(.admin-body) #mapa .atlas-map-intro{position:static;max-width:none;display:grid;grid-template-columns:minmax(280px,.9fr) minmax(260px,1.1fr);align-items:end;gap:24px}
+body:not(.admin-body) #mapa .atlas-map-intro h2{max-width:15ch;margin-bottom:0}
+body:not(.admin-body) #mapa .atlas-map-intro p{max-width:58ch;margin:0 0 10px}
+body:not(.admin-body) #mapa .territory-map-content{min-width:0}
+body:not(.admin-body) #impacto{padding-block:clamp(30px,4vw,64px)!important}
+/* Compact mobile composition: all three lines and action above the fold. */
+@media(max-width:850px){
+ body:not(.admin-body) .sv-hero-content{width:100%;max-width:670px;padding:clamp(25px,5vw,50px)}
+ body:not(.admin-body) .sv-hero-content h1{font-size:clamp(50px,9vw,78px)}
+ body:not(.admin-body) .sv-hero-unified::after{background:linear-gradient(90deg,rgba(5,39,31,.93),rgba(5,39,31,.63) 83%),linear-gradient(0deg,#102e285c,transparent 29%)}
+ body:not(.admin-body) #mapa .atlas-map-intro{grid-template-columns:1fr;gap:10px}
+ body:not(.admin-body) #mapa .atlas-map-intro p{margin:0}
+}
+@media(max-width:650px){
+ body:not(.admin-body) .sv-editorial-photo.sv-hero-unified{height:min(705px,calc(100svh - 66px));min-height:540px}
+ body:not(.admin-body) .sv-hero-unified>img.hero-documentary-photo{object-position:63% center}
+ body:not(.admin-body) .sv-hero-content{padding:clamp(20px,5vw,30px);justify-content:center;gap:16px;padding-bottom:75px}
+ body:not(.admin-body) .sv-hero-content h1{font-size:clamp(45px,11.8vw,68px);line-height:.95}
+ body:not(.admin-body) .sv-hero-content>p{font-size:15px;line-height:1.55;max-width:36ch}
+ body:not(.admin-body) .sv-hero-content .sv-action-primary{font-size:13px;padding:12px 14px}
+ body:not(.admin-body) .sv-hero-method{font-size:11px}
+ body:not(.admin-body) .sv-hero-unified .sv-photo-credit{left:20px;right:14px;bottom:12px;font-size:10px}
+ body:not(.admin-body) .sv-editorial-statement{padding-block:37px}
+ body:not(.admin-body) .sv-editorial-statement h2{font-size:clamp(49px,13vw,76px)}
+ body:not(.admin-body) #historico{padding:16px!important;margin-block:30px 45px!important}
+ body:not(.admin-body) #historico .history-heading h2{font-size:clamp(35px,8.6vw,53px)}
+ body:not(.admin-body) #mapa.territory-atlas{padding-block:35px 48px}
+}
+@media(prefers-reduced-motion:reduce){body:not(.admin-body) .sv-hero-content *{transition:none!important;animation:none!important}}
