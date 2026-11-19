@@ -62,6 +62,7 @@ function logout(message = 'Sessão encerrada.') {
   $('audit-text').value='';
   $('admin-status').textContent='Sessão encerrada. Faça login para consultar eventos.';
   $('session-email').textContent='admin';
+  $('source-current').textContent='—';
   status('login-status', message);
 }
 function switchTab(name, loadData = true) {
@@ -289,6 +290,7 @@ async function loadOperations(){
   $('stale-stations').textContent=c.stale_real_stations;
   $('demo-provenance').textContent=`Base demonstrativa separada: ${c.demo_events} eventos e ${c.demo_findings} achados de exemplo. ${c.simulated_stations} de ${c.stations} estações são simuladas.`;
   renderDevices(result.stations);
+  void loadDataSource();
   const pending=recentAlerts.slice(0,5);
   const teaser=pending.map(item=>{
     const node=add('button','soc-feed-button');node.type='button';
@@ -321,6 +323,24 @@ function renderDevices(stations){
     });
     card.append(header,temp,dl);return card;
   }));
+}
+// Fonte do painel público: estações cadastradas (original) ou ESP32 (Wokwi).
+function renderDataSource(data){
+  const label=data.label||data.source;
+  $('source-current').textContent=`No painel: ${label}`;
+  const radio=document.querySelector(`input[name="panel-source"][value="${data.source}"]`);
+  if(radio)radio.checked=true;
+  for(const key of ['estacoes','esp32']){
+    const st=data.stats?.[key];
+    $(`source-stats-${key}`).textContent=st?`${st.readings} leitura(s) · última: ${fmtDate(st.last_reading_at)}`:'—';
+  }
+  const by=data.updated_by?` por ${data.updated_by}`:'';
+  status('source-status',data.updated_at?`Definida em ${fmtDate(data.updated_at)}${by}.`:'Usando a fonte padrão do servidor.');
+}
+async function loadDataSource(){
+  if(!token)return;
+  try{renderDataSource(await request('/api/v1/admin/data-source'));}
+  catch(error){status('source-status',`Não foi possível consultar a fonte: ${error.message}`,true);}
 }
 function eventParams(){
   return new URLSearchParams({category:$('filter-category').value,severity:$('filter-severity').value,
@@ -404,6 +424,19 @@ document.querySelectorAll('[data-go]').forEach(button=>button.addEventListener('
 $('events-prev').addEventListener('click',()=>{eventsOffset=Math.max(0,eventsOffset-pageSize);void loadEvents();});
 $('events-next').addEventListener('click',()=>{if(eventsOffset+pageSize<eventTotal){eventsOffset+=pageSize;void loadEvents();}});
 $('findings-demo').addEventListener('change',loadFindings);
+$('source-save').addEventListener('click',async()=>{
+  const chosen=document.querySelector('input[name="panel-source"]:checked')?.value;
+  if(!chosen){status('source-status','Escolha uma das fontes.',true);return;}
+  const button=$('source-save');button.disabled=true;
+  status('source-status','Salvando a fonte do painel...');
+  try{
+    const data=await request('/api/v1/admin/data-source',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:chosen})});
+    renderDataSource(data);
+    const empty=(data.stats?.[chosen]?.readings||0)===0;
+    status('source-status',`Painel público agora usa: ${data.label}. ${empty?'Atenção: essa fonte ainda não tem leituras; o painel mostrará valores fictícios identificados até chegar a primeira.':'Recarregue o painel para ver a mudança.'}`,empty);
+  }catch(error){status('source-status',`Não foi possível salvar: ${error.message}`,true);}
+  finally{button.disabled=false;}
+});
 ['soc-hours','soc-status','soc-demo'].forEach(id=>$(id).addEventListener('change',loadAlerts));
 $('soc-search').addEventListener('input',displaySocAlerts);
 $('demo-tour').addEventListener('click',()=>{

@@ -90,14 +90,14 @@ def test_styles_load_nothing_from_other_domains():
 def test_every_class_in_the_public_page_has_a_style():
     html = (STATIC / 'index.html').read_text(encoding='utf-8')
     # Classes que só servem de gancho para estados ou para o JavaScript.
-    hooks = {'skip-link', 'menu-toggle'}
+    hooks = {'skip-link', 'menu-toggle', 'documentary-media'}  # documentary-media: gancho do media.js
     missing = sorted(c for c in classes_in(html) - hooks if f'.{c}' not in PUBLIC_CSS)
     assert not missing, f'classes sem estilo no painel público: {missing}'
 
 
 def test_every_class_in_the_admin_page_has_a_style():
     html = (STATIC / 'admin.html').read_text(encoding='utf-8')
-    hooks = {'skip-link', 'admin-page'}
+    hooks = {'skip-link', 'admin-page', 'documentary-media'}
     missing = sorted(c for c in classes_in(html) - hooks if f'.{c}' not in ADMIN_CSS)
     assert not missing, f'classes sem estilo na central: {missing}'
 
@@ -118,9 +118,11 @@ def test_focus_skip_link_and_touch_targets():
     assert BASE.count('min-height: 48px') >= 2 and 'min-height: 44px' in BASE
 
 
-def test_motion_is_disabled_for_users_who_ask_for_it():
-    block = BASE.split('@media (prefers-reduced-motion: reduce)')[1].split('\n')[0]
-    assert 'scroll-behavior: auto' in block and 'animation: none' in block and 'transition: none' in block
+def test_reduced_motion_keeps_fades_but_removes_movement():
+    block = BASE.split('@media (prefers-reduced-motion: reduce) {')[1].split('\n}\n')[0]
+    assert '@keyframes sv-rise { from { opacity: 0; } to { opacity: 1; } }' in block
+    assert '@keyframes sv-zoom { from { opacity: 0; } to { opacity: 1; } }' in block
+    assert '.js-motion .sv-reveal { transform: none;' in block
 
 
 def test_layout_adapts_to_small_screens():

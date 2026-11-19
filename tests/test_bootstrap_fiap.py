@@ -76,7 +76,7 @@ def test_fresh_database_migrations_and_seed_twice(tmp_path):
         assert done.returncode == 0, done.stderr + done.stdout
         assert 'Esquema verificado' in done.stdout
     with create_engine('sqlite:///' + str(path)).connect() as conn:
-        assert conn.execute(text('SELECT version_num FROM alembic_version')).scalar() == '004'
+        assert conn.execute(text('SELECT version_num FROM alembic_version')).scalar() == '005'
         assert conn.execute(text('SELECT COUNT(*) FROM security_events')).scalar() == 6
         assert conn.execute(text('SELECT COUNT(*) FROM audit_findings')).scalar() == 3
         assert conn.execute(text('SELECT COUNT(*) FROM readings')).scalar() == 48

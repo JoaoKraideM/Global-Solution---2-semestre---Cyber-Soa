@@ -121,13 +121,23 @@ def ensure_iot(db) -> None:
         ("centro-demo", "Centro — área exposta (SIMULAÇÃO)", "Hipótese: pouca sombra", config.SENSOR_A_KEY),
         ("verde-demo", "Área arborizada (SIMULAÇÃO)", "Hipótese: vegetação urbana", config.SENSOR_B_KEY),
     ):
-        if db.scalar(select(Station).where(Station.code == code)) is None:
+        station = db.scalar(select(Station).where(Station.code == code))
+        if station is None:
             db.add(Station(code=code, name=name, setting=setting, simulated=True, api_key_hash=hash_device_key(key)))
-    if db.scalar(select(IotDevice).where(IotDevice.device_id == config.ESP32_DEVICE_ID)) is None:
+        elif station.api_key_hash != hash_device_key(key):
+            # A chave mudou no .env: a estação passa a aceitar só a chave nova.
+            station.api_key_hash = hash_device_key(key)
+            print(f"Chave da estação atualizada a partir do .env: {code}")
+    device = db.scalar(select(IotDevice).where(IotDevice.device_id == config.ESP32_DEVICE_ID))
+    if device is None:
         db.add(IotDevice(device_id=config.ESP32_DEVICE_ID,
                          name="ESP32 Wokwi — Calçadão x zona arborizada (SIMULADOR)",
                          token_hash=hash_device_key(config.ESP32_DEVICE_TOKEN)))
         print(f"Dispositivo IoT cadastrado: {config.ESP32_DEVICE_ID}")
+    elif device.token_hash != hash_device_key(config.ESP32_DEVICE_TOKEN):
+        # Token trocado no .env: o ESP32 precisa usar o mesmo valor no sketch.ino.
+        device.token_hash = hash_device_key(config.ESP32_DEVICE_TOKEN)
+        print(f"Token do dispositivo IoT atualizado a partir do .env: {config.ESP32_DEVICE_ID}")
     db.flush()
 
 

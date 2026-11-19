@@ -15,6 +15,10 @@ class AuditIn(BaseModel):
     sink: Literal["log_bruto", "resposta_publica", "servico_externo", "log_redigido", "banco_parametrizado"] = "log_bruto"
 
 
+class DataSourceIn(BaseModel):
+    source: Literal["estacoes", "esp32"]
+
+
 class EventTriageIn(BaseModel):
     status: Literal["new", "investigating", "resolved"]
     note: str = Field(default="", max_length=300)

@@ -17,6 +17,8 @@
 .sv-login-pitch ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 15px; color: #DDEBE6; }
 .sv-login-pitch li { display: flex; gap: 10px; align-items: center; }
 .sv-login-pitch svg { width: 22px; height: 22px; flex: none; }
+.sv-login-credit { font-size: 12px; color: var(--on-green-2); }
+.sv-login-credit a { color: #fff; }
 .sv-login-form { flex: 1 1 440px; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 48px 32px; }
 .sv-login-form form { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 20px; }
 .sv-login-head { display: flex; flex-direction: column; gap: 6px; }
@@ -164,6 +166,21 @@ button.sv-kpi:hover { border-color: var(--green); }
 .ops-flow { flex: 1.3 1 480px; display: flex; flex-direction: column; gap: 10px; }
 .ops-flow svg { width: 100%; height: auto; }
 
+/* Fonte do painel público */
+.ops-source { display: flex; flex-direction: column; gap: 16px; }
+.ops-source .ops-card-head { align-items: flex-start; }
+.ops-source .ops-card-head > div { display: flex; flex-direction: column; gap: 6px; max-width: 760px; }
+.ops-source-options { margin: 0; padding: 0; border: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.ops-source-option { flex-direction: row; align-items: flex-start; gap: 12px; padding: 16px; border: 1px solid #DDD8CC; border-radius: 14px; background: #fff; cursor: pointer; font-weight: 400; }
+.ops-source-option:has(input:checked) { border-color: var(--green); background: var(--page); box-shadow: inset 0 0 0 1px var(--green); }
+.ops-source-option input { margin-top: 2px; }
+.ops-source-option span { display: flex; flex-direction: column; gap: 4px; }
+.ops-source-option strong { font-size: 16px; }
+.ops-source-option small { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+.ops-source-option em { font-style: normal; font-size: 13px; color: var(--ink-3); }
+.ops-source .ops-button-row { align-items: center; }
+.ops-source .ops-button-row a { font-weight: 700; font-size: 14px; }
+
 /* Laboratório */
 .ops-lab-form { flex: 1.2 1 460px; display: flex; flex-direction: column; gap: 16px; }
 .ops-sinks { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -215,3 +232,25 @@ button.sv-kpi:hover { border-color: var(--green); }
   .sv-login-pitch h1 { font-size: 34px; }
   .ops-result-facts { grid-template-columns: 1fr; }
 }
+
+/* Entradas da central: login, troca de área e cartões em cascata */
+.sv-login-art img { animation: sv-zoom 1.8s cubic-bezier(.2,.7,.2,1) both; }
+.sv-login-pitch > *, .sv-login-form form > * { animation: sv-rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.sv-login-pitch > :nth-child(2), .sv-login-form form > :nth-child(2) { animation-delay: .1s; }
+.sv-login-pitch > :nth-child(3), .sv-login-form form > :nth-child(3) { animation-delay: .2s; }
+.sv-login-form form > :nth-child(4) { animation-delay: .3s; }
+.sv-login-form form > :nth-child(n+5) { animation-delay: .4s; }
+.ops-pane:not(.hidden) > * { animation: sv-rise .6s cubic-bezier(.2,.7,.2,1) both; }
+.ops-pane:not(.hidden) > :nth-child(2) { animation-delay: .08s; }
+.ops-pane:not(.hidden) > :nth-child(3) { animation-delay: .16s; }
+.ops-pane:not(.hidden) > :nth-child(n+4) { animation-delay: .24s; }
+.sv-kpis > * { animation: sv-rise .6s cubic-bezier(.2,.7,.2,1) both; }
+.sv-kpis > :nth-child(2) { animation-delay: .08s; } .sv-kpis > :nth-child(3) { animation-delay: .16s; } .sv-kpis > :nth-child(4) { animation-delay: .24s; }
+.ops-devices > *, .soc-alert-list > *, .ops-feed > * { animation: sv-rise .5s cubic-bezier(.2,.7,.2,1) both; }
+.ops-devices > :nth-child(2), .soc-alert-list > :nth-child(2), .ops-feed > :nth-child(2) { animation-delay: .06s; }
+.ops-devices > :nth-child(3), .soc-alert-list > :nth-child(3), .ops-feed > :nth-child(3) { animation-delay: .12s; }
+.ops-devices > :nth-child(n+4), .soc-alert-list > :nth-child(n+4), .ops-feed > :nth-child(n+4) { animation-delay: .18s; }
+.sv-case-dossier > * { animation: sv-fade .45s ease-out both; }
+.ops-result-head, .ops-result-body > * { animation: sv-rise .55s cubic-bezier(.2,.7,.2,1) both; }
+.ops-result-body > :nth-child(2) { animation-delay: .08s; } .ops-result-body > :nth-child(3) { animation-delay: .16s; } .ops-result-body > :nth-child(4) { animation-delay: .24s; }
+.ops-tab { transition: color .2s ease, box-shadow .25s ease; }
