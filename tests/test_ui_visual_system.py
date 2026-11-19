@@ -90,14 +90,14 @@ def test_styles_load_nothing_from_other_domains():
 def test_every_class_in_the_public_page_has_a_style():
     html = (STATIC / 'index.html').read_text(encoding='utf-8')
     # Classes que só servem de gancho para estados ou para o JavaScript.
-    hooks = {'skip-link', 'menu-toggle'}
+    hooks = {'skip-link', 'menu-toggle', 'documentary-media'}  # documentary-media: gancho do media.js
     missing = sorted(c for c in classes_in(html) - hooks if f'.{c}' not in PUBLIC_CSS)
     assert not missing, f'classes sem estilo no painel público: {missing}'
 
 
 def test_every_class_in_the_admin_page_has_a_style():
     html = (STATIC / 'admin.html').read_text(encoding='utf-8')
-    hooks = {'skip-link', 'admin-page'}
+    hooks = {'skip-link', 'admin-page', 'documentary-media'}
     missing = sorted(c for c in classes_in(html) - hooks if f'.{c}' not in ADMIN_CSS)
     assert not missing, f'classes sem estilo na central: {missing}'
 

@@ -17,6 +17,8 @@
 .sv-login-pitch ul { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 15px; color: #DDEBE6; }
 .sv-login-pitch li { display: flex; gap: 10px; align-items: center; }
 .sv-login-pitch svg { width: 22px; height: 22px; flex: none; }
+.sv-login-credit { font-size: 12px; color: var(--on-green-2); }
+.sv-login-credit a { color: #fff; }
 .sv-login-form { flex: 1 1 440px; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 48px 32px; }
 .sv-login-form form { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 20px; }
 .sv-login-head { display: flex; flex-direction: column; gap: 6px; }

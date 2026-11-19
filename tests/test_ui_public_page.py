@@ -6,6 +6,7 @@ com id que o JavaScript preenche e cada imagem e link externo segue as regras de
 """
 import re
 from html.parser import HTMLParser
+from urllib.parse import urlparse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -175,18 +176,51 @@ def test_map_iframe_is_titled_and_does_not_leak_the_referrer():
 
 def test_every_image_has_alt_text_and_reserved_size():
     images = PAGE.find('img')
-    assert len(images) == 4
+    assert len(images) == 6
     for img in images:
         assert img.get('alt'), img
         assert img.get('width') and img.get('height'), img
 
 
-def test_images_come_from_the_original_repository_assets(client):
-    for img in PAGE.find('img'):
-        src = img['src']
-        assert src.startswith('/static/assets/')
-        assert (ROOT / src.lstrip('/')).is_file(), src
-        assert client.get(src).status_code == 200
+DOCUMENTARY = [img for img in PAGE.find('img') if 'documentary-media' in img.get('class', '')]
+
+
+def test_the_five_original_documentary_photos_are_back():
+    hosts = sorted(urlparse(img['src']).hostname for img in DOCUMENTARY)
+    assert hosts == ['agenciamural.org.br', 'upload.wikimedia.org', 'www.aeaosasco.org.br',
+                     'www.oanhanguera.com.br', 'www.visaooeste.com.br']
+
+
+def test_documentary_photos_are_allowed_by_the_csp(client):
+    csp = client.get('/').headers['content-security-policy']
+    img_src = csp.split('img-src')[1].split(';')[0].split()
+    for img in DOCUMENTARY:
+        assert f"https://{urlparse(img['src']).hostname}" in img_src, img['src']
+        assert img.get('referrerpolicy') == 'no-referrer'
+
+
+def test_every_documentary_photo_has_a_credit_link_and_a_fallback_note():
+    for img in DOCUMENTARY:
+        note = img['data-credit-id']
+        assert PAGE.find('p', id=note)[0].get('role') == 'status'
+        assert f'id="{note}" hidden' in HTML
+        figure = HTML.split(img['src'])[1].split('</figure>')[0]
+        caption = figure.split('<figcaption class="sv-credit">')[1]
+        assert 'href="https://' in caption and 'target="_blank"' in caption
+
+
+def test_media_script_shows_the_note_instead_of_a_synthetic_image():
+    media = (STATIC / 'media.js').read_text(encoding='utf-8')
+    assert "querySelectorAll('img.documentary-media')" in media and "addEventListener('error'" in media
+    assert 'note.hidden = false' in media and 'image.hidden = true' in media
+    assert '/static/media.js' in HTML
+
+
+def test_local_images_come_from_the_repository_assets(client):
+    local = [img['src'] for img in PAGE.find('img') if img['src'].startswith('/')]
+    assert local == ['/static/assets/osasco-orientation.svg']
+    for src in local:
+        assert (ROOT / src.lstrip('/')).is_file() and client.get(src).status_code == 200
 
 
 def test_footer_states_that_the_readings_are_simulated():

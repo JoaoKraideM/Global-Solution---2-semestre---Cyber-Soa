@@ -58,18 +58,22 @@
         <p id="data-notice" class="sv-notice" role="status">Carregando leituras…</p>
       </div>
       <figure class="sv-hero-figure">
-        <img src="/static/assets/cidade-conceitual.webp" alt="Ilustração de um quarteirão com árvores no canto inferior e calçada exposta ao sol no alto" width="900" height="900" />
-        <div class="sv-hero-card is-shade">
-          <span>Sob as árvores</span>
-          <strong id="temp-shade">--</strong>
-          <small id="hum-shade">Umidade --</small>
+        <div class="sv-hero-photo">
+          <img class="documentary-media" src="https://www.visaooeste.com.br/wp-content/uploads/2022/03/calcadao-osasco-1.jpg" data-credit-id="hero-photo-note" alt="Fotografia de 2022 do Calçadão de Osasco com a estrutura branca de cobertura, circulação e comércio da Rua Antônio Agú" width="1200" height="800" referrerpolicy="no-referrer" decoding="async" fetchpriority="high" />
+          <p class="sv-media-note" id="hero-photo-note" hidden role="status">Fotografia documental temporariamente indisponível. Consulte a fonte original no crédito.</p>
+          <div class="sv-hero-card is-shade">
+            <span>Sob as árvores</span>
+            <strong id="temp-shade">--</strong>
+            <small id="hum-shade">Umidade --</small>
+          </div>
+          <div class="sv-hero-card is-sun">
+            <span>No Calçadão, ao sol</span>
+            <strong id="temp-sun">--</strong>
+            <small id="hum-sun">Umidade --</small>
+          </div>
+          <span class="sv-hero-stamp" id="hero-updated">Última leitura · --</span>
         </div>
-        <div class="sv-hero-card is-sun">
-          <span>No Calçadão, ao sol</span>
-          <strong id="temp-sun">--</strong>
-          <small id="hum-sun">Umidade --</small>
-        </div>
-        <figcaption id="hero-updated">Última leitura · --</figcaption>
+        <figcaption class="sv-credit">Calçadão de Osasco, fotografia documental de 2022 · Imagem: Visão Oeste · <a href="https://visaooeste.com.br/osasco-recebe-programa-cidadania-itinerante/" target="_blank" rel="noopener noreferrer">Consultar publicação original</a></figcaption>
       </figure>
     </section>
 
@@ -81,12 +85,20 @@
         </div>
         <div class="sv-duo">
           <figure class="sv-duo-item is-shade">
-            <img src="/static/assets/paisagem-conceitual.webp" alt="Gramado e árvores altas sob céu azul" width="1672" height="941" loading="lazy" />
-            <figcaption><span>Com vegetação</span><strong id="prob-shade">--</strong></figcaption>
+            <div class="sv-duo-photo">
+              <img class="documentary-media" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Parque_Ecol%C3%B3gico_Jardim_Piratininga_-_panoramio.jpg/1024px-Parque_Ecol%C3%B3gico_Jardim_Piratininga_-_panoramio.jpg" data-credit-id="park-photo-note" alt="Fotografia documental do Parque Ecológico Jardim Piratininga, Osasco, registrada em 2010" width="1024" height="680" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              <p class="sv-media-note" id="park-photo-note" hidden role="status">Fotografia documental indisponível. Consulte o registro original do Parque Jardim Piratininga.</p>
+              <div class="sv-duo-label"><span>Com vegetação · Parque Jardim Piratininga</span><strong id="prob-shade">--</strong></div>
+            </div>
+            <figcaption class="sv-credit">Fotografia de 2010 · BêS · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Parque_Ecol%C3%B3gico_Jardim_Piratininga_-_panoramio.jpg" target="_blank" rel="noopener noreferrer">Consultar imagem e licença</a></figcaption>
           </figure>
           <figure class="sv-duo-item is-sun">
-            <img src="/static/assets/cidade-ilustrativa.webp" alt="Ilustração de cruzamento com calçada clara exposta ao sol" width="900" height="900" loading="lazy" />
-            <figcaption><span>Piso exposto</span><strong id="prob-sun">--</strong></figcaption>
+            <div class="sv-duo-photo">
+              <img class="documentary-media" src="https://agenciamural.org.br/wp-content/uploads/2021/12/IMG-20211206-WA0045-1024x755.jpg" data-credit-id="after-photo-note" alt="Fotografia de 2021 do Calçadão de Osasco durante a revitalização, sem os coqueiros, com estruturas de cobertura e lojas no entorno" width="1024" height="755" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              <p class="sv-media-note" id="after-photo-note" hidden role="status">Fotografia jornalística indisponível. Consulte a reportagem na fonte.</p>
+              <div class="sv-duo-label"><span>Piso exposto · Calçadão em 2021</span><strong id="prob-sun">--</strong></div>
+            </div>
+            <figcaption class="sv-credit">Durante a intervenção, 2021 · Foto: Agência Mural · <a href="https://agenciamural.org.br/calcadao-de-osasco-perde-coqueiros-e-divide-opiniao-de-moradores/" target="_blank" rel="noopener noreferrer">Ver reportagem</a></figcaption>
           </figure>
         </div>
         <dl class="sv-facts">
@@ -94,6 +106,28 @@
           <div><dt>Diferença a partir da qual o ponto vira ilha de calor</dt><dd>3 °C</dd></div>
           <div><dt>Das últimas leituras acima desse limite</dt><dd id="prob-over">--</dd></div>
         </dl>
+        <div class="sv-archive" aria-labelledby="archive-title">
+          <div class="sv-archive-head">
+            <h3 id="archive-title">O Calçadão antes e o projeto que venceu o concurso</h3>
+            <p>Registros de momentos diferentes, não um experimento térmico controlado. Em 2019, a proposta de Letícia Juliana Pazian e Marina Vasarini Lopes venceu o concurso de revitalização com cobertura, vegetação, mobiliário e drenagem. Os elementos descritos são propostas do concurso, não confirmação de execução integral da obra.</p>
+          </div>
+          <div class="sv-archive-grid">
+            <figure>
+              <div class="sv-archive-photo">
+                <img class="documentary-media" src="https://www.oanhanguera.com.br/arquivos_personalizados/gera_foto/noticias_conteudo_destacado/arquivos_personalizados/uploads/noticias/fotos/caladao_de_Osasco_5da3247be10c4.jpg" data-credit-id="before-photo-note" alt="Fotografia histórica do Calçadão de Osasco antes da reforma, com coqueiros, lojas e pessoas caminhando" width="950" height="950" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                <p class="sv-media-note" id="before-photo-note" hidden role="status">Imagem de arquivo indisponível. Consulte a publicação original.</p>
+              </div>
+              <figcaption class="sv-credit"><strong>Antes: o Calçadão com coqueiros</strong> Foto: O Anhanguera · <a href="https://www.oanhanguera.com.br/noticias/479-calcadao-de-osasco-sera-revitalizado-coberto-e-funcionara-24h" target="_blank" rel="noopener noreferrer">Consultar origem</a></figcaption>
+            </figure>
+            <figure>
+              <div class="sv-archive-photo">
+                <img class="documentary-media" src="https://www.aeaosasco.org.br/wp-content/uploads/2019/10/IMAGEM-03-1024x556.jpg" data-credit-id="competition-photo-note" alt="Perspectiva arquitetônica de 2019 do projeto vencedor do Calçadão de Osasco, com praças arborizadas, assentos, pessoas e uma cobertura metálica branca" width="1024" height="556" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                <p class="sv-media-note" id="competition-photo-note" hidden role="status">Perspectiva do concurso indisponível. Acesse a prancha completa no link do crédito.</p>
+              </div>
+              <figcaption class="sv-credit"><strong>Projeto vencedor, 2019 (imagem de projeto, não foto da obra)</strong> Autoria: Letícia Juliana Pazian e Marina Vasarini Lopes · Reprodução da AEAO · <a href="https://www.aeaosasco.org.br/wp-content/uploads/2019/12/concurso_revitalizacao_osasco.pdf" target="_blank" rel="noopener noreferrer">Examinar as pranchas originais</a></figcaption>
+            </figure>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -379,6 +413,7 @@
 
   <script src="/static/vendor/echarts.min.js?v=5.6.0" defer></script>
   <script src="/static/navigation.js?v=20261118.3" defer></script>
+  <script src="/static/media.js?v=20261118.3" defer></script>
   <script src="/static/dashboard.js?v=20261118.3" defer></script>
 </body>
 </html>
