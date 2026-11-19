@@ -1,13 +1,34 @@
 (() => {
   'use strict';
-  // Rolagem suave nos links internos (#secao), feita em JavaScript para funcionar em
-  // qualquer navegador; o foco vai para a seção, para quem navega pelo teclado.
+  // Rolagem suave nos links internos (#secao), animada aqui mesmo quadro a quadro.
+  // O "smooth" nativo (CSS ou scrollIntoView) é desligado pelo Chrome e pelo Firefox quando o
+  // Windows está com os efeitos de animação desligados; esta animação funciona sempre.
+  let frame = null;
+  const stop = () => { if (frame) cancelAnimationFrame(frame); frame = null; };
+  ['wheel', 'touchstart', 'keydown'].forEach(type => window.addEventListener(type, stop, {passive: true}));
+  const ease = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  function smoothTo(target) {
+    stop();
+    const offset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    const start = window.scrollY;
+    const end = Math.max(0, target.getBoundingClientRect().top + start - offset);
+    const distance = end - start;
+    const duration = Math.min(1200, 450 + Math.abs(distance) * 0.18);
+    let begin = null;
+    const step = now => {
+      if (begin === null) begin = now;
+      const progress = Math.min(1, (now - begin) / duration);
+      window.scrollTo({top: start + distance * ease(progress), behavior: 'instant'});
+      frame = progress < 1 ? requestAnimationFrame(step) : null;
+    };
+    frame = requestAnimationFrame(step);
+  }
   document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', event => {
     const id = decodeURIComponent(link.getAttribute('href').slice(1));
     const target = id && document.getElementById(id);
     if (!target) return;
     event.preventDefault();
-    target.scrollIntoView({behavior: 'smooth', block: 'start'});
+    smoothTo(target);
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
     target.focus({preventScroll: true});
     history.pushState(null, '', '#' + id);

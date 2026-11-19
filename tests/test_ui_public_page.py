@@ -220,7 +220,8 @@ def test_motion_works_without_javascript_and_softens_with_reduced_motion():
 def test_internal_links_scroll_smoothly_and_move_focus():
     nav = (STATIC / 'navigation.js').read_text(encoding='utf-8')
     assert "querySelectorAll('a[href^=\"#\"]')" in nav
-    assert "scrollIntoView({behavior: 'smooth', block: 'start'})" in nav and 'target.focus({preventScroll: true})' in nav
+    assert 'requestAnimationFrame(step)' in nav and "behavior: 'instant'" in nav  # animação própria, não depende do SO
+    assert 'smoothTo(target);' in nav and 'target.focus({preventScroll: true})' in nav
     assert 'html { scroll-behavior: smooth;' in (STATIC / 'sv-base.css').read_text(encoding='utf-8')
 
 
