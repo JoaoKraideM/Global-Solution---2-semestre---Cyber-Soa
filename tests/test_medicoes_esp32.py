@@ -74,3 +74,23 @@ def test_swagger_documenta_contrato_esp32(client):
 def test_health_raiz_para_monitor_da_vm(client):
     r = client.get("/health")
     assert r.status_code == 200 and r.json()["banco"] == "ok"
+
+
+def test_seed_updates_the_esp32_token_and_station_keys_when_the_env_changes(client, monkeypatch):
+    """Trocar ESP32_DEVICE_TOKEN ou SENSOR_*_KEY no .env vale no próximo deploy, sem apagar o banco."""
+    from sqlalchemy import select
+    from app import config
+    from app.auth import authenticate_device
+    from app.database import get_db
+    from app.main import app
+    from app.models import IotDevice, Station
+    from app.seed import ensure_iot
+    monkeypatch.setattr(config, 'ESP32_DEVICE_TOKEN', 'token-novo-do-sketch-0123456789')
+    monkeypatch.setattr(config, 'SENSOR_A_KEY', 'chave-nova-do-sensor-a-0123456789')
+    db = next(app.dependency_overrides[get_db]())
+    ensure_iot(db)
+    db.commit()
+    device = db.scalar(select(IotDevice).where(IotDevice.device_id == config.ESP32_DEVICE_ID))
+    station = db.scalar(select(Station).where(Station.code == 'centro-demo'))
+    assert authenticate_device('token-novo-do-sketch-0123456789', device.token_hash)
+    assert authenticate_device('chave-nova-do-sensor-a-0123456789', station.api_key_hash)
