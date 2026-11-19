@@ -206,13 +206,22 @@ def test_how_to_read_labels_point_away_from_each_other():
     assert 'hi - lo < 14' in draw  # escala mínima de 14 °C
 
 
-def test_motion_respects_reduced_motion_and_works_without_javascript():
+def test_motion_works_without_javascript_and_softens_with_reduced_motion():
     motion = (STATIC / 'motion.js').read_text(encoding='utf-8')
-    assert "matchMedia('(prefers-reduced-motion: reduce)')" in motion and 'if (reduce.matches' in motion
     assert "root.classList.add('js-motion')" in motion  # conteúdo só fica oculto quando o script roda
+    assert "matchMedia('(prefers-reduced-motion: reduce)')" in motion and 'if (reduce.matches) return;' in motion
     css = (STATIC / 'public-bundle.css').read_text(encoding='utf-8')
     assert '.js-motion .sv-reveal {' in css and '.js-motion .sv-reveal.is-visible' in css
+    reduced = css.split('@media (prefers-reduced-motion: reduce) {')[1]
+    assert '@keyframes sv-rise { from { opacity: 0; } to { opacity: 1; } }' in reduced  # só fade, sem deslocamento
     assert '/static/motion.js' in HTML
+
+
+def test_internal_links_scroll_smoothly_and_move_focus():
+    nav = (STATIC / 'navigation.js').read_text(encoding='utf-8')
+    assert "querySelectorAll('a[href^=\"#\"]')" in nav
+    assert "scrollIntoView({behavior: 'smooth', block: 'start'})" in nav and 'target.focus({preventScroll: true})' in nav
+    assert 'html { scroll-behavior: smooth;' in (STATIC / 'sv-base.css').read_text(encoding='utf-8')
 
 
 def test_documentary_photos_are_allowed_by_the_csp(client):

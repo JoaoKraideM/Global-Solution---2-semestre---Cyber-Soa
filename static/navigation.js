@@ -1,5 +1,17 @@
 (() => {
   'use strict';
+  // Rolagem suave nos links internos (#secao), feita em JavaScript para funcionar em
+  // qualquer navegador; o foco vai para a seção, para quem navega pelo teclado.
+  document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', event => {
+    const id = decodeURIComponent(link.getAttribute('href').slice(1));
+    const target = id && document.getElementById(id);
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({behavior: 'smooth', block: 'start'});
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({preventScroll: true});
+    history.pushState(null, '', '#' + id);
+  }));
   const menu = document.getElementById('menu-toggle');
   const nav = document.getElementById('site-navigation');
   if (!menu || !nav) return;

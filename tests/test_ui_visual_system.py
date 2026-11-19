@@ -118,9 +118,11 @@ def test_focus_skip_link_and_touch_targets():
     assert BASE.count('min-height: 48px') >= 2 and 'min-height: 44px' in BASE
 
 
-def test_motion_is_disabled_for_users_who_ask_for_it():
-    block = BASE.split('@media (prefers-reduced-motion: reduce)')[1].split('\n')[0]
-    assert 'scroll-behavior: auto' in block and 'animation: none' in block and 'transition: none' in block
+def test_reduced_motion_keeps_fades_but_removes_movement():
+    block = BASE.split('@media (prefers-reduced-motion: reduce) {')[1].split('\n}\n')[0]
+    assert '@keyframes sv-rise { from { opacity: 0; } to { opacity: 1; } }' in block
+    assert '@keyframes sv-zoom { from { opacity: 0; } to { opacity: 1; } }' in block
+    assert '.js-motion .sv-reveal { transform: none;' in block
 
 
 def test_layout_adapts_to_small_screens():

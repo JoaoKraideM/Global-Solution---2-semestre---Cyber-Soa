@@ -28,13 +28,12 @@
   --on-green-2: #9FBDB4;
   --t1: #2D2A6E; --t2: #8E2C8E; --t3: #E0533A; --t4: #F59E2B; --t5: #F9D857;
   --text: "Public Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --wrap: 1200px;
-  --gutter: 40px;
+  --wrap: 1440px;
+  --gutter: clamp(20px, 3vw, 44px);
   color-scheme: light;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 24px; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
 body { margin: 0; background: var(--page); color: var(--ink); font: 400 16px/1.5 var(--text); -webkit-font-smoothing: antialiased; }
 h1, h2, h3, h4 { margin: 0; font-weight: 800; line-height: 1.1; }
 p, figure, dl, dd, ol, ul { margin: 0; }
@@ -172,14 +171,21 @@ a.sv-kpi:hover { border-color: var(--green); color: var(--ink); }
 @keyframes sv-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes sv-zoom { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
 @keyframes sv-pop { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
-@media (prefers-reduced-motion: no-preference) {
-  .js-motion .sv-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms), transform .7s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms); }
-  .js-motion .sv-reveal.is-visible { opacity: 1; transform: none; }
-  .sv-pulse { display: inline-block; animation: sv-pop .5s ease-out; }
-  .sv-kpi, .sv-card, .ops-sees { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-  a.sv-kpi:hover, button.sv-kpi:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(15,61,58,.10); }
-  .sv-button, .primary-btn, .outline-btn { transition: background-color .2s ease, color .2s ease, transform .2s ease; }
-  .sv-button:active, .primary-btn:active, .outline-btn:active { transform: translateY(1px); }
+.js-motion .sv-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms), transform .7s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms); }
+.js-motion .sv-reveal.is-visible { opacity: 1; transform: none; }
+.sv-pulse { display: inline-block; animation: sv-pop .5s ease-out; }
+.sv-kpi, .sv-card, .ops-sees { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+a.sv-kpi:hover, button.sv-kpi:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(15,61,58,.10); }
+.sv-button, .primary-btn, .outline-btn { transition: background-color .2s ease, color .2s ease, transform .2s ease; }
+.sv-button:active, .primary-btn:active, .outline-btn:active { transform: translateY(1px); }
+/* "Reduzir movimento" ligado no sistema (comum no Windows com "Efeitos de animação" desligado):
+   os conteúdos continuam surgindo, mas só com fade, sem deslocamento, zoom ou pulso. */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes sv-rise { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes sv-zoom { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes sv-pop { from { opacity: 1; } to { opacity: 1; } }
+  .js-motion .sv-reveal { transform: none; transition-property: opacity; transition-duration: .5s; }
+  a.sv-kpi:hover, button.sv-kpi:hover, .sv-button:active, .primary-btn:active, .outline-btn:active { transform: none; }
 }
 
 @media (max-width: 960px) {

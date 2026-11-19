@@ -219,25 +219,23 @@ button.sv-kpi:hover { border-color: var(--green); }
 }
 
 /* Entradas da central: login, troca de área e cartões em cascata */
-@media (prefers-reduced-motion: no-preference) {
-  .sv-login-art img { animation: sv-zoom 1.8s cubic-bezier(.2,.7,.2,1) both; }
-  .sv-login-pitch > *, .sv-login-form form > * { animation: sv-rise .7s cubic-bezier(.2,.7,.2,1) both; }
-  .sv-login-pitch > :nth-child(2), .sv-login-form form > :nth-child(2) { animation-delay: .1s; }
-  .sv-login-pitch > :nth-child(3), .sv-login-form form > :nth-child(3) { animation-delay: .2s; }
-  .sv-login-form form > :nth-child(4) { animation-delay: .3s; }
-  .sv-login-form form > :nth-child(n+5) { animation-delay: .4s; }
-  .ops-pane:not(.hidden) > * { animation: sv-rise .6s cubic-bezier(.2,.7,.2,1) both; }
-  .ops-pane:not(.hidden) > :nth-child(2) { animation-delay: .08s; }
-  .ops-pane:not(.hidden) > :nth-child(3) { animation-delay: .16s; }
-  .ops-pane:not(.hidden) > :nth-child(n+4) { animation-delay: .24s; }
-  .sv-kpis > * { animation: sv-rise .6s cubic-bezier(.2,.7,.2,1) both; }
-  .sv-kpis > :nth-child(2) { animation-delay: .08s; } .sv-kpis > :nth-child(3) { animation-delay: .16s; } .sv-kpis > :nth-child(4) { animation-delay: .24s; }
-  .ops-devices > *, .soc-alert-list > *, .ops-feed > * { animation: sv-rise .5s cubic-bezier(.2,.7,.2,1) both; }
-  .ops-devices > :nth-child(2), .soc-alert-list > :nth-child(2), .ops-feed > :nth-child(2) { animation-delay: .06s; }
-  .ops-devices > :nth-child(3), .soc-alert-list > :nth-child(3), .ops-feed > :nth-child(3) { animation-delay: .12s; }
-  .ops-devices > :nth-child(n+4), .soc-alert-list > :nth-child(n+4), .ops-feed > :nth-child(n+4) { animation-delay: .18s; }
-  .sv-case-dossier > * { animation: sv-fade .45s ease-out both; }
-  .ops-result-head, .ops-result-body > * { animation: sv-rise .55s cubic-bezier(.2,.7,.2,1) both; }
-  .ops-result-body > :nth-child(2) { animation-delay: .08s; } .ops-result-body > :nth-child(3) { animation-delay: .16s; } .ops-result-body > :nth-child(4) { animation-delay: .24s; }
-  .ops-tab { transition: color .2s ease, box-shadow .25s ease; }
-}
+.sv-login-art img { animation: sv-zoom 1.8s cubic-bezier(.2,.7,.2,1) both; }
+.sv-login-pitch > *, .sv-login-form form > * { animation: sv-rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.sv-login-pitch > :nth-child(2), .sv-login-form form > :nth-child(2) { animation-delay: .1s; }
+.sv-login-pitch > :nth-child(3), .sv-login-form form > :nth-child(3) { animation-delay: .2s; }
+.sv-login-form form > :nth-child(4) { animation-delay: .3s; }
+.sv-login-form form > :nth-child(n+5) { animation-delay: .4s; }
+.ops-pane:not(.hidden) > * { animation: sv-rise .6s cubic-bezier(.2,.7,.2,1) both; }
+.ops-pane:not(.hidden) > :nth-child(2) { animation-delay: .08s; }
+.ops-pane:not(.hidden) > :nth-child(3) { animation-delay: .16s; }
+.ops-pane:not(.hidden) > :nth-child(n+4) { animation-delay: .24s; }
+.sv-kpis > * { animation: sv-rise .6s cubic-bezier(.2,.7,.2,1) both; }
+.sv-kpis > :nth-child(2) { animation-delay: .08s; } .sv-kpis > :nth-child(3) { animation-delay: .16s; } .sv-kpis > :nth-child(4) { animation-delay: .24s; }
+.ops-devices > *, .soc-alert-list > *, .ops-feed > * { animation: sv-rise .5s cubic-bezier(.2,.7,.2,1) both; }
+.ops-devices > :nth-child(2), .soc-alert-list > :nth-child(2), .ops-feed > :nth-child(2) { animation-delay: .06s; }
+.ops-devices > :nth-child(3), .soc-alert-list > :nth-child(3), .ops-feed > :nth-child(3) { animation-delay: .12s; }
+.ops-devices > :nth-child(n+4), .soc-alert-list > :nth-child(n+4), .ops-feed > :nth-child(n+4) { animation-delay: .18s; }
+.sv-case-dossier > * { animation: sv-fade .45s ease-out both; }
+.ops-result-head, .ops-result-body > * { animation: sv-rise .55s cubic-bezier(.2,.7,.2,1) both; }
+.ops-result-body > :nth-child(2) { animation-delay: .08s; } .ops-result-body > :nth-child(3) { animation-delay: .16s; } .ops-result-body > :nth-child(4) { animation-delay: .24s; }
+.ops-tab { transition: color .2s ease, box-shadow .25s ease; }
