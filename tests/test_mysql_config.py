@@ -18,7 +18,7 @@ def test_mysql_url_escapes_special_characters(monkeypatch):
 
 
 def test_mysql_schema_can_compile():
-    assert set(Base.metadata.tables) == {"users", "stations", "readings", "security_events", "audit_findings", "security_triage_actions", "iot_devices"}
+    assert set(Base.metadata.tables) == {"users", "stations", "readings", "security_events", "audit_findings", "security_triage_actions", "iot_devices", "app_settings"}
     for table in Base.metadata.sorted_tables:
         ddl = str(CreateTable(table).compile(dialect=mysql.dialect()))
         assert "CREATE TABLE" in ddl

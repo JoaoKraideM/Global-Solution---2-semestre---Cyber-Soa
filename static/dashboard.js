@@ -46,14 +46,18 @@ const riskOf = hi => hi === null ? null : hi >= 41 ? 'perigo' : hi >= 32 ? 'aler
 
 /* ---------- Sombra x sol ---------- */
 let stationSeries = {shade: [], sun: []};
+// Fonte escolhida na central: 'estacoes' (original) ou 'esp32' (Wokwi).
+let panelSource = {source: 'estacoes', label: 'Estações cadastradas'};
 async function loadCompare() {
   let shade, sun, total = null, demo = false, reason = '';
+  try { panelSource = await get('/api/v1/data-source'); } catch { panelSource = {source: 'estacoes', label: 'Estações cadastradas'}; }
+  $('live-source').textContent = `Fonte: ${panelSource.label}`;
   try {
     const sum = await get('/api/v1/summary');
     const byCode = Object.fromEntries((sum.stations || []).map(s => [s.code, s]));
     if (!byCode['verde-demo'] || !byCode['centro-demo']) throw new Error('estações da sombra e do sol não cadastradas');
-    [shade, sun] = await Promise.all(['verde-demo', 'centro-demo'].map(c => get(`/api/v1/stations/${c}/readings?limit=24`)));
-    if (!shade.length && !sun.length) throw new Error('sem leituras no banco');
+    [shade, sun] = await Promise.all(['verde-demo', 'centro-demo'].map(c => get(`/api/v1/stations/${c}/readings?limit=24&source=${panelSource.source}`)));
+    if (!shade.length && !sun.length) throw new Error(panelSource.source === 'esp32' ? 'o ESP32 foi escolhido na central, mas ainda não enviou medições' : 'sem leituras no banco');
     total = sum.readings_total;
   } catch (err) {
     reason = err.message; demo = true;
@@ -90,7 +94,8 @@ async function loadCompare() {
   const simulated = [ls, lu].some(r => r?.simulated !== false);
   setNotice('data-notice', demo
     ? `Sem dados no banco (${reason}). Valores fictícios gerados em memória, apenas para visualização.`
-    : simulated ? 'Leituras de estações simuladas e do ESP32 no Wokwi: são medições de teste, não de sensores instalados no Calçadão.' : 'Leituras das estações cadastradas.', demo ? 'demo' : '');
+    : panelSource.source === 'esp32' ? 'Fonte: ESP32 no Wokwi (escolhida na central). São medições de teste, não de sensores instalados no Calçadão.'
+    : simulated ? 'Fonte: estações cadastradas (fonte original, simuladas). São medições de teste, não de sensores instalados no Calçadão.' : 'Fonte: estações cadastradas.', demo ? 'demo' : '');
   const labels = (sun.length >= shade.length ? sun : shade).map(r => hhmm(r.measured_at));
   const c = chart('chart-compare'); if (!c) return;
   const area = (color) => ({color: new window.echarts.graphic.LinearGradient(0, 0, 0, 1, [{offset: 0, color: color + '66'}, {offset: 1, color: color + '00'}])});
@@ -161,7 +166,9 @@ async function loadEsp() {
     }));
   }
   // Índice de calor do Calçadão: ESP32 quando houver; senão, calculado da estação do sol.
-  const lastSun = rows.find(r => r.zona === 'sem_vegetacao');
+  // Gauge e ilha de calor seguem a fonte escolhida na central; a tabela sempre lista o ESP32.
+  const useEsp = panelSource.source === 'esp32' && rows.length > 0;
+  const lastSun = useEsp ? rows.find(r => r.zona === 'sem_vegetacao') : null;
   const sunStation = stationSeries.sun.at(-1);
   const hi = lastSun ? num(lastSun.indice_calor) : heatIndex(sunStation?.temperature_c, sunStation?.humidity_pct);
   const risk = lastSun?.nivel_risco || riskOf(hi);
@@ -171,7 +178,7 @@ async function loadEsp() {
   drawGauge(hi);
   // Ilha de calor: pares (sombra, sol) das leituras do ESP32 ou das estações.
   let pairs = [];
-  if (rows.length) {
+  if (useEsp) {
     const ordered = [...rows].reverse(); let lastShade = null;
     for (const r of ordered) {
       if (r.zona === 'arborizada') lastShade = r;

@@ -198,6 +198,9 @@ O script de demonstração não envia ataques e não executa chamadas pagas à O
 | `GET` | `/medicoes?zona=&limit=` | Últimas medições do ESP32 |
 | `GET` | `/medicoes/resumo` | Ilha de calor: Calçadão × zona arborizada, delta e risco atual |
 | `GET` | `/stations` | Estações e últimas leituras |
+| `GET` | `/stations/{code}/readings?source=` | Leituras de uma estação; `source` = `all`, `estacoes` (fonte original) ou `esp32` |
+| `GET` | `/data-source` | Fonte que o painel público está exibindo (escolhida na central) |
+| `GET`/`PUT` | `/admin/data-source` | **Admin:** consultar e trocar a fonte do painel (`estacoes` ou `esp32`), com totais de leituras de cada uma |
 | `GET` | `/stations/{code}/readings` | Leituras de uma estação |
 | `POST` | `/stations/{code}/readings` | Receber leitura autenticada com `X-Device-Key` |
 | `GET` | `/summary` | Resumo climático das estações |
@@ -240,7 +243,7 @@ O circuito do repositório [sombraviva-iot](https://github.com/doug-melo/sombrav
 
 - Cada zona alimenta uma estação do portal (`sem_vegetacao` → `centro-demo`, `arborizada` → `verde-demo`), então o ESP32 aparece nos gráficos sem mudanças no frontend.
 - Token inválido → `401` e evento `iot_auth` no `/admin` (o token nunca é gravado); `device_id` diferente do token → `403`.
-- O dispositivo é cadastrado pelo seed com `ESP32_DEVICE_ID` e `ESP32_DEVICE_TOKEN` (`.env`). A migração **004** cria a tabela `iot_devices` e os campos de risco térmico em `readings`.
+- O dispositivo é cadastrado pelo seed com `ESP32_DEVICE_ID` e `ESP32_DEVICE_TOKEN` (`.env`). A migração **004** cria a tabela `iot_devices` e os campos de risco térmico em `readings`. A migração **005** cria `app_settings`, onde fica a fonte escolhida para o painel público.
 - `GET /health` responde 200 com o MySQL no ar e 503 sem ele. É usado pelo monitoramento e pelo teste de falha da VM do repositório [sombraviva-so](https://github.com/doug-melo/sombraviva-so), que clona esta API, roda `python -m app.bootstrap` e a publica com systemd + Nginx.
 
 ## Demonstração de Cybersecurity

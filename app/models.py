@@ -93,3 +93,12 @@ class SecurityTriageAction(Base):
     next_status: Mapped[str] = mapped_column(String(20))
     note: Mapped[str] = mapped_column(String(300), default="")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class AppSetting(Base):
+    """Configurações editáveis pela central (ex.: fonte de dados do painel público)."""
+    __tablename__ = "app_settings"
+    key: Mapped[str] = mapped_column(String(60), primary_key=True)
+    value: Mapped[str] = mapped_column(String(255))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_by: Mapped[str | None] = mapped_column(String(255), nullable=True)

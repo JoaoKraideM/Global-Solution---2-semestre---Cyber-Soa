@@ -15,7 +15,8 @@ from app.database import get_db
 from app import config
 from app.models import User, Station, Reading, SecurityEvent, AuditFinding, SecurityTriageAction
 from app.auth import authenticate_device, create_token, require_admin, verify_password
-from app.schemas import LoginIn, SensorReadingIn, AuditIn, EventTriageIn
+from app.schemas import LoginIn, SensorReadingIn, AuditIn, EventTriageIn, DataSourceIn
+from app import data_source
 from app.taint import audit_flow
 from app.pii import classify
 from app.llm import explain_findings
@@ -114,11 +115,18 @@ def get_stations(db: Session = Depends(get_db)):
     return [station_output(db, station) for station in stations]
 
 @app.get("/api/v1/stations/{code}/readings", tags=["clima"])
-def get_readings(code: str, limit: int = Query(24, ge=1, le=200), db: Session = Depends(get_db)):
+def get_readings(code: str, limit: int = Query(24, ge=1, le=200),
+                 source: str = Query("all", pattern="^(all|estacoes|esp32)$",
+                                     description="all, estacoes (fonte original) ou esp32 (Wokwi)"),
+                 db: Session = Depends(get_db)):
     station = db.scalar(select(Station).where(Station.code == code))
     if station is None:
         raise HTTPException(404, "Sensor não encontrado")
-    rows = db.scalars(select(Reading).where(Reading.station_id == station.id).order_by(Reading.measured_at.desc(), Reading.id.desc()).limit(limit)).all()
+    stmt = select(Reading).where(Reading.station_id == station.id)
+    cond = data_source.reading_filter(source)
+    if cond is not None:
+        stmt = stmt.where(cond)
+    rows = db.scalars(stmt.order_by(Reading.measured_at.desc(), Reading.id.desc()).limit(limit)).all()
     return [{"temperature_c": r.temperature_c, "humidity_pct": r.humidity_pct,
              "measured_at": iso_utc(r.measured_at), "simulated": r.is_simulated} for r in reversed(rows)]
 
@@ -351,6 +359,22 @@ def admin_operations(_: User = Depends(require_admin), db: Session = Depends(get
                       "stations":len(stations),"simulated_stations":sum(s["simulated"] for s in stations)},
             "stations":stations,
             "methodology":"Alertas: eventos reais não resolvidos de gravidade média/alta com resultado failed/blocked. Falhas e rejeições: últimas 24 horas. Estação real sem leitura recente: mais de 15 minutos; simulações não são avaliadas como equipamento físico."}
+
+@app.get("/api/v1/data-source", tags=["clima"])
+def public_data_source(db: Session = Depends(get_db)):
+    """Fonte escolhida na central para as leituras sombra x sol do painel público."""
+    return data_source.current(db)
+
+@app.get("/api/v1/admin/data-source", tags=["cybersecurity"])
+def admin_data_source(_: User = Depends(require_admin), db: Session = Depends(get_db)):
+    """Fonte atual e quantas leituras cada fonte tem, para decidir qual exibir."""
+    return {**data_source.current(db), "stats": data_source.stats(db)}
+
+@app.put("/api/v1/admin/data-source", tags=["cybersecurity"])
+def update_data_source(payload: DataSourceIn, user: User = Depends(require_admin), db: Session = Depends(get_db)):
+    """Troca a fonte do painel público. As duas fontes continuam sendo gravadas."""
+    result = data_source.save(db, payload.source, user.email)
+    return {**result, "stats": data_source.stats(db)}
 
 @app.get("/api/v1/admin/events", tags=["cybersecurity"])
 def admin_events(_: User = Depends(require_admin), db: Session = Depends(get_db),

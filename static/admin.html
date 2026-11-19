@@ -215,6 +215,31 @@
             <h1 id="devices-title">Estações e credenciais IoT</h1>
             <p>Última leitura, origem de cada estação e o que a API observa dela. Estações simuladas não provam equipamento físico ligado; só as reais geram alerta quando ficam sem sinal.</p>
           </div>
+          <section class="sv-card ops-source" aria-labelledby="source-title">
+            <div class="ops-card-head">
+              <div>
+                <h2 id="source-title">Fonte dos dados do painel público</h2>
+                <p class="ops-helper">Escolha de onde vêm as leituras de sombra e sol mostradas no site. As duas fontes continuam sendo gravadas; a troca só muda o que o painel exibe.</p>
+              </div>
+              <span id="source-current" class="sv-tag is-ok">Carregando…</span>
+            </div>
+            <fieldset class="ops-source-options">
+              <legend class="sv-visually-hidden">Fonte do painel público</legend>
+              <label class="ops-source-option" for="source-estacoes">
+                <input type="radio" name="panel-source" id="source-estacoes" value="estacoes" />
+                <span><strong>Estações cadastradas</strong><small>Fonte original do projeto: estações da zona arborizada e do Calçadão (simulador e seed).</small><em id="source-stats-estacoes">—</em></span>
+              </label>
+              <label class="ops-source-option" for="source-esp32">
+                <input type="radio" name="panel-source" id="source-esp32" value="esp32" />
+                <span><strong>ESP32 (Wokwi)</strong><small>Circuito com DHT22 na sombra e no sol, enviado para POST /api/v1/medicoes.</small><em id="source-stats-esp32">—</em></span>
+              </label>
+            </fieldset>
+            <div class="ops-button-row">
+              <button type="button" id="source-save" class="primary-btn">Usar esta fonte no painel</button>
+              <a href="/#esp32" target="_blank" rel="noopener">Ver o painel público</a>
+            </div>
+            <p id="source-status" class="form-status" role="status" aria-live="polite"></p>
+          </section>
           <div id="device-list" class="ops-devices"><p>Carregando estações…</p></div>
           <div class="ops-row">
             <figure class="sv-card ops-flow">
