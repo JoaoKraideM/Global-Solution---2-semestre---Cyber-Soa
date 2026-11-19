@@ -237,6 +237,7 @@ body.admin-authenticated .sv-login { display: none; }
 .ops-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch; }
 .ops-row.is-stretch { align-items: stretch; }
 .ops-chart { display: flex; flex-direction: column; gap: 8px; flex: 1 1 280px; }
+.ops-chart.is-narrow { flex: 1 1 280px; }
 .ops-chart.is-wide { flex: 1.6 1 420px; }
 .sv-chart-gauge { height: 240px; }
 button.sv-kpi { font: inherit; text-align: left; cursor: pointer; }
