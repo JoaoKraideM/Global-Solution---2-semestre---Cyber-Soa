@@ -10,6 +10,7 @@ podem exigir autorização de reprodução antes de publicação.
 from __future__ import annotations
 
 from pathlib import Path
+from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,9 +28,13 @@ PARK_LOCAL = "/static/assets/parque-piratininga-2010.jpg"
 def main() -> int:
     target = ASSETS / "parque-piratininga-2010.jpg"
     if not target.is_file():
+        # Só HTTPS: impede que uma URL trocada por engano leia arquivos locais (file://).
+        if urlparse(PARK_REMOTE).scheme != "https":
+            raise ValueError("A fotografia só pode ser baixada por HTTPS")
         request = Request(PARK_REMOTE, headers={"User-Agent": "SombraViva/1.0 (academic study)"})
         try:
-            with urlopen(request, timeout=25) as response:
+            # URL fixa e esquema https conferido acima (Bandit B310 revisado).
+            with urlopen(request, timeout=25) as response:  # nosec B310
                 if response.headers.get_content_type() != "image/jpeg":
                     raise ValueError("Resposta não é um JPEG")
                 data = response.read(8 * 1024 * 1024 + 1)
