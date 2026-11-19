@@ -185,10 +185,34 @@ def test_every_image_has_alt_text_and_reserved_size():
 DOCUMENTARY = [img for img in PAGE.find('img') if 'documentary-media' in img.get('class', '')]
 
 
-def test_the_five_original_documentary_photos_are_back():
+def test_the_five_documentary_photos_are_back():
     hosts = sorted(urlparse(img['src']).hostname for img in DOCUMENTARY)
-    assert hosts == ['agenciamural.org.br', 'upload.wikimedia.org', 'www.aeaosasco.org.br',
+    assert hosts == ['jornalcomarcapaulista.com.br', 'upload.wikimedia.org', 'www.aeaosasco.org.br',
                      'www.oanhanguera.com.br', 'www.visaooeste.com.br']
+
+
+def test_wikimedia_thumbnail_uses_a_standard_width():
+    # Desde 2026 a Wikimedia recusa miniaturas fora dos tamanhos padrão quando chamadas por outro site.
+    standard = {20, 40, 60, 120, 250, 330, 500, 960, 1280, 1920, 3840}
+    for img in DOCUMENTARY:
+        match = re.search(r'/(\d+)px-', img['src'])
+        if 'upload.wikimedia.org' in img['src']:
+            assert match and int(match.group(1)) in standard, img['src']
+
+
+def test_how_to_read_labels_point_away_from_each_other():
+    draw = DASH.split('function drawHowto(shade, sun) {')[1].split('\n}\n')[0]
+    assert "'text-anchor': shadeLeft ? 'end' : 'start'" in draw
+    assert 'hi - lo < 14' in draw  # escala mínima de 14 °C
+
+
+def test_motion_respects_reduced_motion_and_works_without_javascript():
+    motion = (STATIC / 'motion.js').read_text(encoding='utf-8')
+    assert "matchMedia('(prefers-reduced-motion: reduce)')" in motion and 'if (reduce.matches' in motion
+    assert "root.classList.add('js-motion')" in motion  # conteúdo só fica oculto quando o script roda
+    css = (STATIC / 'public-bundle.css').read_text(encoding='utf-8')
+    assert '.js-motion .sv-reveal {' in css and '.js-motion .sv-reveal.is-visible' in css
+    assert '/static/motion.js' in HTML
 
 
 def test_documentary_photos_are_allowed_by_the_csp(client):

@@ -111,12 +111,17 @@ async function loadCompare() {
 function drawHowto(shade, sun) {
   const sh = num(shade), su = num(sun);
   if (sh === null || su === null) return;
-  const lo = Math.min(sh, su) - 4, hi = Math.max(sh, su, sh + 3) + 4;
+  // Escala com no mínimo 14 °C de largura: pontos próximos não se encostam.
+  let lo = Math.min(sh, su) - 3, hi = Math.max(sh, su, sh + 3) + 3;
+  if (hi - lo < 14) { const pad = (14 - (hi - lo)) / 2; lo -= pad; hi += pad; }
   const x = v => (40 + (v - lo) / (hi - lo) * 560).toFixed(1);
   const xs = x(sh), xu = x(su), xl = x(sh + 3);
   const set = (id, attrs) => { const el = $(id); if (el) Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v)); };
   set('howto-shade', {cx: xs}); set('howto-sun', {cx: xu});
-  set('howto-shade-label', {x: xs}); set('howto-sun-label', {x: xu});
+  // Rótulos para fora: o da esquerda termina no ponto, o da direita começa nele.
+  const shadeLeft = +xs <= +xu;
+  set('howto-shade-label', {x: shadeLeft ? +xs + 14 : +xs - 14, 'text-anchor': shadeLeft ? 'end' : 'start'});
+  set('howto-sun-label', {x: shadeLeft ? +xu - 14 : +xu + 14, 'text-anchor': shadeLeft ? 'start' : 'end'});
   set('howto-limit', {x1: xl, x2: xl}); set('howto-limit-label', {x: xl});
   set('howto-under', {x: Math.min(xs, xl), width: Math.abs(xl - xs).toFixed(1)});
   const overW = Math.max(0, xu - xl);

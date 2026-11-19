@@ -167,6 +167,21 @@ a.sv-kpi:hover { border-color: var(--green); color: var(--ink); }
 .sv-top:hover { color: var(--green); background: #fff; }
 .sv-top svg { width: 14px; height: 14px; }
 
+/* Animações de entrada: só quando o sistema não pede menos movimento */
+@keyframes sv-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes sv-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sv-zoom { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+@keyframes sv-pop { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion .sv-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms), transform .7s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms); }
+  .js-motion .sv-reveal.is-visible { opacity: 1; transform: none; }
+  .sv-pulse { display: inline-block; animation: sv-pop .5s ease-out; }
+  .sv-kpi, .sv-card, .ops-sees { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  a.sv-kpi:hover, button.sv-kpi:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(15,61,58,.10); }
+  .sv-button, .primary-btn, .outline-btn { transition: background-color .2s ease, color .2s ease, transform .2s ease; }
+  .sv-button:active, .primary-btn:active, .outline-btn:active { transform: translateY(1px); }
+}
+
 @media (max-width: 960px) {
   :root { --gutter: 20px; }
   .menu-toggle { display: block; }

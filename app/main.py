@@ -71,7 +71,7 @@ async def protective_headers(request: Request, call_next):
         # Revalidação por ETag: permite 304, sem manter versões desatualizadas.
         response.headers["Cache-Control"] = "public, max-age=0, must-revalidate"
     if not request.url.path.startswith(("/docs", "/redoc")):
-        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://commons.wikimedia.org https://upload.wikimedia.org https://www.visaooeste.com.br https://www.aeaosasco.org.br https://www.oanhanguera.com.br https://agenciamural.org.br; connect-src 'self'; frame-src https://www.openstreetmap.org; frame-ancestors 'none'"
+        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://commons.wikimedia.org https://upload.wikimedia.org https://www.visaooeste.com.br https://www.aeaosasco.org.br https://www.oanhanguera.com.br https://agenciamural.org.br https://jornalcomarcapaulista.com.br; connect-src 'self'; frame-src https://www.openstreetmap.org; frame-ancestors 'none'"
     if request.url.scheme == "https":
         response.headers["Strict-Transport-Security"] = "max-age=31536000"
     return response
