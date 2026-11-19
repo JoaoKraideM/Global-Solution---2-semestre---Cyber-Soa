@@ -102,7 +102,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Construir contêiner sem publicar imagem
-        run: docker build --pull -t sombraviva:ci .
+        shell: bash
+        run: |
+          # Atualiza o zlib1g antes da varredura, enquanto a imagem base não traz a correção.
+          {
+            sed 's/\r$//' Dockerfile
+            printf '\n%s\n' 'RUN apt-get update && apt-get install -y --no-install-recommends --only-upgrade zlib1g && rm -rf /var/lib/apt/lists/*'
+          } | docker build --pull -t sombraviva:ci -f - .
       - name: Analisar vulnerabilidades HIGH e CRITICAL corrigíveis
         # SHA imutável da action v0.36.0; não usar versões antigas de Trivy comprometidas em março/2026.
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
