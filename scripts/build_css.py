@@ -10,8 +10,8 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 CSS = ROOT / "static"
 BUNDLES = {
-    "public-bundle.css": ["styles.css", "atlas.css", "refinement.css", "identidade-territorial.css", "atlas-claro.css", "editorial-natureza.css", "architectural-direction.css", "forest-sequence.css", "forest-sage-theme.css"],
-    "admin-bundle.css": ["styles.css", "atlas.css", "admin-ops.css", "admin-editorial.css", "refinement.css", "identidade-territorial.css", "atlas-claro.css"],
+    "public-bundle.css": ["sv-base.css", "sv-public.css"],
+    "admin-bundle.css": ["sv-base.css", "sv-admin.css"],
 }
 
 

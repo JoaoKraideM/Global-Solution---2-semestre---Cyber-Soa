@@ -34,6 +34,9 @@ ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@sombraviva.local")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
 SENSOR_A_KEY = os.getenv("SENSOR_A_KEY", "")
 SENSOR_B_KEY = os.getenv("SENSOR_B_KEY", "")
+# Dispositivo ESP32 do Wokwi. Sem token próprio, reutiliza a chave do sensor A.
+ESP32_DEVICE_ID = os.getenv("ESP32_DEVICE_ID", "esp32-osasco-calcadao-01")
+ESP32_DEVICE_TOKEN = os.getenv("ESP32_DEVICE_TOKEN", "") or SENSOR_A_KEY
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
 

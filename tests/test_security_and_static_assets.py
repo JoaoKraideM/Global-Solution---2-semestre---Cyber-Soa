@@ -90,7 +90,7 @@ def test_css_bundles_are_identical_to_ordered_sources(client):
         assert (CSS/name).read_text(encoding='utf-8') == bundle(sources)
         route = '/' if name=='public-bundle.css' else '/admin'
         html=client.get(route).text
-        version = '20261118.1' if name == 'public-bundle.css' else '20261117.3'
+        version = '20261118.3'
         assert f'/static/{name}?v={version}' in html
         assert html.count('<link rel="stylesheet"')==1
         response=client.get('/static/'+name)
@@ -101,11 +101,11 @@ def test_css_bundles_are_identical_to_ordered_sources(client):
 
 def test_interpretation_and_admin_cleanup_are_accessible(client):
     public=client.get('/').text
-    assert 'id="history-demo-banner"' in public
-    assert 'O que estes dados podem mostrar' in public
-    assert 'O que não mostram' in public
-    assert 'Reanálise meteorológica' in public
-    assert 'data-interpretation-note' in client.get('/static/public-bundle.css').text
+    # O painel diferencia dado simulado, reanálise ERA5 e grade hipotética.
+    assert 'id="data-notice"' in public and 'id="history-status"' in public and 'id="heatmap-notice"' in public
+    assert 'reanálise ERA5' in public and 'hipotética' in public
+    js=client.get('/static/dashboard.js').text
+    assert 'série fictícia' in js and 'Valores fictícios' in js
     adminjs=client.get('/static/admin.js').text
     assert "'remediation-result'" in adminjs and "lastSocAlerts = []" in adminjs
     assert client.get('/api/v1/admin/overview').status_code == 401

@@ -58,7 +58,8 @@ def test_bootstrap_does_not_insert_fake_evidence_in_production(tmp_path, monkeyp
     monkeypatch.setenv('SEED_DEMO_DATA', 'true')  # produção prevalece sobre configuração
     seed.main()
     with Session(engine) as session:
-        assert _counts(session) == {'users':1,'stations':0,'readings':0,'security_events':0,
+        # Em produção só existem as 2 estações que recebem o ESP32 — sem leituras nem eventos fictícios.
+        assert _counts(session) == {'users':1,'stations':2,'readings':0,'security_events':0,
                                     'audit_findings':0,'security_triage_actions':0}
     engine.dispose()
 
@@ -75,7 +76,7 @@ def test_fresh_database_migrations_and_seed_twice(tmp_path):
         assert done.returncode == 0, done.stderr + done.stdout
         assert 'Esquema verificado' in done.stdout
     with create_engine('sqlite:///' + str(path)).connect() as conn:
-        assert conn.execute(text('SELECT version_num FROM alembic_version')).scalar() == '003'
+        assert conn.execute(text('SELECT version_num FROM alembic_version')).scalar() == '004'
         assert conn.execute(text('SELECT COUNT(*) FROM security_events')).scalar() == 6
         assert conn.execute(text('SELECT COUNT(*) FROM audit_findings')).scalar() == 3
         assert conn.execute(text('SELECT COUNT(*) FROM readings')).scalar() == 48

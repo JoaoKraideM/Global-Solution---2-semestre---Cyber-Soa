@@ -33,7 +33,28 @@ class Reading(Base):
     humidity_pct: Mapped[float] = mapped_column(Float)
     is_simulated: Mapped[bool] = mapped_column(Boolean, default=True)
     measured_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, index=True)
+    # Campos da telemetria do ESP32 (migração 004). Nulos para leituras antigas/seed.
+    source: Mapped[str] = mapped_column(String(20), default="api", nullable=False)
+    device_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    zone: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    heat_index_c: Mapped[float | None] = mapped_column(Float, nullable=True)
+    luminosity_lux: Mapped[float | None] = mapped_column(Float, nullable=True)
+    risk_level: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    heat_island_delta_c: Mapped[float | None] = mapped_column(Float, nullable=True)
+    official_temp_c: Mapped[float | None] = mapped_column(Float, nullable=True)
     station: Mapped[Station] = relationship(back_populates="readings")
+
+
+class IotDevice(Base):
+    """Dispositivo IoT (ESP32) autorizado a enviar medições com token Bearer próprio."""
+    __tablename__ = "iot_devices"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    device_id: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    name: Mapped[str] = mapped_column(String(150))
+    token_hash: Mapped[str] = mapped_column(String(128))
+    active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    last_seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 class SecurityEvent(Base):
     __tablename__ = "security_events"

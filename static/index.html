@@ -3,308 +3,382 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#122C21" />
+  <meta name="theme-color" content="#0F3D3A" />
   <meta name="color-scheme" content="light" />
-  <meta name="description" content="SombraViva: observatório de calor urbano, arborização e qualidade ambiental. Consulte sensores, histórico meteorológico e comparações entre cidades." />
-  <title>SombraViva | Observatório de Calor Urbano</title>
-  <link rel="stylesheet" href="/static/public-bundle.css?v=20261118.1&amp;layout=forest-sage" />
+  <meta name="description" content="SombraViva: painel de calor urbano de Osasco. Compare sombra e sol, acompanhe o ESP32 e consulte o histórico climático ERA5." />
+  <title>SombraViva | Painel de calor urbano de Osasco</title>
+  <link rel="stylesheet" href="/static/public-bundle.css?v=20261118.3" />
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <header class="sidebar" aria-label="Navegação principal">
-    <a class="brand" href="#inicio" aria-label="SombraViva — início">
-      <span class="brandmark" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none"><path d="M27 8C15 9 8 16 9 25c11 2 20-6 18-17Z" stroke="currentColor" stroke-width="2"/><path d="M10 28c2-7 8-11 14-15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
-      <span class="brand-name">sombra<span>viva</span><small>CLIMA, TERRITÓRIO & DADOS</small></span>
-    </a>
-    <button class="menu-toggle" type="button" id="menu-toggle" aria-controls="site-navigation" aria-expanded="false" aria-label="Abrir menu de navegação"><span></span><span></span><span></span></button>
-    <nav id="site-navigation" aria-label="Explorar o atlas">
-      <a class="navlink selected" href="#inicio"><span class="nav-ico" aria-hidden="true">01</span><span>Início</span></a>
-      <a class="navlink" href="#projeto-referencia"><span class="nav-ico" aria-hidden="true">02</span><span>Projeto</span></a>
-      <a class="navlink" href="#medicoes"><span class="nav-ico" aria-hidden="true">03</span><span>Sensores</span></a>
-      <a class="navlink" href="#historico"><span class="nav-ico" aria-hidden="true">04</span><span>Clima</span></a>
-      <a class="navlink" href="#impacto"><span class="nav-ico" aria-hidden="true">05</span><span>Território</span></a>
-      <a class="navlink" href="#fontes"><span class="nav-ico" aria-hidden="true">06</span><span>Fontes</span></a>
-    </nav>
-    <a class="header-api" href="/admin">Área administrativa <span aria-hidden="true">↗</span></a>
-  </header>
-  <div class="layout">
-    <div class="topbar" aria-label="Identificação do atlas"><span class="topbar-breadcrumb">CADERNO URBANO <span class="breadcrumb-chevron">/</span> OSASCO · SÃO PAULO</span><span class="topbar-actions"><span class="online-mark"><span aria-hidden="true"></span> PROTÓTIPO EM TESTE</span><span class="tag">OSASCO · CONTEXTO LOCAL</span></span></div>
-    <main id="conteudo">
-<section id="inicio" class="sv-editorial-hero arch-home" aria-labelledby="hero-title">
-  <div class="arch-intro-grid">
-    <div class="arch-intro-index"><span>OBSERVATÓRIO URBANO / 2026</span><span class="arch-index-stroke" aria-hidden="true"></span></div>
-    <div class="sv-hero-content arch-hero-copy">
-      <span class="sv-location">SOMBRA, VEGETAÇÃO & CONFORTO TÉRMICO</span>
-      <h1 id="hero-title">a cidade <span>precisa de</span> <em>sombra.</em></h1>
-      <div class="arch-intro-bottom">
-        <p>Investigar o calor urbano é observar o que acontece entre as árvores, o concreto e as pessoas. Uma leitura do território a partir de Osasco.</p>
-        <div class="arch-intro-links"><a class="sv-action-primary" href="#historico">Explorar os dados <span aria-hidden="true">↗</span></a><a class="arch-secondary-link" href="#projeto-referencia">Conhecer o estudo <span aria-hidden="true">↘</span></a></div>
+  <header>
+    <div class="sv-strip">
+      <div class="sv-wrap sv-strip-in">
+        <p aria-live="polite">
+          <span class="sv-live">Ao vivo no Calçadão</span>
+          <span>Sombra <strong id="live-shade" class="is-shade">--</strong></span>
+          <span>Sol <strong id="live-sun" class="is-sun">--</strong></span>
+          <span>Diferença <strong id="live-delta">--</strong></span>
+        </p>
+        <p>
+          <span id="live-risk" class="sv-pill">Risco: --</span>
+          <span id="live-updated" class="is-muted">Aguardando leitura</span>
+        </p>
       </div>
-      <span class="sv-hero-method">Observação territorial, reanálise meteorológica e cenários IoT não são a mesma fonte.</span>
     </div>
-    <div class="arch-intro-aside" aria-label="Escopo da pesquisa"><span>01 — OSASCO, SÃO PAULO</span><p>O Calçadão da Rua Antônio Agú como ponto de partida para discutir sombra na cidade.</p><span>ESTUDO 01 / 03 &nbsp;·&nbsp; URBANISMO / DADOS / TECNOLOGIA</span></div>
-  </div>
-  <div class="sv-editorial-cover arch-photographic-cover">
-    <figure class="sv-editorial-photo sv-hero-unified">
-      <img class="hero-documentary-photo documentary-media" src="https://www.visaooeste.com.br/wp-content/uploads/2022/03/calcadao-osasco-1.jpg" data-fallback="" data-credit-id="hero-asset-credit" alt="Fotografia de 2022 do Calçadão de Osasco com a estrutura branca de cobertura, circulação e comércio da Rua Antônio Agú" width="1200" height="800" referrerpolicy="no-referrer" decoding="async" fetchpriority="high" />
-      <div class="arch-image-label"><span>01 / O TERRITÓRIO</span><strong>Rua Antônio Agú, Osasco</strong><small>Fotografia documental — não é renderização.</small></div>
-      <figcaption class="sv-photo-credit">CALÇADÃO DE OSASCO · IMAGEM: VISÃO OESTE (2022) · <a href="https://visaooeste.com.br/osasco-recebe-programa-cidadania-itinerante/" target="_blank" rel="noopener noreferrer">Consultar publicação original ↗</a></figcaption>
-      <p class="image-fallback-note sv-media-fallback" id="hero-asset-credit" hidden role="status">Fotografia documental temporariamente indisponível. Consulte a fonte original no crédito.</p>
-    </figure>
-    <div class="sv-editorial-dateline"><span>Fotografias documentais e perspectivas arquitetônicas identificadas separadamente</span><span>Pesquisa acadêmica FIAP · SOA + IoT + Cybersecurity</span></div>
-  </div>
-</section>
+    <div class="sv-bar">
+      <div class="sv-wrap sv-bar-in">
+        <a class="sv-brand" href="#inicio" aria-label="SombraViva, início">
+          <svg aria-hidden="true" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" fill="#0F3D3A"/><path d="M26 10C16 11 10 16 11 24c9 2 16-5 15-14Z" stroke="#9BD48F" stroke-width="2.4"/><path d="M12 27c2-6 7-10 12-13" stroke="#9BD48F" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <span><strong>SombraViva</strong><small>Calor urbano no centro de Osasco</small></span>
+        </a>
+        <button class="menu-toggle" type="button" id="menu-toggle" aria-controls="site-navigation" aria-expanded="false" aria-label="Abrir menu de navegação"><span></span><span></span><span></span></button>
+        <nav id="site-navigation" class="sv-nav" aria-label="Seções do painel">
+          <a href="#problema">O problema</a>
+          <a href="#como">Como funciona</a>
+          <a href="#esp32">Dados agora</a>
+          <a href="#mapa-calor">Mapa</a>
+          <a href="#historico">Histórico</a>
+          <a class="sv-nav-cta" href="/admin"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/></svg>Central de segurança</a>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-      <section class="reading-route" aria-label="Escolha como explorar o SombraViva">
-        <div class="reading-route-heading"><span class="route-kicker">COMO EXPLORAR</span><p>Três maneiras de investigar o calor urbano.</p></div>
-        <a href="#historico" class="route-item"><span class="route-number">01</span><span><strong>Consultar o clima</strong><small>Datas, cidades e temperaturas regionais</small></span><span aria-hidden="true">↗</span></a>
-        <a href="#medicoes" class="route-item"><span class="route-number">02</span><span><strong>Ver os sensores</strong><small>Leituras de teste e estações IoT</small></span><span aria-hidden="true">↗</span></a>
-        <a href="#mapa" class="route-item"><span class="route-number">03</span><span><strong>Explorar o território</strong><small>Calçadão, parque e referências geográficas</small></span><span aria-hidden="true">↗</span></a>
-      </section>
-<section id="projeto-referencia" class="arch-case-study" aria-labelledby="arch-case-title">
-  <div class="arch-case-head arch-section-head">
-    <div><span class="arch-eyebrow">02 / PROJETO DE REFERÊNCIA</span><p class="arch-head-index">CONCURSO NACIONAL · 2019</p></div>
-    <div><h2 id="arch-case-title">O desenho de uma<br><em>cidade mais habitável.</em></h2><p>Em 2019, a proposta de <strong>Letícia Juliana Pazian e Marina Vasarini Lopes</strong> venceu o concurso de revitalização do Calçadão de Osasco. Seu projeto combina cobertura, vegetação, mobilidade, mobiliário urbano e drenagem. É uma referência de urbanismo para o SombraViva — não um levantamento térmico.</p></div>
-  </div>
-  <div class="arch-case-feature">
-    <figure class="arch-image-frame arch-competition-figure">
-      <img class="documentary-media" src="https://www.aeaosasco.org.br/wp-content/uploads/2019/10/IMAGEM-03-1024x556.jpg" data-fallback="" data-credit-id="competition-asset-credit" alt="Perspectiva arquitetônica de 2019 do projeto vencedor do Calçadão de Osasco, com praças arborizadas, assentos, pessoas e uma cobertura metálica branca" loading="lazy" decoding="async" width="1024" height="556" referrerpolicy="no-referrer" />
-      <p class="image-fallback-note" id="competition-asset-credit" hidden role="status">Perspectiva do concurso indisponível. Acesse a prancha completa no link abaixo.</p>
-      <figcaption><span>02.01 — PROPOSTA ORIGINAL / IMAGEM DE PROJETO, NÃO FOTO DA OBRA</span><span>Autoria: Letícia Juliana Pazian e Marina Vasarini Lopes · Reprodução da AEAO</span></figcaption>
-    </figure>
-    <aside class="arch-competition-side"><span class="arch-big-index">01<small>/ 04</small></span><div><span>PRINCÍPIOS DO PROJETO</span><h3>O espaço público como infraestrutura de conforto.</h3><p>As perspectivas vencedoras exploram a relação entre superfícies permeáveis, sombreamento, convivência e circulação. O SombraViva pergunta como avaliar essas escolhas com dados.</p><a href="https://www.aeaosasco.org.br/wp-content/uploads/2019/12/concurso_revitalizacao_osasco.pdf" target="_blank" rel="noopener noreferrer">Examinar as pranchas originais ↗</a></div></aside>
-  </div>
-  <div class="arch-project-pillars" aria-label="Elementos descritos na proposta vencedora">
-    <article><span>01 / COBERTURA</span><h3>Proteção e luz natural</h3><p>Estruturas translúcidas planejadas para equilibrar proteção solar, chuva e circulação.</p></article>
-    <article><span>02 / PAISAGEM</span><h3>Vegetação e permanência</h3><p>Áreas verdes e espaços de descanso integrados à proposta arquitetônica.</p></article>
-    <article><span>03 / SOLO</span><h3>Drenagem e piso</h3><p>Pavimentação drenante e áreas permeáveis para abordar o escoamento da chuva.</p></article>
-    <article><span>04 / TECNOLOGIA</span><h3>Informação no espaço</h3><p>Totens, conectividade e mobiliário urbano compondo uma visão de cidade inteligente.</p></article>
-  </div>
-  <div class="arch-study-note"><p>Referência documental: projeto nº 18, 1º lugar no concurso promovido pela AEAO e ACEO. Os elementos descritos são <strong>propostas do concurso</strong>, não confirmação de execução integral da obra.</p><a href="https://www.aeaosasco.org.br/concurso-revitalizacao/" target="_blank" rel="noopener noreferrer">Ver registro do concurso ↗</a></div>
-</section>
-
-<section class="arch-reality" aria-labelledby="arch-reality-title">
-  <div class="arch-reality-head"><span class="arch-eyebrow">03 / ARQUIVO VISUAL</span><h2 id="arch-reality-title">O lugar antes.<br><em>E depois da intervenção.</em></h2><p>As imagens são registros documentais de momentos diferentes. Não constituem um experimento térmico controlado.</p></div>
-  <div class="arch-reality-grid">
-    <figure class="arch-image-frame arch-reality-before">
-      <img class="documentary-media" src="https://www.oanhanguera.com.br/arquivos_personalizados/gera_foto/noticias_conteudo_destacado/arquivos_personalizados/uploads/noticias/fotos/caladao_de_Osasco_5da3247be10c4.jpg" data-fallback="" data-credit-id="before-asset-credit" alt="Fotografia histórica do Calçadão de Osasco antes da reforma com coqueiros, lojas e pessoas caminhando" width="950" height="950" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-      <p class="image-fallback-note" id="before-asset-credit" hidden role="status">Imagem de arquivo indisponível. Consulte a publicação original.</p>
-      <figcaption><span>ANTES / ARQUIVO DO CALÇADÃO COM COQUEIROS</span><a href="https://www.oanhanguera.com.br/noticias/479-calcadao-de-osasco-sera-revitalizado-coberto-e-funcionara-24h" target="_blank" rel="noopener noreferrer">Foto: O Anhanguera · consultar origem ↗</a></figcaption>
-    </figure>
-    <figure class="arch-image-frame arch-reality-after">
-      <img class="documentary-media" src="https://agenciamural.org.br/wp-content/uploads/2021/12/IMG-20211206-WA0045-1024x755.jpg" data-fallback="" data-credit-id="after-asset-credit" alt="Fotografia de 2021 do Calçadão de Osasco durante a revitalização com estruturas de cobertura e lojas no entorno" width="1024" height="755" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-      <p class="image-fallback-note" id="after-asset-credit" hidden role="status">Fotografia jornalística indisponível. Consulte a reportagem na fonte.</p>
-      <figcaption><span>DURANTE A INTERVENÇÃO / REGISTRO DE 2021</span><a href="https://agenciamural.org.br/calcadao-de-osasco-perde-coqueiros-e-divide-opiniao-de-moradores/" target="_blank" rel="noopener noreferrer">Foto: Agência Mural · ver reportagem ↗</a></figcaption>
-    </figure>
-  </div>
-</section>
-
-      <section class="sv-editorial-statement" aria-label="O papel da vegetação nas cidades">
-        <h2>menos<br>verde.<br><em>mais calor?</em></h2>
-        <div class="sv-statement-notes">
-          <p>Em ruas densamente urbanizadas, sombra é mais que conforto. Árvores participam da regulação térmica, da evapotranspiração e da biodiversidade.</p>
-          <p>O SombraViva parte de Osasco para relacionar documentação territorial, estimativas meteorológicas regionais e cenários de sensores IoT.</p>
-          <p class="sv-method-note"><strong>Compromisso científico:</strong> ainda não existem medições locais de antes e depois no Calçadão da Rua Antônio Agú nesta plataforma. Os resultados de demonstração são sempre identificados.</p>
+  <main id="conteudo">
+    <section id="inicio" class="sv-wrap sv-hero" aria-labelledby="hero-title">
+      <div class="sv-hero-copy">
+        <p class="sv-place">Calçadão da Rua Antônio Agú · Osasco, SP</p>
+        <h1 id="hero-title">No mesmo quarteirão, a sombra faz <span id="hero-delta">alguns graus</span> de diferença.</h1>
+        <p class="sv-lede">Um sensor fica sob as árvores e outro no piso exposto do Calçadão. A cada 30 segundos o SombraViva compara os dois e avisa quando o calor vira risco para quem passa por ali.</p>
+        <div class="sv-hero-actions">
+          <a class="sv-button sv-button-hot" href="#esp32">Ver os dados agora</a>
+          <a class="sv-button sv-button-quiet" href="#como">Como o projeto funciona</a>
         </div>
-      </section>
-
-      <section class="provenance-line" aria-label="Origem e limitação das informações">
-        <div><span class="provenance-dot observed" aria-hidden="true"></span><strong>Clima regional</strong><span>Open-Meteo / ERA5 quando disponível</span></div>
-        <div><span class="provenance-dot simulated" aria-hidden="true"></span><strong>IoT</strong><span>Cenários sintéticos, não medição local</span></div>
-        <div><span class="provenance-dot model" aria-hidden="true"></span><strong>Mapa térmico</strong><span>Simulação didática, sem dados de rua</span></div>
-      </section>
-
-      <p class="origin-clarity" id="iot-origin" role="note"><span class="source-type source-simulation">SIMULAÇÃO · IoT</span> <span id="iot-origin-note">Estações A e B são cenários de teste, não sensores georreferenciados no Calçadão ou no parque. O estado de cada estação e a hora da última leitura aparecem abaixo.</span></p>
-      <div id="demo-mode-banner" class="demo-mode-banner hidden" role="status" aria-live="polite"><strong>SIMULAÇÃO ATIVA · VALORES FICTÍCIOS</strong><span>O MySQL não retornou leituras disponíveis. Mostramos uma série sintética da API de demonstração para você visualizar o protótipo. Esses valores não foram medidos nem persistidos.</span><button id="demo-retry-live" type="button">Tentar dados do MySQL novamente</button></div>
-      <div class="observations-head"><div><span>01 / LABORATÓRIO URBANO</span><h2>Leituras em contexto.</h2><p>Dois cenários para testar o monitoramento; as medições reais só começarão quando houver sensores em campo.</p></div><a href="#medicoes">Examinar as séries <span aria-hidden="true">↘</span></a></div>
-      <section class="metric-grid field-notes" aria-label="Indicadores dos cenários IoT">
-        <article class="metric"><div class="metric-top"><span>ÁREA EXPOSTA</span><span class="metric-icon hot" aria-hidden="true">↗</span></div><strong id="temp-a">--°</strong><small>Estação A · leitura simulada</small><span class="metric-bottom">DADOS DE TESTE</span></article>
-        <article class="metric"><div class="metric-top"><span>ÁREA ARBORIZADA</span><span class="metric-icon cool" aria-hidden="true">✳</span></div><strong id="temp-b">--°</strong><small>Estação B · leitura simulada</small><span class="metric-bottom">DADOS DE TESTE</span></article>
-        <article class="metric"><div class="metric-top"><span>DIFERENÇA TÉRMICA</span><span class="metric-icon muted-ico" aria-hidden="true">≋</span></div><strong id="temp-diff">--°</strong><small>Comparação pontual ilustrativa</small><span class="metric-bottom">SEM INFERÊNCIA CAUSAL</span></article>
-        <article class="metric"><div class="metric-top"><span>LEITURAS NO SISTEMA</span><span class="metric-icon muted-ico" aria-hidden="true">▦</span></div><strong id="readings-count">--</strong><small>Registros persistidos no MySQL</small><span class="metric-bottom">BANCO DE DADOS</span></article>
-      </section>
-
-      <section id="medicoes" class="two-col" aria-label="Medições e clima atual">
-        <article class="panel chart-panel">
-          <div class="panel-heading"><div><p class="eyebrow">SENSORES / IOT</p><h2>O que os sensores registram</h2><p class="panel-subtitle">Histórico das últimas medições recebidas pela API.</p></div><span class="chip"><span class="chip-dot"></span> Últimas 24 leituras</span></div>
-          <div class="legend"><span><b class="dot coral"></b> Área exposta</span><span><b class="dot mint"></b> Área arborizada</span></div>
-          <div class="canvas-wrap sensor-canvas"><canvas id="temperature-chart" aria-label="Gráfico comparativo de temperatura entre as estações" role="img"></canvas><div id="sensor-empty" class="empty-instrument" role="status"><strong>Aguardando leituras dos sensores</strong><span>Execute o simulador IoT ou conecte o ESP32 para preencher este instrumento.</span><details class="technical-help"><summary>Testar sem hardware</summary><code>docker compose exec api python scripts/simulate_iot.py --station centro-demo --once</code></details></div></div>
-          <p class="caption">Os sensores iniciais utilizam dados simulados para validar a integração IoT, API e MySQL. Esses valores não representam medições reais em Osasco.</p>
-        </article>
-        <article class="panel weather-panel">
-          <div class="panel-heading"><div><p class="eyebrow">FONTE METEOROLÓGICA EXTERNA</p><h2>Temperatura regional</h2></div><span id="weather-origin-chip" class="source-type source-unavailable" role="status" aria-live="polite">CONSULTANDO FONTE</span></div>
-          <div class="weather-hero"><div class="weather-icon" aria-hidden="true">☼</div><div id="weather-value" class="weather-temp">--°C</div></div>
-          <p id="weather-status" class="weather-status" role="status" aria-live="polite">Consultando modelo meteorológico...</p>
-          <button id="weather-retry" class="outline-btn hidden" type="button">Tentar novamente ↻</button>
-          <div class="weather-row"><div><span>SENSAÇÃO TÉRMICA</span><strong id="feels-like">--°C</strong></div><div><span>UMIDADE RELATIVA</span><strong id="outside-humidity">--%</strong></div></div>
-          <div class="notice"><span aria-hidden="true">ⓘ</span> Estimativa regional, não leitura de calçada. Para avaliar microclimas são necessárias medições locais.</div>
-          <a class="source-link" href="https://open-meteo.com/" target="_blank" rel="noopener">Conhecer a fonte meteorológica <span aria-hidden="true">↗</span></a>
-        </article>
-      </section>
-
-      <section class="panel stations-panel">
-        <div class="panel-heading"><div><p class="eyebrow">REDE DE OBSERVAÇÃO</p><h2>Pontos de escuta</h2><p class="panel-subtitle">Sensores conectados ou simulados registrados na plataforma.</p></div><button id="refresh" class="outline-btn" type="button">↻ Atualizar dados</button></div>
-        <div id="stations" class="station-grid" aria-live="polite" aria-busy="true"><p class="muted">Carregando estações...</p></div>
-      </section>
-
-      <div class="section-ribbon history-ribbon"><span>02 / EXPLORAÇÃO</span><strong>Consulte séries históricas reais</strong><span>Pesquise, compare, compreenda</span></div>
-      <section id="historico" class="panel history-panel" aria-labelledby="history-title">
-        <div class="panel-heading history-heading"><div><p class="eyebrow">BASE CLIMÁTICA / OPEN-METEO ERA5</p><h2 id="history-title">Investigue o histórico climático.</h2><p class="panel-subtitle">Resultados de Osasco primeiro. Altere a cidade ou compare períodos nos filtros.</p></div><span id="history-source-chip" class="chip real-data" role="status" aria-live="polite">VERIFICANDO ORIGEM</span></div>
-<p class="data-interpretation-note" role="note"><strong>O que estes dados podem mostrar:</strong> como a temperatura de uma região variou ao longo do período. <strong>O que não mostram:</strong> a temperatura do Calçadão ou o efeito causado pela retirada de árvores. ERA5 é uma <abbr title="Reanálise meteorológica: estimativa histórica baseada em observações e modelos">estimativa histórica regional</abbr>, com resolução aproximada de 25 km.</p>
-<div id="history-demo-banner" class="demo-history-warning hidden" role="alert"><strong>SÉRIE HISTÓRICA FICTÍCIA / DEMONSTRAÇÃO</strong><p>A Open-Meteo não respondeu: a interface está exibindo dados matematicamente gerados para testar os gráficos. Não representam temperaturas reais de nenhuma cidade, não são ERA5 e não devem ser usados em análises.</p></div>
-        <div class="history-query-head">
-          <p><strong id="history-current-city">Osasco · últimos 30 dias</strong><span id="history-current-period">Consulta inicial automática. Estimativas regionais, nunca a temperatura de uma rua.</span></p>
-          <span class="source-type source-unavailable" id="history-provenance-label">ORIGEM A CONFIRMAR</span>
+        <p id="data-notice" class="sv-notice" role="status">Carregando leituras…</p>
+      </div>
+      <figure class="sv-hero-figure">
+        <img src="/static/assets/cidade-conceitual.webp" alt="Ilustração de um quarteirão com árvores no canto inferior e calçada exposta ao sol no alto" width="900" height="900" />
+        <div class="sv-hero-card is-shade">
+          <span>Sob as árvores</span>
+          <strong id="temp-shade">--</strong>
+          <small id="hum-shade">Umidade --</small>
         </div>
-        <details id="history-filters" class="history-filters">
-          <summary>Alterar cidade, período ou comparar <span aria-hidden="true">＋</span></summary>
-        <div class="history-controls">
-          <div class="history-location">
-            <div class="location-title"><span class="location-index">01</span><label for="history-city-search">Cidade principal</label></div>
-            <div class="history-search"><input id="history-city-search" type="search" value="Osasco" placeholder="Ex.: Osasco" maxlength="80"/><button id="history-city-search-button" type="button" class="outline-btn">Buscar ↗</button></div>
-            <select id="history-city-results" class="hidden" aria-label="Resultados da cidade principal"></select>
-            <p id="history-city-selected" class="selected-city">Selecionada: Osasco, São Paulo, Brasil</p>
+        <div class="sv-hero-card is-sun">
+          <span>No Calçadão, ao sol</span>
+          <strong id="temp-sun">--</strong>
+          <small id="hum-sun">Umidade --</small>
+        </div>
+        <figcaption id="hero-updated">Última leitura · --</figcaption>
+      </figure>
+    </section>
+
+    <section id="problema" class="sv-band-dark" aria-labelledby="problem-title">
+      <div class="sv-wrap sv-section">
+        <div class="sv-section-head">
+          <h2 id="problem-title">A cidade esquenta onde a sombra some.</h2>
+          <p>Asfalto e concreto guardam o calor do dia e devolvem à noite. Sem copa de árvore, o mesmo trecho de rua fica mais quente que o vizinho arborizado: é a ilha de calor urbana. No centro de Osasco, o Calçadão concentra comércio, ônibus e pedestres justamente onde há menos verde.</p>
+        </div>
+        <div class="sv-duo">
+          <figure class="sv-duo-item is-shade">
+            <img src="/static/assets/paisagem-conceitual.webp" alt="Gramado e árvores altas sob céu azul" width="1672" height="941" loading="lazy" />
+            <figcaption><span>Com vegetação</span><strong id="prob-shade">--</strong></figcaption>
+          </figure>
+          <figure class="sv-duo-item is-sun">
+            <img src="/static/assets/cidade-ilustrativa.webp" alt="Ilustração de cruzamento com calçada clara exposta ao sol" width="900" height="900" loading="lazy" />
+            <figcaption><span>Piso exposto</span><strong id="prob-sun">--</strong></figcaption>
+          </figure>
+        </div>
+        <dl class="sv-facts">
+          <div class="is-hot"><dt id="delta-verdict">Entre as duas zonas na última leitura</dt><dd id="temp-delta">--</dd></div>
+          <div><dt>Diferença a partir da qual o ponto vira ilha de calor</dt><dd>3 °C</dd></div>
+          <div><dt>Das últimas leituras acima desse limite</dt><dd id="prob-over">--</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="como" class="sv-wrap sv-section" aria-labelledby="how-title">
+      <div class="sv-section-head">
+        <h2 id="how-title">Da rua ao alerta em 30 segundos.</h2>
+        <p>Quatro etapas: medir os dois lados da rua, transformar a diferença em risco, guardar cada leitura com segurança e manter o sistema no ar.</p>
+      </div>
+      <ol class="sv-steps">
+        <li>
+          <svg class="is-green" role="img" aria-label="Um termômetro sob uma árvore marca menos que outro termômetro no sol sobre a calçada" viewBox="0 0 260 180">
+            <rect x="0" y="140" width="130" height="40" fill="#BFD8C6"/><rect x="130" y="140" width="130" height="40" fill="#E9D3C8"/><rect x="130" y="150" width="130" height="4" fill="#FFFFFF" opacity="0.7"/>
+            <circle cx="54" cy="60" r="34" fill="#2F7A4F"/><circle cx="34" cy="76" r="20" fill="#3E8E5A"/><circle cx="74" cy="78" r="18" fill="#3E8E5A"/><rect x="49" y="92" width="10" height="48" rx="3" fill="#6B4E32"/><ellipse cx="54" cy="142" rx="40" ry="6" fill="#0F3D3A" opacity="0.18"/>
+            <circle cx="210" cy="40" r="20" fill="#F59E2B"/><g stroke="#F59E2B" stroke-width="4" stroke-linecap="round"><line x1="210" y1="8" x2="210" y2="14"/><line x1="242" y1="40" x2="236" y2="40"/><line x1="178" y1="40" x2="184" y2="40"/><line x1="233" y1="17" x2="228" y2="22"/><line x1="187" y1="17" x2="192" y2="22"/></g>
+            <rect x="108" y="96" width="14" height="40" rx="7" fill="#FFFFFF" stroke="#0F3D3A" stroke-width="2"/><rect x="112" y="114" width="6" height="18" rx="3" fill="#2F7A4F"/><circle cx="115" cy="136" r="8" fill="#2F7A4F" stroke="#0F3D3A" stroke-width="2"/>
+            <rect x="186" y="86" width="14" height="50" rx="7" fill="#FFFFFF" stroke="#0F3D3A" stroke-width="2"/><rect x="190" y="94" width="6" height="38" rx="3" fill="#C2412A"/><circle cx="193" cy="136" r="8" fill="#C2412A" stroke="#0F3D3A" stroke-width="2"/>
+            <text x="115" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#0F3D3A">25°</text><text x="193" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#8A1832">34°</text>
+          </svg>
+          <span>Etapa 1</span>
+          <h3>Medimos os dois lados da rua</h3>
+          <p>Temperatura, umidade e luz são lidas ao mesmo tempo na sombra das árvores e no piso exposto ao sol.</p>
+        </li>
+        <li>
+          <svg class="is-amber" role="img" aria-label="Escala de risco em quatro faixas, de normal a perigo, com o ponteiro na faixa de alerta" viewBox="0 0 260 180">
+            <path d="M50 140 A80 80 0 0 1 72 85" fill="none" stroke="#3E8E5A" stroke-width="20"/><path d="M76 80 A80 80 0 0 1 126 60" fill="none" stroke="#D9A21B" stroke-width="20"/><path d="M134 60 A80 80 0 0 1 184 80" fill="none" stroke="#C2412A" stroke-width="20"/><path d="M188 85 A80 80 0 0 1 210 140" fill="none" stroke="#8A1832" stroke-width="20"/>
+            <line x1="130" y1="140" x2="168" y2="84" stroke="#1E2326" stroke-width="5" stroke-linecap="round"/><circle cx="130" cy="140" r="9" fill="#1E2326"/>
+            <text x="40" y="166" font-size="12" font-weight="600" fill="#2F7A4F">Normal</text><text x="220" y="166" text-anchor="end" font-size="12" font-weight="600" fill="#8A1832">Perigo</text><text x="130" y="30" text-anchor="middle" font-size="12" font-weight="600" fill="#394246">Índice de calor (NOAA)</text>
+          </svg>
+          <span>Etapa 2</span>
+          <h3>A diferença vira nível de risco</h3>
+          <p>O índice de calor da NOAA define a faixa: normal, atenção, alerta ou perigo. Acima de 3 °C entre os lados, o ponto é ilha de calor.</p>
+        </li>
+        <li>
+          <svg class="is-blue" role="img" aria-label="Uma leitura com chave válida passa pelo escudo até o banco; outra sem chave é barrada" viewBox="0 0 260 180">
+            <rect x="18" y="44" width="54" height="36" rx="8" fill="#FFFFFF" stroke="#0F3D3A" stroke-width="2"/><path d="M30 56 h30 M30 66 h22" stroke="#2F7A4F" stroke-width="4" stroke-linecap="round"/>
+            <rect x="18" y="108" width="54" height="36" rx="8" fill="#FFFFFF" stroke="#8A1832" stroke-width="2" stroke-dasharray="5 4"/><path d="M30 120 h30 M30 130 h22" stroke="#C9A0A0" stroke-width="4" stroke-linecap="round"/>
+            <path d="M76 62 H112" stroke="#2F7A4F" stroke-width="3"/><path d="M106 56 L114 62 L106 68" fill="none" stroke="#2F7A4F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M76 126 H104" stroke="#8A1832" stroke-width="3"/><g stroke="#8A1832" stroke-width="4" stroke-linecap="round"><line x1="106" y1="119" x2="118" y2="133"/><line x1="118" y1="119" x2="106" y2="133"/></g>
+            <path d="M130 30 L160 40 V70 C160 88 147 100 130 106 C113 100 100 88 100 70 V40 Z" fill="#0F3D3A"/><path d="M117 68 L127 78 L145 58" fill="none" stroke="#9BD48F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M164 62 H196" stroke="#2F7A4F" stroke-width="3"/><ellipse cx="222" cy="44" rx="24" ry="9" fill="#FFFFFF" stroke="#0F3D3A" stroke-width="2"/><path d="M198 44 V92 C198 98 246 98 246 92 V44" fill="#FFFFFF" stroke="#0F3D3A" stroke-width="2"/><path d="M198 60 C198 66 246 66 246 60 M198 76 C198 82 246 82 246 76" fill="none" stroke="#0F3D3A" stroke-width="2"/>
+            <text x="128" y="160" text-anchor="middle" font-size="12" font-weight="700" fill="#8A1832">Sem chave: 401</text><text x="222" y="116" text-anchor="middle" font-size="12" font-weight="700" fill="#0F3D3A">Banco</text>
+          </svg>
+          <span>Etapa 3</span>
+          <h3>Cada leitura é guardada com segurança</h3>
+          <p>A API só aceita estações com chave válida. Envios sem chave são recusados e aparecem na Central de segurança.</p>
+        </li>
+        <li>
+          <svg class="is-violet" role="img" aria-label="Servidor com linha de batimento e seta circular indicando reinício automático" viewBox="0 0 260 180">
+            <rect x="70" y="30" width="120" height="34" rx="6" fill="#1E2326"/><rect x="70" y="72" width="120" height="34" rx="6" fill="#1E2326"/><rect x="70" y="114" width="120" height="34" rx="6" fill="#1E2326"/>
+            <circle cx="86" cy="47" r="5" fill="#7DDB8E"/><circle cx="86" cy="89" r="5" fill="#7DDB8E"/><circle cx="86" cy="131" r="5" fill="#F59E2B"/>
+            <path d="M100 89 H120 L126 78 L134 100 L140 89 H176" fill="none" stroke="#7DDB8E" stroke-width="3" stroke-linejoin="round"/><path d="M100 47 H176 M100 131 H150" stroke="#4A535A" stroke-width="4" stroke-linecap="round"/>
+            <path d="M240 82 A18 18 0 1 1 232 58" fill="none" stroke="#5B4FA0" stroke-width="5" stroke-linecap="round"/><path d="M225 53 L233 58 L227 66" fill="none" stroke="#5B4FA0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="130" y="170" text-anchor="middle" font-size="12" font-weight="600" fill="#394246">CPU · disco · serviço</text>
+          </svg>
+          <span>Etapa 4</span>
+          <h3>Um servidor Linux mantém tudo no ar</h3>
+          <p>A máquina virtual, montada por scripts, roda a API, vigia CPU, disco e serviço e reinicia o que cair.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="esp32" class="sv-band-paper" aria-labelledby="esp-title">
+      <div class="sv-wrap sv-section">
+        <div class="sv-section-head">
+          <h2 id="esp-title">Dados agora</h2>
+          <p>O circuito no Wokwi lê os dois DHT22 e o LDR, calcula o índice de calor (faixas da NOAA) e envia cada zona para <code>POST /api/v1/medicoes</code> a cada 30 segundos.</p>
+        </div>
+
+        <figure class="sv-card sv-howto">
+          <svg role="img" id="howto-svg" aria-label="Como ler: a diferença entre o sol e a sombra é comparada ao limite de 3 graus da ilha de calor" viewBox="0 0 640 170">
+            <text id="howto-shade-label" x="236" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#2F7A4F">Sombra --</text>
+            <text id="howto-sun-label" x="436" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#C2412A">Sol --</text>
+            <rect x="20" y="52" width="600" height="14" rx="7" fill="#EEEBE4"/>
+            <rect id="howto-over" x="306" y="52" width="130" height="14" fill="#C2412A" opacity="0.3"/>
+            <rect id="howto-under" x="236" y="52" width="70" height="14" fill="#D9A21B" opacity="0.3"/>
+            <circle id="howto-shade" cx="236" cy="59" r="12" fill="#2F7A4F" stroke="#FFFFFF" stroke-width="3"/>
+            <circle id="howto-sun" cx="436" cy="59" r="12" fill="#C2412A" stroke="#FFFFFF" stroke-width="3"/>
+            <line id="howto-limit" x1="306" y1="40" x2="306" y2="78" stroke="#0F3D3A" stroke-width="2.5" stroke-dasharray="4 3"/>
+            <text id="howto-limit-label" x="306" y="96" text-anchor="middle" font-size="12" font-weight="600" fill="#0F3D3A">Limite: +3 °C</text>
+            <text x="20" y="96" font-size="12" fill="#6A7276">Mais frio</text>
+            <text x="620" y="96" text-anchor="end" font-size="12" fill="#6A7276">Mais quente</text>
+            <path id="howto-bracket" d="M236 118 V128 H436 V118" fill="none" stroke="#1E2326" stroke-width="2"/>
+            <text id="howto-verdict" x="336" y="152" text-anchor="middle" font-size="15" font-weight="800" fill="#1E2326">Aguardando leituras</text>
+          </svg>
+          <figcaption>
+            <strong>Como ler estes dados</strong>
+            <span>Cada leitura compara os dois lados da rua. Se o sol passa a sombra em mais de 3 °C, o trecho é tratado como ilha de calor e o risco sobe.</span>
+          </figcaption>
+        </figure>
+
+        <div class="sv-kpis" aria-label="Situação agora">
+          <div class="sv-kpi">
+            <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#E4EEE8"/><path d="M14 28h16a6 6 0 0 0 0-12 8 8 0 0 0-15 2 5 5 0 0 0-1 10z" fill="none" stroke="#2F7A4F" stroke-width="2.4" stroke-linejoin="round"/></svg>
+            <span><span class="sv-kpi-label">Osasco agora (Open-Meteo)</span><strong id="weather-temp">--</strong><small id="weather-meta">Sensação -- · umidade --</small></span>
           </div>
-          <details class="history-location comparison-disclosure" id="comparison-disclosure">
-            <summary>Comparar com outra cidade <span>Opcional · expandir</span></summary>
-            <div class="location-title"><span class="location-index compare-index">02</span><label for="compare-city-search">Cidade de comparação</label></div>
-            <div class="history-search"><input id="compare-city-search" type="search" placeholder="Ex.: Barueri, São Paulo" maxlength="80"/><button id="compare-city-search-button" type="button" class="outline-btn">Buscar ↗</button></div>
-            <select id="compare-city-results" class="hidden" aria-label="Resultados da cidade de comparação"></select>
-            <div class="history-inline"><p id="compare-city-selected" class="selected-city">Nenhuma comparação selecionada</p><button id="remove-compare" type="button" class="small-text-button hidden">Remover</button></div>
-          </details>
-        </div>
-        <div class="date-control-panel">
-          <form id="history-form" class="history-dates">
-            <label for="history-start">De <input id="history-start" type="date" min="1940-01-01" required /></label>
-            <label for="history-end">Até <input id="history-end" type="date" min="1940-01-01" required /></label>
-            <button class="primary-btn" type="submit">Visualizar histórico <span aria-hidden="true">↗</span></button>
-          </form>
-          <div class="history-presets" aria-label="Períodos rápidos"><span>ATALHOS</span><button type="button" class="outline-btn" data-history-period="30">30 dias</button><button type="button" class="outline-btn" data-history-period="90">90 dias</button><button type="button" class="outline-btn" data-history-period="last-year">Ano anterior</button></div>
-        </div>
-        </details>
-        <p id="history-status" class="history-status" role="status" aria-live="polite">Carregando histórico climático de Osasco...</p>
-        <button id="history-retry" type="button" class="outline-btn hidden">Tentar novamente ↻</button>
-        <div id="history-results" class="hidden" aria-busy="true">
-          <div id="history-insight" class="history-insight" role="status" aria-live="polite"></div>
-          <section id="history-comparison" class="history-comparison hidden" aria-label="Comparativo entre duas cidades">
-            <div class="history-visual-header"><div><h3 id="comparison-chart-title">Duas cidades, uma escala</h3><p>Temperatura média diária em °C, com as duas cidades no mesmo eixo.</p></div><span class="chart-header-note">COMPARATIVO</span></div>
-            <div class="history-chart-wrap"><canvas id="history-chart" role="img" aria-label="Comparação das temperaturas médias diárias das cidades selecionadas"></canvas></div>
-            <div id="history-legend" class="history-legend"></div>
-          </section>
-          <div class="history-visual-header city-detail-title"><div><h3>Temperaturas por dia</h3><p>Cada gráfico mostra temperaturas mínima, média e máxima por dia. Os eixos usam a mesma escala para facilitar a comparação.</p></div><span class="chart-header-note">POR CIDADE</span></div>
-          <div id="history-city-charts" class="history-city-charts" aria-label="Gráficos individuais das cidades"></div>
-          <div id="history-observations" class="history-observations" aria-label="Eventos e destaques do período consultado"></div>
-          <details class="history-summary-details"><summary>Ver médias resumidas por cidade</summary><div id="history-kpis" class="history-kpis"></div></details>
-          <p id="history-chart-text-summary" class="chart-a11y-description" role="note">O gráfico tem uma tabela com os mesmos valores, disponível em “Ver tabela de dados diários”.</p>
-          <div class="history-table-toolbar"><div><h3>Dados do período</h3><p>Todos os valores da série histórica consultada.</p></div><button type="button" id="history-download" class="outline-btn">↓ Exportar CSV</button></div>
-          <details class="history-table-details"><summary>Ver tabela de dados diários <span>Expandir / recolher ↗</span></summary><div class="history-table-scroll"><table class="history-table"><thead id="history-table-head"></thead><tbody id="history-table-body"></tbody></table></div></details>
-        </div>
-        <p class="history-source-freshness" id="history-source-freshness" role="status" aria-live="polite">Fonte ainda não consultada.</p>
-        <p id="history-source-note" class="caption history-source">Fonte: <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" rel="noopener">Open-Meteo / reanálise ERA5</a> (resolução aproximada de 25 km). Os dados são estimativas regionais, não medições pontuais no Calçadão. Leituras IoT permanecem separadas no MySQL. Há atraso de publicação dos dados mais recentes.</p>
-        <p id="history-demo-source-note" class="demo-history-warning hidden"><strong>ATENÇÃO: séries FICTÍCIAS.</strong> Os gráficos e os dados CSV foram gerados por uma função matemática para prévia da interface; não são reanálise ERA5, histórico observado nem temperatura de rua.</p>
-      </section>
-
-      <section id="impacto" class="impact-section" aria-labelledby="impact-title">
-        <div class="impact-intro">
-          <p class="eyebrow">OSASCO / CADERNO DE CAMPO</p>
-          <h2 id="impact-title">uma rua.<br>muitas<br><em>camadas.</em></h2>
-          <p>No Calçadão da Rua Antônio Agú, a retirada dos coqueiros durante a revitalização motivou debate público sobre a transformação da paisagem. A cobertura instalada oferece sombra artificial, mas não substitui todos os serviços ambientais de uma árvore.</p>
-          <p>A arborização influencia temperatura, evapotranspiração, biodiversidade e qualidade do espaço. O SombraViva conecta esse debate a dados e observação local — sem confundir modelos regionais com medições do Calçadão.</p>
-          <div class="territory-actions"><a class="territory-investigate" href="#mapa">Explorar o mapa e os dados integrados ↘</a><a href="https://agenciamural.org.br/calcadao-de-osasco-perde-coqueiros-e-divide-opiniao-de-moradores/" target="_blank" rel="noopener">Ler reportagem de 2021 ↗</a><a href="https://osasco.sp.gov.br/obras-de-cobertura-do-calcadao-seguem-em-ritmo-acelerado/" target="_blank" rel="noopener">Ler sobre a obra no site da Prefeitura (2021) ↗</a><a href="https://www.aeaosasco.org.br/concurso-revitalizacao/" target="_blank" rel="noopener">Consultar projetos do concurso de arquitetura ↗</a></div>
-        </div>
-        <div class="territory-visual">
-<figure class="territory-photo arch-green-photo">
-  <img class="documentary-media" data-fallback="" data-credit-id="park-asset-credit" referrerpolicy="no-referrer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Parque_Ecol%C3%B3gico_Jardim_Piratininga_-_panoramio.jpg/1024px-Parque_Ecol%C3%B3gico_Jardim_Piratininga_-_panoramio.jpg" alt="Fotografia documental do Parque Ecológico Jardim Piratininga, Osasco, registrada em 2010" loading="lazy" decoding="async" width="1024" height="680" />
-  <p class="image-fallback-note image-fallback-note-park" id="park-asset-credit" hidden role="status">Fotografia documental indisponível. Consulte o registro original do Parque Jardim Piratininga.</p>
-  <figcaption><strong>O outro lado da cidade / área verde</strong><span>Fotografia documental, 2010 · BêS · CC BY-SA 3.0</span><a target="_blank" rel="noopener noreferrer" href="https://commons.wikimedia.org/wiki/File:Parque_Ecol%C3%B3gico_Jardim_Piratininga_-_panoramio.jpg">Consultar imagem e licença ↗</a></figcaption>
-</figure>
-          <div class="territory-notes" aria-label="Evidências e limites do estudo">
-            <div class="evidence-entry"><span>01 / O QUE JÁ ESTÁ DOCUMENTADO</span><strong>Intervenção no Calçadão, 2021</strong><p>A retirada dos coqueiros e a nova cobertura foram registradas em reportagens e documentos sobre a obra.</p><a href="https://agenciamural.org.br/calcadao-de-osasco-perde-coqueiros-e-divide-opiniao-de-moradores/" target="_blank" rel="noopener">Consultar registro jornalístico ↗</a></div>
-            <div class="evidence-entry"><span>02 / O QUE AINDA PRECISA SER MEDIDO</span><strong>Diferença térmica entre superfícies</strong><p>Esta plataforma não possui uma série antes/depois do Calçadão. A comparação local exigirá sensores calibrados, horários equivalentes e registro das condições.</p><a href="#medicoes">Ver laboratório de sensores ↗</a></div>
+          <div class="sv-kpi">
+            <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#F8E3E3"/><path d="M22 11 L34 32 H10 Z" fill="none" stroke="#C2412A" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 19v6" stroke="#C2412A" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="28.5" r="1.4" fill="#C2412A"/></svg>
+            <span><span class="sv-kpi-label">Risco no Calçadão</span><strong id="risk-now">--</strong><small id="risk-now-meta">Sem leitura do ESP32 ainda</small></span>
+          </div>
+          <div class="sv-kpi">
+            <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#E3EAEE"/><ellipse cx="22" cy="14" rx="9" ry="3.5" fill="none" stroke="#0F3D3A" stroke-width="2.4"/><path d="M13 14v16c0 2 4 3.5 9 3.5s9-1.5 9-3.5V14M13 22c0 2 4 3.5 9 3.5s9-1.5 9-3.5" fill="none" stroke="#0F3D3A" stroke-width="2.4"/></svg>
+            <span><span class="sv-kpi-label">Leituras guardadas</span><strong id="readings-total">--</strong><small id="readings-meta">No banco MySQL</small></span>
+          </div>
+          <div class="sv-kpi">
+            <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#E6E4EF"/><path d="M14 30a11 11 0 0 1 16 0M10 25a17 17 0 0 1 24 0" fill="none" stroke="#5B4FA0" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="33" r="2.2" fill="#5B4FA0"/></svg>
+            <span><span class="sv-kpi-label">Medições do ESP32</span><strong id="esp-total">--</strong><small id="esp-last">Nenhuma recebida</small></span>
           </div>
         </div>
-      </section>
 
-      <section id="mapa" class="territory-atlas" aria-labelledby="territory-map-title">
-        <div class="atlas-map-intro">
-          <span class="map-index">ATLAS DE CAMPO · OSASCO</span>
-          <h2 id="territory-map-title">Encontre os lugares<br><em>no mapa.</em></h2>
-          <p>Selecione o Calçadão ou o parque para localizar os espaços. As leituras IoT exibidas são cenários hipotéticos, não medições nesses locais.</p>
-        </div>
-        <div class="atlas-map-workspace">
-          <div class="map-selector" aria-label="Local a visualizar">
-            <button type="button" class="map-location is-active" data-map-location="calcadao" aria-pressed="true"><span class="location-sign" aria-hidden="true">01</span><span><strong>Calçadão da Antônio Agú</strong><small>Centro · intervenção urbana</small></span></button>
-            <button type="button" class="map-location" data-map-location="parque" aria-pressed="false"><span class="location-sign" aria-hidden="true">02</span><span><strong>Parque Ana Luiza Moura Freitas</strong><small>Piratininga · área verde</small></span></button>
-          </div>
-          <div class="territory-map-shell">
-            <div class="territory-map-placeholder" id="territory-map-placeholder">
-              <img class="atlas-orientation-map" src="/static/assets/osasco-orientation.svg" alt="" aria-hidden="true" width="650" height="380" />
-              <span class="map-location-label">OSASCO / REGIÃO METROPOLITANA DE SÃO PAULO</span>
-              <strong>Osasco em duas referências.</strong>
-              <p>O esquema é orientativo, não representa ruas ou um mapa de calor. Para visualizar o mapa geográfico real, carregue o OpenStreetMap.</p>
-              <button type="button" id="load-territory-map" class="primary-btn">Carregar mapa geográfico <span aria-hidden="true">↗</span></button>
+        <div class="sv-row">
+          <figure class="sv-card sv-chart-card is-wide">
+            <div class="sv-card-head">
+              <figcaption class="sv-card-title">Sombra x sol nas últimas 24 leituras</figcaption>
+              <div class="sv-legend"><span><i class="k-shade"></i>Sob as árvores</span><span><i class="k-sun"></i>Calçadão</span></div>
             </div>
-            <iframe id="territory-map-frame" title="Mapa geográfico do Calçadão de Osasco, baseado em OpenStreetMap" referrerpolicy="no-referrer" loading="lazy" hidden></iframe>
-          </div>
-          <div id="map-availability" class="map-availability" role="status" aria-live="polite" hidden><span id="map-availability-text">Solicitando o mapa ao OpenStreetMap…</span><button id="map-retry" type="button">Recarregar</button></div>
-          <div class="map-readout"><div><span id="map-place-type">INTERVENÇÃO DOCUMENTADA</span><strong id="map-place-name">Calçadão da Rua Antônio Agú</strong><p id="map-place-description">Rua Antônio Agú, Centro, Osasco. Ponto de referência aproximado do trecho central do Calçadão, conforme dados geográficos públicos.</p></div><a id="map-open-external" href="https://www.openstreetmap.org/?mlat=-23.5333671&amp;mlon=-46.7790848#map=17/-23.5333671/-46.7790848" target="_blank" rel="noopener noreferrer">Abrir no OpenStreetMap ↗</a></div>
-          <section class="atlas-connection" aria-labelledby="atlas-connection-title">
-            <div class="atlas-connection-heading">
-              <div><span class="map-index">INVESTIGAÇÃO CONECTADA / OSASCO</span><h3 id="atlas-connection-title">Do endereço ao dado.</h3><p>Selecione um espaço acima para explorar uma hipótese de observação e o contexto meteorológico de Osasco.</p></div>
-              <span class="atlas-connection-status" id="atlas-site-status">LOCAL DE REFERÊNCIA, NÃO SENSOR INSTALADO</span>
+            <div id="chart-compare" class="sv-chart" role="img" aria-label="Gráfico das últimas leituras de temperatura da zona arborizada e da zona exposta"></div>
+            <p class="sv-chart-foot" id="compare-foot">A faixa entre as linhas é o calor que a falta de sombra acrescenta.</p>
+          </figure>
+          <figure class="sv-card sv-chart-card">
+            <figcaption class="sv-card-title">Índice de calor no Calçadão</figcaption>
+            <div id="chart-gauge" class="sv-chart sv-chart-gauge" role="img" aria-label="Medidor do índice de calor da zona exposta com as faixas de risco da NOAA"></div>
+            <ul class="sv-scale" aria-label="Faixas de risco">
+              <li class="r-normal">abaixo de 27 °C · normal</li>
+              <li class="r-atencao">27 a 31,9 °C · atenção</li>
+              <li class="r-alerta">32 a 40,9 °C · alerta</li>
+              <li class="r-perigo">41 °C ou mais · perigo</li>
+            </ul>
+          </figure>
+        </div>
+
+        <div class="sv-row">
+          <figure class="sv-card sv-chart-card">
+            <div class="sv-card-head">
+              <figcaption class="sv-card-title">Ilha de calor por leitura</figcaption>
+              <div class="sv-legend"><span><i class="k-limit"></i>Limite de ilha de calor (3 °C)</span></div>
             </div>
-            <div class="atlas-source-grid">
-              <div class="atlas-source atlas-source-place"><span>01 · TERRITÓRIO</span><strong id="atlas-selected-place">Calçadão da Antônio Agú</strong><p id="atlas-place-context">Área do Centro relacionada à discussão sobre substituição de vegetação por coberturas artificiais.</p><small>Localização aproximada · Referência geográfica</small></div>
-              <div class="atlas-source atlas-source-iot"><span>02 · SENSOR / CENÁRIO DEMONSTRATIVO</span><strong id="atlas-sensor-value">Aguardando API</strong><p id="atlas-sensor-context">O cenário IoT será carregado do MySQL. Não há medição comprovada neste endereço.</p><small id="atlas-sensor-timestamp">Sem leitura confirmada</small><a href="#medicoes" id="atlas-open-sensors">Explorar leituras de teste ↗</a></div>
-              <div class="atlas-source atlas-source-era5"><span>03 · CLIMA REGIONAL / ERA5</span><strong id="atlas-era5-value">Consultando histórico</strong><p id="atlas-era5-context">Temperatura média regional para Osasco, não temperatura da rua selecionada.</p><small id="atlas-era5-period">Aguardando período histórico</small><button id="atlas-open-history" type="button">Consultar Osasco no histórico ↗</button></div>
-            </div>
-            <p id="atlas-announcement" class="visually-hidden" role="status" aria-live="polite"></p>
-            <p class="atlas-research-note"><strong>Como interpretar:</strong> os locais do mapa não têm sensores físicos cadastrados. A estação exibida é apenas um cenário didático da API; os dados ERA5 descrevem a região. A diferença entre esses valores <strong>não demonstra</strong> o efeito térmico das árvores e não deve ser tratada como comparação no mesmo ponto.</p>
-          </section>
-          <p class="heatmap-deeplink"><a href="#mapa-calor">Ver mapa de calor experimental (dados 100% simulados) ↗</a></p>
-          <p class="map-attribution">Mapa externo: © colaboradores do OpenStreetMap · Coordenadas de referência aproximadas · Sem camada térmica. Se a visualização não carregar, utilize o link “Abrir no OpenStreetMap”.</p>
-        </div>
-      </section>
-
-      <section id="mapa-calor" class="heatmap-section" aria-labelledby="heatmap-title">
-        <p class="origin-clarity heatmap-origin" role="note"><span class="source-type source-simulation">SIMULAÇÃO DIDÁTICA</span> Sem sensores georreferenciados · não é um mapa térmico medido em Osasco.</p>
-        <div class="heatmap-heading">
-          <div><span class="heat-kicker">VISUALIZAÇÃO DE CENÁRIO / SEM MEDIÇÕES</span><h2 id="heatmap-title">Experimente um <em>mapa térmico.</em></h2>
-            <p>O mapa mostra uma simulação matemática, não temperaturas observadas nas ruas. Compare dois cenários hipotéticos e consulte a metodologia ao lado.</p></div>
-          <div class="heatmap-actions"><label for="heatmap-period">Cenário didático<select id="heatmap-period"><option value="tarde">Tarde hipotética</option><option value="noite">Noite hipotética</option></select></label><button type="button" id="heatmap-refresh" class="outline-btn">Atualizar mapa</button></div>
-        </div>
-        <div class="heatmap-workspace">
-          <div class="heatmap-figure"><canvas id="heatmap-canvas" role="img" aria-label="Grade de temperatura fictícia em coordenadas aproximadas de Osasco, com destaque para duas referências territoriais"></canvas>
-            <span class="heatmap-overlay-tag">DADOS 100% SINTÉTICOS · DEMONSTRAÇÃO</span>
-            <div class="heatmap-key"><span>ESCALA DE CORES / °C FICTÍCIOS</span><div class="heatmap-key-bar"></div><div class="heatmap-key-values"><b id="heatmap-min">—</b><b id="heatmap-max">—</b></div></div>
+            <div id="chart-island" class="sv-chart" role="img" aria-label="Barras com a diferença de temperatura entre as duas zonas em cada leitura"></div>
+          </figure>
+          <div class="sv-card sv-table-wrap">
+            <table class="sv-table" aria-describedby="esp-table-caption">
+              <caption id="esp-table-caption">Últimas leituras recebidas do ESP32</caption>
+              <thead><tr><th scope="col">Horário</th><th scope="col">Zona</th><th scope="col">Temp.</th><th scope="col">Umidade</th><th scope="col">Índice</th><th scope="col">Luz</th><th scope="col">Risco</th></tr></thead>
+              <tbody id="esp-rows"><tr><td colspan="7">Nenhuma medição do ESP32 ainda. Inicie a simulação no Wokwi com a URL desta API.</td></tr></tbody>
+            </table>
           </div>
-          <aside class="heatmap-sidebar"><strong>Como interpretar este mapa</strong><p>A intensidade representa apenas o resultado de uma função matemática criada para a demonstração. Coordenadas servem para orientar a visualização; os valores não vêm da Open-Meteo nem dos sensores.</p><p id="heatmap-status" role="status" aria-live="polite">Carregando cenário didático...</p><a href="#mapa">Ver localizações no mapa geográfico ↗</a><a href="#historico">Consultar dados regionais reais no histórico ↗</a></aside>
         </div>
-      </section>
-      <section id="fontes" class="sources-method" aria-labelledby="sources-title">
-        <div class="sources-intro"><h2 id="sources-title">Fontes e metodologia.</h2><p>Para interpretar uma temperatura, você precisa saber de onde ela veio. O SombraViva mantém essas camadas separadas.</p></div>
-        <div class="sources-register">
-          <article><span class="source-type source-regional">DADO REGIONAL</span><h3>Histórico e clima</h3><p>Consultas à Open-Meteo e reanálise ERA5. Escala regional; não são temperaturas de árvores, calçadas ou uma rua específica. O período e a atualização são apresentados em cada consulta.</p><a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" rel="noopener noreferrer">Documentação da fonte ↗</a></article>
-          <article><span class="source-type source-simulation">SIMULAÇÃO</span><h3>Sensores e mapa térmico</h3><p>Enquanto não houver estações reais instaladas e calibradas, os cenários IoT e a grade de calor são sintéticos. Não servem para comprovar mudanças térmicas no Calçadão.</p><a href="#medicoes">Examinar os sensores ↗</a></article>
-          <article><span class="source-type source-hypothesis">HIPÓTESE / DOCUMENTAÇÃO</span><h3>Árvores e transformação urbana</h3><p>A remoção de vegetação é um acontecimento documentado. Seu efeito térmico específico na Rua Antônio Agú ainda precisa de medições comparáveis e controle das condições.</p><a href="https://www.agenciamural.org.br/calcadao-de-osasco-perde-coqueiros-e-divide-opiniao-de-moradores/" target="_blank" rel="noopener noreferrer">Consultar reportagem de 2021 ↗</a></article>
+      </div>
+    </section>
+
+    <section id="mapa-calor" class="sv-band-ink" aria-labelledby="map-title">
+      <div class="sv-wrap sv-section">
+        <div class="sv-section-head">
+          <h2 id="map-title">Como seria o mapa do centro</h2>
+          <p id="heatmap-notice">Grade hipotética calculada por uma função matemática, sem sensores reais. Mostra como uma rede de estações espalhada pelo centro de Osasco seria lida, não serve para avaliar a cidade.</p>
         </div>
-        <p class="sources-photo-note"><strong>Proveniência visual:</strong> fotografias do Calçadão obtidas de Visão Oeste, O Anhanguera e Agência Mural, e perspectiva arquitetônica publicada pela AEAO (projeto nº 18, 2019). O registro de parque é de BêS (2010, CC BY-SA 3.0). Cada imagem é identificada como fotografia ou renderização e possui link da fonte. As imagens remotas podem exigir autorização específica de reprodução para uso público; o conteúdo não é apresentado como material autoral do SombraViva.</p>
-      </section>
-      <section class="territory-method" aria-labelledby="method-title">
-        <div><h2 id="method-title">Como interpretar os dados.</h2><p>Três camadas distintas para investigar o calor urbano sem transformar correlação em causalidade.</p></div>
-        <ol><li><span>Observação local</span><p>Registro de superfície, sombra, árvores, horário e condições das ruas.</p></li><li><span>Estação IoT</span><p>Leitura ambiental pontual, identificada como simulação até haver dispositivos em campo.</p></li><li><span>Histórico regional</span><p>Séries meteorológicas regionais para analisar períodos e comparar cidades, não ruas específicas.</p></li></ol>
-      </section>
+        <div class="sv-map">
+          <div class="sv-map-canvas">
+            <div id="chart-heatmap" class="sv-chart sv-chart-heatmap" role="img" aria-label="Mapa de calor hipotético em grade sobre o centro de Osasco"></div>
+          </div>
+          <div class="sv-map-side">
+            <div class="sv-map-controls" role="group" aria-label="Período do mapa">
+              <button type="button" class="sv-chip" data-period="tarde" aria-pressed="true">Tarde</button>
+              <button type="button" class="sv-chip" data-period="noite" aria-pressed="false">Noite</button>
+            </div>
+            <figure class="sv-map-orient">
+              <img src="/static/assets/osasco-orientation.svg" alt="Esquema da posição do Centro, onde fica o Calçadão, em relação ao Piratininga, área verde de referência" width="650" height="380" />
+              <figcaption>Onde fica: o Calçadão no Centro e o Piratininga, área verde usada como referência.</figcaption>
+            </figure>
+            <div class="sv-map-frame">
+              <iframe title="Mapa do centro de Osasco no OpenStreetMap" src="https://www.openstreetmap.org/export/embed.html?bbox=-46.7990%2C-23.5380%2C-46.7840%2C-23.5270&amp;layer=mapnik&amp;marker=-23.5329%2C-46.7917" loading="lazy" referrerpolicy="no-referrer"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <section id="seguranca" class="governance-gateway" aria-labelledby="governance-title"><div><span class="governance-kicker">SEGURANÇA DIGITAL / ACESSO RESTRITO</span><h2 id="governance-title">Dados úteis.<br>Dados protegidos.</h2><p>Acesso restrito ao monitoramento de autenticação, alertas de segurança e análise de dados sensíveis.</p></div><a href="/admin" class="primary-btn">Abrir administração protegida ↗</a></section>
+    <section id="historico" class="sv-wrap sv-section" aria-labelledby="history-title">
+      <div class="sv-section-head">
+        <h2 id="history-title">O clima dos últimos 30 dias</h2>
+        <p>Médias, mínimas e máximas diárias da reanálise ERA5 (Open-Meteo), com resolução de cerca de 25 km e uma semana de atraso. Compare Osasco com outra cidade e baixe em CSV.</p>
+      </div>
+      <form id="history-form" class="sv-card sv-form" novalidate>
+        <label for="city-main">Cidade
+          <span class="sv-search"><input id="city-main" type="search" value="Osasco" autocomplete="off" required /><button type="button" class="sv-button sv-button-quiet" data-search="main">Buscar</button></span>
+          <small id="city-main-picked">Osasco, São Paulo, Brasil</small>
+        </label>
+        <label for="city-compare">Comparar com
+          <span class="sv-search"><input id="city-compare" type="search" placeholder="Ex.: Barueri" autocomplete="off" /><button type="button" class="sv-button sv-button-quiet" data-search="compare">Buscar</button></span>
+          <small id="city-compare-picked">Sem comparação</small>
+        </label>
+        <label for="date-start">De <input id="date-start" type="date" required /></label>
+        <label for="date-end">Até <input id="date-end" type="date" required /></label>
+        <div class="sv-form-actions">
+          <button type="submit" class="sv-button">Mostrar</button>
+          <button type="button" id="export-csv" class="sv-button sv-button-quiet" disabled>CSV</button>
+        </div>
+        <ul id="city-results" class="sv-results" aria-live="polite"></ul>
+      </form>
+      <p id="history-status" class="sv-notice" role="status">Escolha as datas e clique em Mostrar.</p>
+      <figure class="sv-card sv-chart-card">
+        <div id="chart-history" class="sv-chart sv-chart-history" role="img" aria-label="Linhas de temperatura diária média, mínima e máxima"></div>
+      </figure>
+      <dl id="history-summary" class="sv-summary"></dl>
+    </section>
 
-      <footer><div class="footer-brand">sombra<span>viva.</span><small>Inteligência climática urbana</small></div><div class="footer-description">Protótipo acadêmico · FIAP Global Solution 2026.2<br>ODS 3 · ODS 11 · ODS 13</div><div class="footer-links"><a href="#fontes">Fontes e método ↗</a><a href="/admin">Administração ↗</a><a href="/docs" target="_blank" rel="noopener">API REST ↗</a><a href="https://open-meteo.com/" target="_blank" rel="noopener">Fonte climática ↗</a></div></footer>
-    </main>
-  </div>
-  <noscript><p>Ative o JavaScript para consultar os dados climáticos do SombraViva.</p></noscript>
-  <script src="/static/navigation.js?v=20261117.1" defer></script>
-  <script src="/static/app.js?v=20261117.4" defer></script>
-  <script src="/static/media.js?v=20261119.1" defer></script>
-  <script src="/static/territory-map.js?v=20261119.1" defer></script>
-  <script src="/static/heatmap.js?v=20261120.1" defer></script>
+    <section class="sv-band-paper sv-purpose" aria-labelledby="purpose-title">
+      <div class="sv-wrap sv-section">
+        <h2 id="purpose-title">Para que serve</h2>
+        <div class="sv-ods-grid">
+          <div class="ods-3"><span>ODS 3 · Saúde e bem-estar</span><p>Avisar quando o índice de calor passa de 32 °C no trecho onde as pessoas caminham.</p></div>
+          <div class="ods-11"><span>ODS 11 · Cidades sustentáveis</span><p>Dar à prefeitura um dado local para decidir onde plantar e sombrear primeiro.</p></div>
+          <div class="ods-13"><span>ODS 13 · Ação climática</span><p>Registrar, ao longo do tempo, como o calor urbano muda com o clima da região.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sv-footer">
+    <div class="sv-skyline on-paper">
+      <svg aria-hidden="true" viewBox="0 0 1200 90">
+        <defs><pattern id="sv-janelas" width="12" height="14" patternUnits="userSpaceOnUse"><rect x="3" y="3" width="5" height="7" rx="1" fill="#2A6A63"/></pattern><g id="sv-arvore"><rect x="-3" y="62" width="6" height="24"/><circle cx="0" cy="48" r="22"/><circle cx="-16" cy="62" r="14"/><circle cx="16" cy="62" r="14"/></g></defs>
+        <circle cx="590" cy="30" r="15" fill="#F59E2B"/>
+        <g stroke="#F59E2B" stroke-width="3" stroke-linecap="round"><path d="M611 30h6M604.9 44.9l3.8 3.8M590 51v6M575.1 44.9l-3.8 3.8M569 30h-6M575.1 15.1l-3.8-3.8M590 9V3M604.9 15.1l3.8-3.8"/></g>
+        <g fill="#0F3D3A"><rect x="0" y="84" width="1200" height="6"/><rect x="40" y="44" width="60" height="46"/><rect x="100" y="20" width="44" height="70"/><rect x="144" y="52" width="70" height="38"/><rect x="230" y="28" width="52" height="62"/><rect x="282" y="42" width="64" height="48"/><rect x="370" y="14" width="46" height="76"/><rect x="416" y="50" width="60" height="40"/><rect x="500" y="32" width="56" height="58"/></g>
+        <g fill="url(#sv-janelas)"><rect x="40" y="44" width="60" height="40"/><rect x="100" y="20" width="44" height="64"/><rect x="144" y="52" width="70" height="32"/><rect x="230" y="28" width="52" height="56"/><rect x="282" y="42" width="64" height="42"/><rect x="370" y="14" width="46" height="70"/><rect x="416" y="50" width="60" height="34"/><rect x="500" y="32" width="56" height="52"/></g>
+        <g fill="#F5C46B"><rect x="111" y="31" width="5" height="7" rx="1"/><rect x="171" y="59" width="5" height="7" rx="1"/><rect x="243" y="45" width="5" height="7" rx="1"/><rect x="375" y="31" width="5" height="7" rx="1"/><rect x="507" y="45" width="5" height="7" rx="1"/></g>
+        <g fill="#0F3D3A"><use href="#sv-arvore" transform="translate(680 86) scale(.9) translate(0 -86)"/><use href="#sv-arvore" transform="translate(770 86) scale(1.1) translate(0 -86)"/><use href="#sv-arvore" transform="translate(870 86) scale(.85) translate(0 -86)"/><use href="#sv-arvore" transform="translate(960 86) scale(1.15) translate(0 -86)"/><use href="#sv-arvore" transform="translate(1060 86) scale(.95) translate(0 -86)"/><use href="#sv-arvore" transform="translate(1150 86) scale(1.05) translate(0 -86)"/></g>
+      </svg>
+    </div>
+    <div class="sv-footer-main">
+      <div class="sv-wrap sv-footer-cols">
+        <div class="sv-footer-about">
+          <a class="sv-brand" href="#inicio">
+            <svg aria-hidden="true" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" fill="#F2EFE8"/><path d="M26 10C16 11 10 16 11 24c9 2 16-5 15-14Z" stroke="#0F3D3A" stroke-width="2.4"/><path d="M12 27c2-6 7-10 12-13" stroke="#0F3D3A" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <span><strong>SombraViva</strong><small>Calor urbano no centro de Osasco</small></span>
+          </a>
+          <p>Compara a temperatura sob as árvores e no piso exposto do Calçadão e avisa quando o calor vira risco para quem passa por ali.</p>
+          <div>
+            <p class="sv-ods-note">Alinhado aos Objetivos de Desenvolvimento Sustentável</p>
+            <ul class="sv-ods">
+              <li><b class="ods-3" aria-hidden="true">3</b>Saúde</li>
+              <li><b class="ods-11" aria-hidden="true">11</b>Cidades</li>
+              <li><b class="ods-13" aria-hidden="true">13</b>Clima</li>
+            </ul>
+          </div>
+        </div>
+        <nav class="sv-footer-col" aria-label="Seções da página">
+          <h2>Navegue</h2>
+          <ul>
+            <li><a href="#problema">O problema</a></li>
+            <li><a href="#como">Como funciona</a></li>
+            <li><a href="#esp32">Dados agora</a></li>
+            <li><a href="#mapa-calor">Mapa</a></li>
+            <li><a href="#historico">Histórico</a></li>
+          </ul>
+        </nav>
+        <div class="sv-footer-col">
+          <h2>Acesso</h2>
+          <ul>
+            <li><a href="/admin">Central de segurança</a></li>
+            <li><a href="/docs">API REST (Swagger)</a></li>
+            <li><a href="#historico">Histórico em CSV</a></li>
+          </ul>
+        </div>
+        <div class="sv-footer-col is-wide" id="fontes">
+          <h2>Fontes dos dados</h2>
+          <ul class="sv-footer-sources">
+            <li><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo (ERA5)</a><span>Clima atual e reanálise ERA5 do histórico</span></li>
+            <li><a href="https://www.weather.gov/ama/heatindex" target="_blank" rel="noopener noreferrer">NOAA</a><span>Faixas do índice de calor</span></li>
+            <li><a href="https://www.epa.gov/heatislands/learn-about-heat-islands" target="_blank" rel="noopener noreferrer">EPA</a><span>Referência de ilha de calor</span></li>
+            <li><a href="https://echarts.apache.org/" target="_blank" rel="noopener noreferrer">Apache ECharts</a><span>Gráficos, servidos pelo próprio sistema</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sv-wrap sv-footer-bottom">
+        <div>
+          <p>Protótipo acadêmico da Global Solution FIAP 2026.2. As leituras mostradas aqui são simuladas e não vêm de sensores instalados no Calçadão.</p>
+          <a class="sv-top" href="#inicio"><svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>Voltar ao topo</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/vendor/echarts.min.js?v=5.6.0" defer></script>
+  <script src="/static/navigation.js?v=20261118.3" defer></script>
+  <script src="/static/dashboard.js?v=20261118.3" defer></script>
 </body>
 </html>

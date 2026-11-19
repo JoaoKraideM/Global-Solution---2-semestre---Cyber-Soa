@@ -10,7 +10,7 @@ from app.seed import main as seed_main
 
 ROOT = Path(__file__).resolve().parent.parent
 REQUIRED_TABLES = {"alembic_version", "users", "stations", "readings", "security_events",
-                   "audit_findings", "security_triage_actions"}
+                   "audit_findings", "security_triage_actions", "iot_devices"}
 
 
 def bootstrap():

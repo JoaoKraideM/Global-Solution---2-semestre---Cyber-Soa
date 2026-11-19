@@ -3,77 +3,361 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="theme-color" content="#0F3D3A" />
   <meta name="color-scheme" content="light" />
-  <meta name="robots" content="noindex, nofollow" />
-  <meta name="description" content="SOC do SombraViva: alertas, superfícies potencialmente afetadas, análise assistida e logs auditáveis." />
+  <meta name="robots" content="noindex" />
   <title>SombraViva | Central de segurança</title>
-  <link rel="stylesheet" href="/static/admin-bundle.css?v=20261117.3" />
+  <link rel="stylesheet" href="/static/admin-bundle.css?v=20261118.3" />
 </head>
-<body class="admin-body">
+<body class="admin-page">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <header class="sidebar" aria-label="Navegação principal">
-    <a class="brand" href="/" aria-label="Ir ao observatório público"><span class="brandmark" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none"><path d="M27 8C15 9 8 16 9 25c11 2 20-6 18-17Z" stroke="currentColor" stroke-width="2"/><path d="M10 28c2-7 8-11 14-15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="brand-name">sombra<span>viva</span><small>SEGURANÇA OPERACIONAL</small></span></a>
-    <button class="menu-toggle" type="button" id="menu-toggle" aria-controls="site-navigation" aria-expanded="false" aria-label="Abrir menu de navegação"><span></span><span></span><span></span></button>
-    <nav id="site-navigation" aria-label="Navegação de administração"><a href="/" class="navlink"><span class="nav-ico" aria-hidden="true">01</span>Observatório</a><a class="navlink selected" aria-current="page" href="/admin"><span class="nav-ico" aria-hidden="true">02</span>Central de segurança</a></nav>
-    <a class="header-api" href="/docs" target="_blank" rel="noopener">API REST ↗</a>
-  </header>
-  <div class="layout">
-    <div class="topbar"><span class="topbar-breadcrumb">SOMBRA VIVA <span class="breadcrumb-chevron">/</span> SEGURANÇA E GOVERNANÇA</span><span class="tag">ACESSO RESTRITO</span></div>
-    <main id="conteudo" class="admin-main">
-      <section class="admin-hero"><div class="sv-hero-mark">EDIÇÃO 01 / OSASCO · SISTEMAS E INFRAESTRUTURA</div><a href="/" class="back-link">← Voltar ao atlas climático</a><div class="sv-hero-title"><h1>Central de<br><em>investigação.</em></h1><p>Acompanhe alertas, identifique a evidência disponível e registre decisões verificáveis sobre API, autenticação e dispositivos IoT.</p></div><div class="sv-hero-foot"><span>ARQUIVO DE OCORRÊNCIAS / 2026</span><span>RELATOS · CONTROLES · DECISÕES</span></div></section>
-      <section class="panel cyber-panel" aria-label="Central operacional de Cybersecurity">
-        <div id="login-section" class="login-section">
-          <div class="login-intro"><span class="lock-icon" aria-hidden="true">◎</span><h2>Área protegida</h2><p>Acesso apenas com as credenciais administrativas do SombraViva. A autenticação utiliza JWT; a senha não é armazenada no navegador.</p></div>
-          <div class="login-body"><form id="login-form"><label for="admin-email">E-mail administrativo<input id="admin-email" type="email" autocomplete="username" placeholder="admin@sombraviva.local" required /></label><label for="admin-pass">Senha<input id="admin-pass" type="password" autocomplete="current-password" placeholder="Senha definida no .env" required /></label><button class="primary-btn" type="submit">Acessar central de segurança</button></form><p id="login-status" class="form-status" role="status" aria-live="polite"></p></div>
+  <main id="conteudo">
+    <section id="login-section" class="sv-login" aria-labelledby="login-title">
+      <div class="sv-login-art">
+        <img src="/static/assets/cidade-ilustrativa.webp" alt="" width="900" height="900" />
+        <div class="sv-login-art-in">
+          <a class="sv-brand" href="/">
+            <svg aria-hidden="true" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" fill="#F2EFE8"/><path d="M26 10C16 11 10 16 11 24c9 2 16-5 15-14Z" stroke="#0F3D3A" stroke-width="2.4"/><path d="M12 27c2-6 7-10 12-13" stroke="#0F3D3A" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <span><strong>SombraViva</strong><small>Calor urbano no centro de Osasco</small></span>
+          </a>
+          <div class="sv-login-pitch">
+            <h1 id="login-title">Central de segurança</h1>
+            <p>Acompanhe logins recusados, chaves de dispositivos IoT rejeitadas e o laboratório de dados pessoais. Cada decisão fica registrada com justificativa.</p>
+            <ul>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#7DDB8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Autenticação por JWT; a senha não fica no navegador</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#7DDB8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>Bloqueio após tentativas seguidas de login</li>
+              <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#7DDB8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>Todo acesso entra na trilha de auditoria</li>
+            </ul>
+          </div>
         </div>
-        <div id="admin-section" class="hidden">
-          <div class="ops-toolbar"><div><span class="ops-eyebrow">SOMBRA VIVA / SEGURANÇA DIGITAL</span><h2>Central operacional <sup>01</sup></h2><p id="admin-status" class="form-status" role="status" aria-live="polite">Carregando indicadores operacionais após autenticação...</p></div><div class="admin-actions"><button type="button" id="admin-refresh" class="outline-btn">Atualizar dados</button><button type="button" id="logout" class="outline-btn">Encerrar sessão</button></div></div>
-          <label class="mobile-admin-nav" for="admin-section-select">Seção de trabalho
-            <select id="admin-section-select" aria-label="Selecionar seção da área administrativa">
-              <option value="overview">Visão geral</option>
-              <option value="alerts" selected>Dossiês de alerta</option>
-              <option value="events">Registro de eventos</option>
-              <option value="devices">Estações e IoT</option>
-              <option value="lab">Laboratório PII</option>
-            </select>
-          </label>
-          <nav class="ops-tabs" role="tablist" aria-label="Áreas da central">
-            <button class="ops-tab" type="button" data-tab="overview" role="tab" id="tab-overview" aria-controls="pane-overview" aria-selected="false" tabindex="-1">Visão geral</button>
-            <button class="ops-tab active" type="button" data-tab="alerts" role="tab" id="tab-alerts" aria-controls="pane-alerts" aria-selected="true" tabindex="0" aria-current="page">Dossiês de alerta</button><button class="ops-tab" type="button" data-tab="events" role="tab" id="tab-events" aria-controls="pane-events" aria-selected="false" tabindex="-1">Registro de eventos</button>
-            <button class="ops-tab" type="button" data-tab="devices" role="tab" id="tab-devices" aria-controls="pane-devices" aria-selected="false" tabindex="-1">Estações e IoT</button>
-            <button class="ops-tab" type="button" data-tab="lab" role="tab" id="tab-lab" aria-controls="pane-lab" aria-selected="false" tabindex="-1">Laboratório PII</button>
-          </nav>
-          <section id="pane-overview" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="overview-title">
-            <div class="ops-section-heading"><div><h3 id="overview-title">Sinais que exigem ação</h3><p>Os indicadores operacionais não somam ocorrências fictícias; a janela de tentativas é de 24 horas.</p></div><span class="ops-subtle-tag">ATUALIZAÇÃO MANUAL</span></div>
-            <div class="ops-metrics" aria-label="Indicadores operacionais"><article><small>Alertas em revisão · 24h</small><strong id="open-alerts">…</strong><span>Tentativas recusadas ou bloqueadas, ainda não resolvidas</span></article><article><small>Logins recusados · 24 h</small><strong id="failed-logins">…</strong><span>Tentativas observadas</span></article><article><small>Chaves IoT rejeitadas · 24 h</small><strong id="rejected-devices">…</strong><span>Autenticações bloqueadas</span></article><article><small>Estações reais sem sinal</small><strong id="stale-stations">…</strong><span>Sem leitura há mais de 15 minutos</span></article></div>
-            <div class="ops-split"><section class="ops-module"><div class="ops-module-head"><h4>Fila de atenção</h4><button type="button" class="ops-text-button" data-go="alerts">Abrir alertas →</button></div><div id="attention-list" class="ops-feed"><p>Carregando ocorrências...</p></div></section><section class="ops-module ops-guidance"><h4>Visibilidade e limites</h4><p>O sistema monitora eventos gerados pela API (login, chaves IoT e laboratório PII). Não coleta processos do servidor, arquivos, rede interna ou telemetria de endpoint. Portanto, não identifica máquinas efetivamente comprometidas.</p><p>Uma recusa de login ou chave mostra que o controle respondeu; investigue padrões recorrentes antes de classificar um incidente.</p><p id="demo-provenance" class="ops-provenance">Consultando registros de demonstração...</p><button type="button" id="demo-tour" class="outline-btn">Explorar casos fictícios e análise</button><p class="ops-muted">A investigação usa dados simulados; a OpenAI só é chamada ao clicar em analisar e com chave configurada. Sem chave, a interpretação é por regras locais.</p><a href="/#mapa-calor" class="ops-text-link">Ir ao monitoramento climático →</a><p class="ops-muted">O mapa térmico permanece no atlas público e não serve para inferir risco digital.</p></section></div>
-          </section>
-          <section id="pane-alerts" class="ops-pane" role="tabpanel" tabindex="0" aria-labelledby="alerts-title">
-            <div class="ops-section-heading sv-case-heading"><div><span class="sv-index-number" aria-hidden="true">02 / ARQUIVO</span><h3 id="alerts-title">Alertas para <em>investigar.</em></h3><p>Selecione um sinal à esquerda. O painel apresenta evidências, possíveis impactos e próximos passos.</p></div><span class="ops-subtle-tag">INVESTIGAÇÃO HUMANA</span></div>
-            <div class="soc-caution" role="note"><strong>Nenhum comprometimento é confirmado por uma ocorrência isolada.</strong><span>Este arquivo reúne sinais produzidos pela API; não inspeciona máquinas, arquivos ou tráfego de rede.</span></div>
-            <div class="ops-filters soc-toolbar">
-              <label for="soc-hours">Intervalo<select id="soc-hours"><option value="24">Últimas 24 horas</option><option value="72">Últimas 72 horas</option><option value="168">Últimos 7 dias</option></select></label>
-              <label for="soc-status">Situação<select id="soc-status"><option value="open">Pendentes de revisão</option><option value="all">Todos</option><option value="resolved">Resolvidos</option></select></label>
-              <label class="ops-demo-toggle"><input type="checkbox" id="soc-demo" /> Incluir cenários fictícios</label>
-              <label class="sv-search-label" for="soc-search">Buscar no arquivo<input id="soc-search" type="search" autocomplete="off" placeholder="Assunto, serviço ou nº" /></label><button type="button" id="soc-seed" class="outline-btn">Criar casos de demonstração</button>
+      </div>
+      <div class="sv-login-form">
+        <form id="login-form">
+          <div class="sv-login-head">
+            <h2>Entrar</h2>
+            <p>Acesso restrito à equipe administrativa do SombraViva.</p>
+          </div>
+          <label for="admin-email">E-mail administrativo<input id="admin-email" type="email" autocomplete="username" placeholder="admin@sombraviva.local" required /></label>
+          <label for="admin-pass">Senha<input id="admin-pass" type="password" autocomplete="current-password" placeholder="Senha definida no .env" required /></label>
+          <button class="primary-btn" type="submit">Acessar central de segurança</button>
+          <p id="login-status" class="form-status" role="status" aria-live="polite"></p>
+          <p class="sv-login-note">Depois de 5 tentativas erradas em um minuto, o acesso fica bloqueado por 60 segundos.</p>
+          <a href="/">Voltar ao painel público</a>
+        </form>
+      </div>
+    </section>
+
+    <div id="admin-section" class="hidden">
+      <header>
+        <div class="sv-strip">
+          <div class="sv-wrap sv-strip-in">
+            <p>
+              <span class="sv-live">Sessão ativa</span>
+              <span id="session-email">admin</span>
+              <span class="is-muted">Atualização manual</span>
+            </p>
+            <p>
+              <span id="admin-status" class="is-muted form-status" role="status" aria-live="polite">Carregando indicadores após a autenticação…</span>
+              <button type="button" id="logout" class="sv-strip-btn">Encerrar sessão</button>
+            </p>
+          </div>
+        </div>
+        <div class="sv-bar">
+          <div class="sv-wrap sv-admin-bar">
+            <div class="sv-admin-bar-top">
+              <a class="sv-brand" href="/">
+                <svg aria-hidden="true" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" fill="#0F3D3A"/><path d="M26 10C16 11 10 16 11 24c9 2 16-5 15-14Z" stroke="#9BD48F" stroke-width="2.4"/><path d="M12 27c2-6 7-10 12-13" stroke="#9BD48F" stroke-width="2.4" stroke-linecap="round"/></svg>
+                <span><strong>SombraViva</strong><small>Central de segurança</small></span>
+              </a>
+              <div class="sv-admin-actions">
+                <button type="button" id="admin-refresh" class="outline-btn">Atualizar dados</button>
+                <a href="/">Painel público</a>
+                <a href="/docs" target="_blank" rel="noopener">API REST</a>
+              </div>
             </div>
-            <p id="soc-status-text" class="ops-helper" role="status" aria-live="polite">Escolha filtros para inspecionar os alertas.</p>
-            <div class="sv-casework"><section class="sv-case-index" aria-label="Índice de alertas"><header class="sv-case-index-head"><span>ÍNDICE DE OCORRÊNCIAS</span><small>Selecione para abrir o dossiê <span aria-hidden="true">↘</span></small></header><div id="soc-alert-list" class="soc-alert-list" aria-label="Ocorrências encontradas"><p class="ops-main-empty">Aguardando consulta...</p></div></section><aside id="soc-dossier" class="sv-case-dossier" aria-label="Dossiê de investigação" aria-live="polite"><div class="sv-dossier-placeholder"><span class="sv-dossier-number">CADERNO 00</span><h4>Um alerta.<br><em>Uma investigação a conduzir.</em></h4><p>Selecione um registro no índice para observar suas evidências, implicações possíveis e próximos passos.</p><span class="sv-dossier-figure" aria-hidden="true">◎</span></div></aside></div>
-            <aside class="soc-caveat"><h4>Nota metodológica</h4><p>A plataforma reúne eventos produzidos pela API. A análise assistida indica hipóteses e próximos passos, nunca comprometimentos confirmados.</p><a href="/docs" target="_blank" rel="noopener">Consultar os contratos REST ↗</a></aside>
-          </section>
-          <section id="pane-events" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="events-title"><div class="ops-section-heading"><div><h3 id="events-title">Registros e trilha de auditoria</h3><p>Consulte o log original, registre decisões e acompanhe alterações. Os alertas priorizados estão na aba anterior. A resolução exige justificativa.</p></div></div>
-            <div class="ops-filters"><label for="filter-category">Categoria<select id="filter-category"><option value="all">Todas</option><option value="login">Login</option><option value="iot_auth">Dispositivos IoT</option><option value="taint">Fluxo de dados</option></select></label><label for="filter-severity">Gravidade<select id="filter-severity"><option value="all">Todas</option><option value="high">Alta</option><option value="medium">Média</option><option value="low">Baixa</option><option value="info">Informativa</option></select></label><label for="filter-status">Situação<select id="filter-status"><option value="all">Todas</option><option value="new">Nova</option><option value="investigating">Em investigação</option><option value="resolved">Resolvida</option></select></label><label class="ops-demo-toggle"><input type="checkbox" id="include-demo" /> Incluir eventos fictícios</label></div>
-            <p id="event-count" class="ops-helper" role="status" aria-live="polite"></p><div id="event-detail" class="soc-selected-record hidden" aria-live="polite"></div><div id="event-list" class="ops-feed" aria-live="polite"></div><div class="ops-pagination"><button type="button" id="events-prev" class="outline-btn">← Anterior</button><span id="events-page">—</span><button type="button" id="events-next" class="outline-btn">Próxima →</button></div><p id="events-status" class="form-status" role="status" aria-live="polite"></p>
-          </section>
-          <section id="pane-devices" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="devices-title"><div class="ops-section-heading"><div><h3 id="devices-title">Estações e credenciais IoT</h3><p>Última leitura, origem da estação e disponibilidade observável pela API.</p></div></div><p class="ops-method">Estações simuladas não comprovam equipamento físico online; a ausência de leitura recente só gera alerta para estações reais.</p><div id="device-list" class="ops-devices"><p>Carregando estações...</p></div><div class="ops-inline-nav"><a href="/#medicoes" class="ops-text-link">Ver gráficos de temperatura →</a><a href="/docs" target="_blank" rel="noopener" class="ops-text-link">Documentação de envio IoT →</a></div></section>
-          <section id="pane-lab" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="lab-title"><div class="ops-section-heading"><div><h3 id="lab-title">Laboratório de privacidade</h3><p>Demonstre PII, taint analysis e orientação de remediação com amostras fictícias.</p></div><span class="ops-subtle-tag">ÁREA DE TESTES</span></div><aside class="ops-risk-note" aria-label="Indicador acadêmico de Risco Cidadão"><div><span>RISCO CIDADÃO · INDICADOR DIDÁTICO</span><strong id="didactic-risk">—</strong></div><p id="risk-explanation">Índice heurístico da atividade de Cybersecurity. A pontuação pode incluir exemplos fictícios e não corresponde à probabilidade de ataque nem a risco climático.</p></aside><div class="ops-lab-grid"><section class="ops-module"><h4>Testar fluxo de informação</h4><p class="ops-muted">Use somente conteúdo sintético. O servidor registra os tipos detectados e uma prévia protegida, não o texto bruto.</p><label for="audit-text">Texto de teste<textarea id="audit-text" rows="4">CPF: 000.000.000-00; email: exemplo@example.invalid</textarea></label><label for="audit-sink">Destino analisado<select id="audit-sink"><option value="log_bruto">Log bruto (inseguro)</option><option value="resposta_publica">Resposta pública (inseguro)</option><option value="servico_externo">Serviço externo (inseguro)</option><option value="log_redigido">Log redigido (controle)</option><option value="banco_parametrizado">Banco parametrizado (controle)</option></select></label><div class="ops-button-row"><button id="audit-button" class="primary-btn" type="button">Executar auditoria</button><button id="remediation-button" class="outline-btn" type="button">Explicar achados</button></div><p id="audit-result" class="form-status" role="status" aria-live="polite"></p><p id="remediation-result" class="form-status" role="status" aria-live="polite"></p></section><section class="ops-module"><div class="ops-module-head"><h4>Achados registrados</h4><label class="ops-demo-toggle"><input id="findings-demo" type="checkbox" /> Exibir exemplos</label></div><div id="finding-list" class="ops-feed"><p>Carregando achados...</p></div><p class="ops-muted">A orientação por IA é opcional; sem chave configurada, a aplicação usa regras locais e informa esse modo.</p></section></div></section>
+            <label class="mobile-admin-nav" for="admin-section-select">Área da central
+              <select id="admin-section-select">
+                <option value="overview">Visão geral</option>
+                <option value="alerts" selected>Dossiês de alerta</option>
+                <option value="events">Registro de eventos</option>
+                <option value="devices">Estações e IoT</option>
+                <option value="lab">Laboratório PII</option>
+              </select>
+            </label>
+            <div class="ops-tabs" role="tablist" aria-label="Áreas da central">
+              <button class="ops-tab" type="button" data-tab="overview" role="tab" id="tab-overview" aria-controls="pane-overview" aria-selected="false" tabindex="-1">Visão geral</button>
+              <button class="ops-tab active" type="button" data-tab="alerts" role="tab" id="tab-alerts" aria-controls="pane-alerts" aria-selected="true" tabindex="0" aria-current="page">Dossiês de alerta<span id="tab-count-alerts" class="ops-count is-hot">0</span></button>
+              <button class="ops-tab" type="button" data-tab="events" role="tab" id="tab-events" aria-controls="pane-events" aria-selected="false" tabindex="-1">Registro de eventos</button>
+              <button class="ops-tab" type="button" data-tab="devices" role="tab" id="tab-devices" aria-controls="pane-devices" aria-selected="false" tabindex="-1">Estações e IoT<span id="tab-count-devices" class="ops-count">0</span></button>
+              <button class="ops-tab" type="button" data-tab="lab" role="tab" id="tab-lab" aria-controls="pane-lab" aria-selected="false" tabindex="-1">Laboratório PII</button>
+            </div>
+          </div>
         </div>
-      </section>
-      <footer><div class="footer-brand">sombra<span>viva.</span><small>Segurança e governança</small></div><div class="footer-description">Protótipo acadêmico · Global Solution FIAP 2026.2<br>PII, taint analysis e proteção de dispositivos IoT</div><div class="footer-links"><a href="/">Observatório público ↗</a><a href="/docs" target="_blank" rel="noopener">API REST ↗</a></div></footer>
-    </main>
-  </div>
-  <script src="/static/navigation.js?v=20261116.2" defer></script>
-  <script src="/static/admin.js?v=20261117.7" defer></script>
+      </header>
+
+      <div class="sv-wrap sv-admin-main">
+        <section id="pane-overview" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="overview-title">
+          <div class="ops-head">
+            <h1 id="overview-title">Sinais que exigem ação</h1>
+            <p>Janela das últimas 24 horas. Os indicadores contam só eventos reais; os casos fictícios ficam separados, na base de demonstração.</p>
+          </div>
+          <div class="sv-kpis" aria-label="Indicadores operacionais">
+            <button type="button" class="sv-kpi" data-go="alerts">
+              <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#F8E3E3"/><path d="M15 28h14l-2-3v-5a5 5 0 0 0-10 0v5z" fill="none" stroke="#C2412A" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 31a2 2 0 0 0 4 0" fill="none" stroke="#C2412A" stroke-width="2.4" stroke-linecap="round"/></svg>
+              <span><span class="sv-kpi-label">Alertas em revisão</span><strong id="open-alerts">…</strong><small>Recusas ou bloqueios não resolvidos</small></span>
+            </button>
+            <button type="button" class="sv-kpi" data-go="events">
+              <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#F5E7CF"/><circle cx="22" cy="17" r="5" fill="none" stroke="#9A6F06" stroke-width="2.4"/><path d="M13 32c1.5-5 5-7 9-7s7.5 2 9 7" fill="none" stroke="#9A6F06" stroke-width="2.4" stroke-linecap="round"/></svg>
+              <span><span class="sv-kpi-label">Logins recusados</span><strong id="failed-logins">…</strong><small>Tentativas nas últimas 24 h</small></span>
+            </button>
+            <button type="button" class="sv-kpi" data-go="devices">
+              <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#E3EAEE"/><circle cx="17" cy="22" r="5" fill="none" stroke="#0F3D3A" stroke-width="2.4"/><path d="M22 22h11M29 22v4M33 22v3" fill="none" stroke="#0F3D3A" stroke-width="2.4" stroke-linecap="round"/></svg>
+              <span><span class="sv-kpi-label">Chaves IoT rejeitadas</span><strong id="rejected-devices">…</strong><small>Autenticações bloqueadas</small></span>
+            </button>
+            <button type="button" class="sv-kpi" data-go="devices">
+              <svg aria-hidden="true" viewBox="0 0 44 44"><rect width="44" height="44" rx="12" fill="#E6E4EF"/><path d="M14 30a11 11 0 0 1 16 0M10 25a17 17 0 0 1 24 0" fill="none" stroke="#5B4FA0" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="33" r="2.2" fill="#5B4FA0"/></svg>
+              <span><span class="sv-kpi-label">Estações reais sem sinal</span><strong id="stale-stations">…</strong><small>Sem leitura há mais de 15 min</small></span>
+            </button>
+          </div>
+          <div class="ops-row">
+            <figure class="sv-card ops-chart is-narrow">
+              <figcaption class="sv-card-title">Risco cidadão</figcaption>
+              <div id="chart-risk" class="sv-chart sv-chart-gauge" role="img" aria-label="Medidor do indicador didático Risco Cidadão de 0 a 100"></div>
+              <p class="sv-chart-foot">Heurística da atividade de segurança; inclui exemplos fictícios e não é probabilidade de ataque.</p>
+            </figure>
+            <figure class="sv-card ops-chart is-wide">
+              <figcaption class="sv-card-title">Eventos por categoria e resultado</figcaption>
+              <div id="chart-events" class="sv-chart" role="img" aria-label="Barras empilhadas com os eventos de segurança por categoria e resultado"></div>
+            </figure>
+            <figure class="sv-card ops-chart is-narrow">
+              <figcaption class="sv-card-title">Achados de PII por gravidade</figcaption>
+              <div id="chart-findings" class="sv-chart" role="img" aria-label="Gráfico de rosca com os achados de dados pessoais por gravidade"></div>
+            </figure>
+          </div>
+          <div class="ops-row">
+            <section class="sv-card ops-queue">
+              <div class="ops-card-head"><h2>Fila de atenção</h2><button type="button" class="ops-link" data-go="alerts">Abrir dossiês</button></div>
+              <div id="attention-list" class="ops-feed"><p>Carregando ocorrências…</p></div>
+            </section>
+            <section class="ops-sees">
+              <h2>O que a central enxerga</h2>
+              <svg role="img" aria-label="A central recebe eventos de login, chaves IoT e laboratório pela API; processos, arquivos e rede do servidor ficam fora" viewBox="0 0 440 188">
+                <text x="68" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">Entra na central</text>
+                <text x="372" y="16" text-anchor="middle" font-size="12" font-weight="700" fill="#9FBDB4">Fica de fora</text>
+                <g fill="#F2EFE8"><rect x="0" y="32" width="136" height="40" rx="10"/><rect x="0" y="84" width="136" height="40" rx="10"/><rect x="0" y="136" width="136" height="40" rx="10"/></g>
+                <g font-size="13" font-weight="700" fill="#0F3D3A" text-anchor="middle"><text x="68" y="57">Login</text><text x="68" y="109">Chaves IoT</text><text x="68" y="161">Laboratório PII</text></g>
+                <g stroke="#7DDB8E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M136 52 H164 M162 46 L170 52 L162 58"/><path d="M136 104 H164 M162 98 L170 104 L162 110"/><path d="M136 156 H164 M162 150 L170 156 L162 162"/></g>
+                <rect x="172" y="32" width="96" height="144" rx="14" fill="#F2EFE8"/>
+                <text x="220" y="100" text-anchor="middle" font-size="20" font-weight="800" fill="#0F3D3A">API</text>
+                <text x="220" y="120" text-anchor="middle" font-size="11" fill="#394246">Recebe eventos</text>
+                <g stroke="#9FBDB4" stroke-width="2" stroke-dasharray="4 5" fill="none"><path d="M268 52 H304"/><path d="M268 104 H304"/><path d="M268 156 H304"/></g>
+                <g fill="#0F3D3A" stroke="#FF9C86" stroke-width="1.5"><circle cx="286" cy="52" r="9"/><circle cx="286" cy="104" r="9"/><circle cx="286" cy="156" r="9"/></g>
+                <g stroke="#FF9C86" stroke-width="2.2" stroke-linecap="round" fill="none"><path d="M282.5 48.5 L289.5 55.5 M289.5 48.5 L282.5 55.5"/><path d="M282.5 100.5 L289.5 107.5 M289.5 100.5 L282.5 107.5"/><path d="M282.5 152.5 L289.5 159.5 M289.5 152.5 L282.5 159.5"/></g>
+                <g fill="none" stroke="#9FBDB4" stroke-width="1.5" stroke-dasharray="4 4"><rect x="304" y="32" width="136" height="40" rx="10"/><rect x="304" y="84" width="136" height="40" rx="10"/><rect x="304" y="136" width="136" height="40" rx="10"/></g>
+                <g font-size="13" font-weight="600" fill="#9FBDB4" text-anchor="middle"><text x="372" y="57">Processos</text><text x="372" y="109">Arquivos</text><text x="372" y="161">Rede interna</text></g>
+              </svg>
+              <p>Eventos gerados pela API: login, chaves IoT e laboratório PII. Não coleta processos, arquivos, rede interna ou telemetria do servidor, então não identifica máquinas comprometidas.</p>
+              <p>Uma recusa de login ou de chave mostra que o controle respondeu. Investigue padrões antes de classificar um incidente.</p>
+              <p id="demo-provenance" class="ops-provenance">Consultando registros de demonstração…</p>
+              <button type="button" id="demo-tour" class="ops-light-btn">Explorar casos fictícios</button>
+            </section>
+          </div>
+        </section>
+
+        <section id="pane-alerts" class="ops-pane" role="tabpanel" tabindex="0" aria-labelledby="alerts-title">
+          <div class="ops-head">
+            <h1 id="alerts-title">Alertas para investigar</h1>
+            <p>Escolha um alerta para abrir o dossiê com evidências, impactos possíveis e próximos passos. Uma ocorrência isolada nunca confirma um comprometimento.</p>
+          </div>
+          <div class="sv-card ops-filters">
+            <label for="soc-hours">Intervalo<select id="soc-hours"><option value="24">Últimas 24 horas</option><option value="72">Últimas 72 horas</option><option value="168">Últimos 7 dias</option></select></label>
+            <label for="soc-status">Situação<select id="soc-status"><option value="open">Pendentes de revisão</option><option value="all">Todos</option><option value="resolved">Resolvidos</option></select></label>
+            <label for="soc-search">Buscar<input id="soc-search" type="search" autocomplete="off" placeholder="Ex.: login, estação" /></label>
+            <label class="sv-check" for="soc-demo"><input type="checkbox" id="soc-demo" />Incluir casos fictícios</label>
+            <button type="button" id="soc-seed" class="outline-btn">Criar casos de demonstração</button>
+          </div>
+          <p id="soc-status-text" class="ops-helper" role="status" aria-live="polite">Escolha filtros para inspecionar os alertas.</p>
+          <div class="sv-casework">
+            <section class="sv-card sv-case-index" aria-labelledby="case-index-title">
+              <h2 id="case-index-title">Ocorrências</h2>
+              <div id="soc-alert-list" class="soc-alert-list"><p class="ops-main-empty">Aguardando consulta…</p></div>
+            </section>
+            <article id="soc-dossier" class="sv-card sv-case-dossier" aria-label="Dossiê de investigação" aria-live="polite">
+              <div class="sv-dossier-placeholder"><h2>Selecione um alerta</h2><p>O dossiê mostra as evidências, o impacto possível e os próximos passos.</p></div>
+            </article>
+          </div>
+          <p class="ops-helper">A central reúne eventos produzidos pela API. A análise assistida sugere hipóteses e próximos passos, nunca confirma comprometimentos.</p>
+        </section>
+
+        <section id="pane-events" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="events-title">
+          <div class="ops-head">
+            <h1 id="events-title">Registro de eventos</h1>
+            <p>O log original da API, com a trilha de cada decisão. Resolver um evento exige justificativa, e a mudança fica registrada.</p>
+          </div>
+          <div class="sv-card ops-filters">
+            <label for="filter-category">Categoria<select id="filter-category"><option value="all">Todas</option><option value="login">Login</option><option value="iot_auth">Dispositivos IoT</option><option value="taint">Fluxo de dados</option></select></label>
+            <label for="filter-severity">Gravidade<select id="filter-severity"><option value="all">Todas</option><option value="high">Alta</option><option value="medium">Média</option><option value="low">Baixa</option><option value="info">Informativa</option></select></label>
+            <label for="filter-status">Situação<select id="filter-status"><option value="all">Todas</option><option value="new">Nova</option><option value="investigating">Em investigação</option><option value="resolved">Resolvida</option></select></label>
+            <label class="sv-check" for="include-demo"><input type="checkbox" id="include-demo" />Incluir eventos fictícios</label>
+          </div>
+          <p id="event-count" class="ops-helper" role="status" aria-live="polite"></p>
+          <div id="event-detail" class="sv-card ops-selected hidden" aria-live="polite"></div>
+          <div class="sv-card ops-log">
+            <div id="event-list" class="ops-feed" aria-live="polite"></div>
+            <div class="ops-pagination"><button type="button" id="events-prev" class="outline-btn">Anterior</button><span id="events-page">—</span><button type="button" id="events-next" class="outline-btn">Próxima</button></div>
+          </div>
+          <p id="events-status" class="form-status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section id="pane-devices" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="devices-title">
+          <div class="ops-head">
+            <h1 id="devices-title">Estações e credenciais IoT</h1>
+            <p>Última leitura, origem de cada estação e o que a API observa dela. Estações simuladas não provam equipamento físico ligado; só as reais geram alerta quando ficam sem sinal.</p>
+          </div>
+          <div id="device-list" class="ops-devices"><p>Carregando estações…</p></div>
+          <div class="ops-row">
+            <figure class="sv-card ops-flow">
+              <figcaption class="sv-card-title">O caminho de uma leitura</figcaption>
+              <svg role="img" aria-label="A estação envia a leitura; a API confere o hash da chave; com chave certa grava no banco e responde 201; com chave errada responde 401 e registra o evento; após 10 erros em um minuto responde 429" viewBox="0 0 560 276">
+                <rect x="0" y="56" width="120" height="68" rx="12" fill="#E6E4EF"/>
+                <path d="M53 83a10 10 0 0 1 14 0M46 76a20 20 0 0 1 28 0" fill="none" stroke="#5B4FA0" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="60" cy="90" r="3" fill="#5B4FA0"/>
+                <text x="60" y="111" text-anchor="middle" font-size="13" font-weight="700" fill="#1E2326">Estação</text>
+                <path d="M120 90 H178" stroke="#1E2326" stroke-width="2.5"/><path d="M176 84 L184 90 L176 96" fill="none" stroke="#1E2326" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="153" y="78" text-anchor="middle" font-size="12" fill="#5C6569">Chave + ID</text>
+                <path d="M250 44 L314 90 L250 136 L186 90 Z" fill="#0F3D3A"/>
+                <text x="250" y="86" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">Hash</text>
+                <text x="250" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">confere?</text>
+                <path d="M314 90 H422" stroke="#2F7A4F" stroke-width="2.5"/><path d="M422 84 L430 90 L422 96" fill="none" stroke="#2F7A4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="372" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#2F7A4F">Sim</text>
+                <path d="M432 68 V114 C432 126 528 126 528 114 V68" fill="#FFFFFF" stroke="#0F3D3A" stroke-width="2"/>
+                <ellipse cx="480" cy="68" rx="48" ry="12" fill="#FFFFFF" stroke="#0F3D3A" stroke-width="2"/>
+                <text x="480" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="#0F3D3A">Banco</text>
+                <text x="480" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#2F7A4F">201 · Leitura gravada</text>
+                <path d="M250 136 V194" stroke="#C2412A" stroke-width="2.5"/><path d="M244 194 L250 202 L256 194" fill="none" stroke="#C2412A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="264" y="172" font-size="12" font-weight="700" fill="#C2412A">Não</text>
+                <rect x="170" y="204" width="160" height="56" rx="12" fill="#F8E3E3"/>
+                <text x="250" y="227" text-anchor="middle" font-size="13" font-weight="700" fill="#8A1832">401 recusado</text>
+                <text x="250" y="244" text-anchor="middle" font-size="11" fill="#8A1832">Evento no registro</text>
+                <path d="M330 232 H394" stroke="#8A1832" stroke-width="2" stroke-dasharray="5 4"/><path d="M394 227 L401 232 L394 237" fill="none" stroke="#8A1832" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="366" y="222" text-anchor="middle" font-size="11" fill="#5C6569">Se repetir</text>
+                <rect x="403" y="204" width="154" height="56" rx="12" fill="#1E2326"/>
+                <text x="480" y="227" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">429 bloqueado</text>
+                <text x="480" y="244" text-anchor="middle" font-size="11" fill="#C9D0D4">Após 10 erros em 1 min</text>
+              </svg>
+            </figure>
+            <section class="ops-sees">
+              <h2>Como um dispositivo se autentica</h2>
+              <ol class="ops-auth-steps">
+                <li>Envia <code>Authorization: Bearer</code> com a chave e o cabeçalho <code>X-Device-Id</code>.</li>
+                <li>A API compara o hash da chave; o valor original nunca fica guardado.</li>
+                <li>Chave errada recebe 401, a leitura é descartada e o evento vai para o registro.</li>
+                <li>Depois de 10 chaves erradas em um minuto, a origem recebe 429 e para de gerar registros, evitando inundar o log.</li>
+              </ol>
+              <a href="/docs" target="_blank" rel="noopener">Documentação de envio IoT</a>
+            </section>
+          </div>
+        </section>
+
+        <section id="pane-lab" class="ops-pane hidden" role="tabpanel" tabindex="0" aria-labelledby="lab-title">
+          <div class="ops-head">
+            <h1 id="lab-title">Laboratório de privacidade</h1>
+            <p>Teste se um dado pessoal escaparia para um log, uma resposta pública ou um serviço externo. Use só conteúdo inventado: o servidor guarda os tipos detectados e uma prévia protegida, nunca o texto original.</p>
+          </div>
+          <div class="ops-row is-stretch">
+            <form class="sv-card ops-lab-form" id="audit-form">
+              <h2>Testar um fluxo de informação</h2>
+              <label for="audit-text">Texto de teste<textarea id="audit-text" rows="4">CPF: 000.000.000-00; email: exemplo@example.invalid</textarea></label>
+              <fieldset class="ops-sinks">
+                <legend>Para onde o texto iria</legend>
+                <label class="ops-sink"><input type="radio" name="audit-sink" value="log_bruto" checked /><span>Log bruto</span><b class="sv-tag is-bad">Inseguro</b></label>
+                <label class="ops-sink"><input type="radio" name="audit-sink" value="resposta_publica" /><span>Resposta pública</span><b class="sv-tag is-bad">Inseguro</b></label>
+                <label class="ops-sink"><input type="radio" name="audit-sink" value="servico_externo" /><span>Serviço externo</span><b class="sv-tag is-bad">Inseguro</b></label>
+                <label class="ops-sink"><input type="radio" name="audit-sink" value="log_redigido" /><span>Log redigido</span><b class="sv-tag is-ok">Controle</b></label>
+                <label class="ops-sink"><input type="radio" name="audit-sink" value="banco_parametrizado" /><span>Banco parametrizado</span><b class="sv-tag is-ok">Controle</b></label>
+              </fieldset>
+              <div class="ops-button-row">
+                <button id="audit-button" class="primary-btn" type="button">Executar auditoria</button>
+                <button id="remediation-button" class="outline-btn" type="button">Explicar achados</button>
+              </div>
+              <p id="remediation-result" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+            <section id="audit-result" class="sv-card ops-result" aria-live="polite">
+              <div class="ops-result-empty">
+                <h2>Resultado da auditoria</h2>
+                <p>Escolha um destino e clique em Executar auditoria. O resultado mostra o caminho do dado, a gravidade e o que fazer.</p>
+              </div>
+            </section>
+          </div>
+          <aside class="ops-risk-note" aria-label="Indicador acadêmico de Risco Cidadão">
+            <div><span>Risco cidadão · indicador didático</span><strong id="didactic-risk">—</strong></div>
+            <p id="risk-explanation">Índice heurístico da atividade de segurança. A pontuação pode incluir exemplos fictícios e não corresponde à probabilidade de ataque nem a risco climático.</p>
+          </aside>
+          <section class="sv-card ops-findings">
+            <div class="ops-card-head"><h2>Achados registrados</h2><label class="sv-check" for="findings-demo"><input id="findings-demo" type="checkbox" />Exibir exemplos</label></div>
+            <div id="finding-list" class="ops-feed"><p>Carregando achados…</p></div>
+            <p class="ops-helper">A orientação por IA é opcional. Sem chave configurada, a aplicação usa regras locais e avisa esse modo.</p>
+          </section>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="sv-footer">
+    <div class="sv-skyline">
+      <svg aria-hidden="true" viewBox="0 0 1200 90">
+        <defs><pattern id="sv-janelas" width="12" height="14" patternUnits="userSpaceOnUse"><rect x="3" y="3" width="5" height="7" rx="1" fill="#2A6A63"/></pattern><g id="sv-arvore"><rect x="-3" y="62" width="6" height="24"/><circle cx="0" cy="48" r="22"/><circle cx="-16" cy="62" r="14"/><circle cx="16" cy="62" r="14"/></g></defs>
+        <circle cx="590" cy="30" r="15" fill="#F59E2B"/>
+        <g stroke="#F59E2B" stroke-width="3" stroke-linecap="round"><path d="M611 30h6M604.9 44.9l3.8 3.8M590 51v6M575.1 44.9l-3.8 3.8M569 30h-6M575.1 15.1l-3.8-3.8M590 9V3M604.9 15.1l3.8-3.8"/></g>
+        <g fill="#0F3D3A"><rect x="0" y="84" width="1200" height="6"/><rect x="40" y="44" width="60" height="46"/><rect x="100" y="20" width="44" height="70"/><rect x="144" y="52" width="70" height="38"/><rect x="230" y="28" width="52" height="62"/><rect x="282" y="42" width="64" height="48"/><rect x="370" y="14" width="46" height="76"/><rect x="416" y="50" width="60" height="40"/><rect x="500" y="32" width="56" height="58"/></g>
+        <g fill="url(#sv-janelas)"><rect x="40" y="44" width="60" height="40"/><rect x="100" y="20" width="44" height="64"/><rect x="144" y="52" width="70" height="32"/><rect x="230" y="28" width="52" height="56"/><rect x="282" y="42" width="64" height="42"/><rect x="370" y="14" width="46" height="70"/><rect x="416" y="50" width="60" height="34"/><rect x="500" y="32" width="56" height="52"/></g>
+        <g fill="#F5C46B"><rect x="111" y="31" width="5" height="7" rx="1"/><rect x="171" y="59" width="5" height="7" rx="1"/><rect x="243" y="45" width="5" height="7" rx="1"/><rect x="375" y="31" width="5" height="7" rx="1"/><rect x="507" y="45" width="5" height="7" rx="1"/></g>
+        <g fill="#0F3D3A"><use href="#sv-arvore" transform="translate(680 86) scale(.9) translate(0 -86)"/><use href="#sv-arvore" transform="translate(770 86) scale(1.1) translate(0 -86)"/><use href="#sv-arvore" transform="translate(870 86) scale(.85) translate(0 -86)"/><use href="#sv-arvore" transform="translate(960 86) scale(1.15) translate(0 -86)"/><use href="#sv-arvore" transform="translate(1060 86) scale(.95) translate(0 -86)"/><use href="#sv-arvore" transform="translate(1150 86) scale(1.05) translate(0 -86)"/></g>
+      </svg>
+    </div>
+    <div class="sv-footer-main">
+      <div class="sv-wrap sv-footer-cols">
+        <div class="sv-footer-about">
+          <a class="sv-brand" href="/">
+            <svg aria-hidden="true" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" fill="#F2EFE8"/><path d="M26 10C16 11 10 16 11 24c9 2 16-5 15-14Z" stroke="#0F3D3A" stroke-width="2.4"/><path d="M12 27c2-6 7-10 12-13" stroke="#0F3D3A" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <span><strong>SombraViva</strong><small>Central de segurança</small></span>
+          </a>
+          <p>Painel interno do SombraViva: mostra logins recusados, chaves IoT rejeitadas e os testes do laboratório de privacidade. Cada decisão fica registrada com justificativa.</p>
+        </div>
+        <nav class="sv-footer-col" aria-label="Áreas da central">
+          <h2>Áreas da central</h2>
+          <ul>
+            <li><a href="#conteudo" data-go="overview">Visão geral</a></li>
+            <li><a href="#conteudo" data-go="alerts">Dossiês de alerta</a></li>
+            <li><a href="#conteudo" data-go="events">Registro de eventos</a></li>
+            <li><a href="#conteudo" data-go="devices">Estações e IoT</a></li>
+            <li><a href="#conteudo" data-go="lab">Laboratório PII</a></li>
+          </ul>
+        </nav>
+        <div class="sv-footer-col">
+          <h2>Aplicação</h2>
+          <ul>
+            <li><a href="/">Painel público</a></li>
+            <li><a href="/docs" target="_blank" rel="noopener">API REST (Swagger)</a></li>
+            <li><a href="/docs#/default" target="_blank" rel="noopener">Documentação de envio IoT</a></li>
+          </ul>
+        </div>
+        <div class="sv-footer-col is-wide">
+          <h2>Como ler os números</h2>
+          <p>Os indicadores contam só eventos reais da API. Casos fictícios aparecem com a etiqueta Fictício e ficam na base de demonstração. Uma recusa mostra que o controle respondeu; investigue padrões antes de classificar um incidente.</p>
+        </div>
+      </div>
+      <div class="sv-wrap sv-footer-bottom">
+        <div>
+          <p>Protótipo acadêmico da Global Solution FIAP 2026.2. Use só dados inventados no laboratório de privacidade.</p>
+          <a class="sv-top" href="#conteudo"><svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>Voltar ao topo</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/vendor/echarts.min.js?v=5.6.0" defer></script>
+  <script src="/static/admin-charts.js?v=20261118.3" defer></script>
+  <script src="/static/admin.js?v=20261118.3" defer></script>
 </body>
 </html>

@@ -1,0 +1,3 @@
+# Dependências do CI (DevSecOps): as da aplicação + ferramentas de teste.
+-r requirements.txt
+pytest>=8,<10

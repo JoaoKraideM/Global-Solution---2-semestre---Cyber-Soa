@@ -13,7 +13,7 @@ from sqlalchemy.pool import StaticPool
 from app.auth import hash_device_key, hash_password
 from app.database import Base, get_db
 from app.main import app, failed_logins, failed_iot_keys
-from app.models import User, Station, Reading
+from app.models import User, Station, Reading, IotDevice
 from datetime import datetime, timezone
 
 @pytest.fixture
@@ -24,6 +24,7 @@ def client():
         db.add(User(email='admin@sombraviva.local',password_hash=hash_password(os.environ['ADMIN_PASSWORD']),role='admin'))
         db.add(Station(code='centro-demo',name='Centro (TESTE)',setting='Exposto',simulated=True,api_key_hash=hash_device_key(os.environ['SENSOR_A_KEY'])))
         db.add(Station(code='verde-demo',name='Verde (TESTE)',setting='Arborizado',simulated=True,api_key_hash=hash_device_key(os.environ['SENSOR_B_KEY'])))
+        db.add(IotDevice(device_id='esp32-osasco-calcadao-01',name='ESP32 (TESTE)',token_hash=hash_device_key(os.environ['SENSOR_A_KEY'])))
         db.commit()
     def override_db():
         with Session(engine) as db:
