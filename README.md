@@ -12,7 +12,7 @@ A ficha abaixo responde ao briefing comum da equipe e abre o repositório, antes
 | **Problema, em uma frase** | A população e os gestores têm dificuldade de acessar informações contextualizadas e verificáveis sobre exposição ao calor, presença de sombra e vegetação nos espaços públicos. |
 | **Como funciona** | Uma API REST integra leituras de sensores, banco de dados e fontes meteorológicas externas; um observatório web apresenta séries, comparações e seus limites de proveniência; um painel administrativo registra e investiga eventos de segurança. |
 | **O que cada parte faz** | **SOA:** FastAPI, endpoints REST, autenticação, MySQL, Swagger e migrações. **IoT:** ESP32 e DHT22 (Wokwi) e envio de leituras autenticadas, inicialmente simuladas. **Cybersecurity:** proteção de PII, JWT, auditoria, alertas e triagem. **Web:** visualização de temperaturas e contexto urbano, diferenciando estimativas, dados reais e simulações. |
-| **Link do repositório** | https://github.com/JoaoKraideM/sprintSoaCyber |
+| **Link do repositório** | https://github.com/JoaoKraideM/Global-Solution---2-semestre---Cyber-Soa |
 | **Indicador de impacto** | **Indicador proposto:** quantidade de locais com leituras válidas e cobertura temporal do monitoramento, comparável por período, com base nisso levantamento de dados em tempo real, unificando um desenvolvimento sustentável junto de um futuro verde. Indicadores secundários: estações ativas e utilização do portal. |
 | **ODS conectados** | **ODS 3** — Saúde e Bem-Estar; **ODS 11** — Cidades e Comunidades Sustentáveis; **ODS 13** — Ação Contra a Mudança Global do Clima. |
 
